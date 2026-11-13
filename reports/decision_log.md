@@ -28,3 +28,19 @@
   FY2026 10-K; no H6 outcome firm in any benchmark; NVIDIA primary benchmark = SPY + G3 (Step 0
   mixed basket demoted to sensitivity; it inflated the E1 CAR by about 1.5 pp). NVIDIA-sequence H6
   results are hypothesis-generating because the Nov 12 rival moves were seen first.
+
+- 2026-11-13 (user decision): plan v1.6, simplified around H1 (PLAN.md D25). H1 is the only
+  confirmatory hypothesis; secondary = H3 description, H6 NVIDIA description, H4, R2; optional =
+  power/utilities index, H2, H5, H6 panel, H6b, NVIDIA counterfactuals A/B. Two primary tests kept,
+  with the "more negative or less positive" reading for performance dismissals. Step 1 starts with
+  the cause of the 2026-11-04/05 chip selloff, since NVIDIA E1 stress (VIX 82nd pct) follows it and
+  E0 stress was low (VIX 43rd pct).
+- 2026-11-13 (user decision): plans v1.7 (PLAN.md D26). H1 primary moderator = leadership
+  vulnerability (founder CEO, no designated successor, CEO-chair duality; filings before T-30),
+  event-month FE, coverage gate (80% overall / 70% misconduct) with financial vulnerability as the
+  declared fallback. Reservation recorded: founder status also measures shock size, so the claim
+  "pre-existing vulnerability amplifies" requires the LV-without-founder result to agree. Financial
+  vulnerability and MSI secondary; volatility a control. NVIDIA: four families incl.
+  resource/deployment, never combined. Price-based NVIDIA measures at E0 were inspected before this
+  decision (VIX 43rd pct; 12-month return and idiosyncratic volatility ~31st pct of own history).
+  Push only after spec-card consistency tests pass (user condition).

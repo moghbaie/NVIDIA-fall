@@ -1,10 +1,35 @@
 # State-Dependent Shock Amplification: NVIDIA Leadership News and Market Resilience
 
 **Research design and implementation plan**  
-**Version:** 1.5 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; see Appendix A change log)  
+**Version:** 1.7 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; see Appendix A change log)  
 **As-of date:** 2026-11-13  
 **Primary case:** NVIDIA (NVDA)  
 **Scope:** Publicly available financial, corporate, macroeconomic, industry, and news data
+
+> **Execution priority (v1.7):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis, with **leadership vulnerability** (founder CEO, no designated successor, CEO-chair duality, measured before T−30) as the primary moderator, a coverage gate with a financial-vulnerability fallback, and event-month fixed effects. Market stress (MSI) and financial vulnerability are secondary; volatility is a control. For NVIDIA, four vulnerability families (financial, leadership, operational, resource/deployment) are described separately, never combined. Where this document's older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
+
+```yaml spec-card
+version: "1.7"
+primary_hypothesis: H1
+outcome: "CAR[-1,+1]"
+primary_moderator: leadership_vulnerability
+primary_terms: ["performance:LV", "misconduct:LV"]
+baseline: voluntary
+direction: negative
+adjustment: holm
+family_alpha: 0.05
+fixed_effects: event_month
+sample_period: ["2005-01-01", "2025-12-31"]
+vulnerability_lag_sessions: 30
+coverage_gate: {overall: 0.80, misconduct: 0.70}
+fallback_primary_moderator: financial_vulnerability
+freeze_gate: step_4b
+session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
+event_time: earliest_public_source
+date_only_window_start: -1
+nvidia_families: [financial, leadership, operational, resource_deployment]
+nvidia_combined_score: false
+```
 
 ## 1. Research problem
 
@@ -928,3 +953,22 @@ Details and rationale: `PLAN.md` D16–D20.
 | 2 Hypotheses | new H6 (competitive spillover), with contagion as the competing mechanism, groups fixed from the leader's 10-K, benchmark rule, rebound control, falsification and status; crosswalk row added. H1–H5 unchanged. |
 | Benchmarks | the leader's own AR benchmark may not contain any H6 outcome firm; NVIDIA's primary benchmark becomes SPY + unnamed semiconductor firms (G3); the Step 0 mixed basket becomes a sensitivity |
 | Evidence | exploratory check in `reports/step0c/` (provisional data) |
+
+### v1.6 (2026-11-13): scope tiers
+
+| Topic | Change |
+|---|---|
+| Priority | execution note under the header: H1 confirmatory; secondary and optional tiers as in `PLAN.md` §2 |
+| H1 interpretation | a negative performance × stress term means "more negative or less positive"; "amplification of adverse news" needs a negative mean CAR and a slope below the non-event slope |
+| Stress | must be pre-existing: not caused by the leadership news (NVIDIA E1 stress follows a selloff whose cause is checked first) |
+| Robustness | leave-one-stress-episode-out required |
+No hypothesis or specification was removed.
+
+### v1.7 (2026-11-13): vulnerability families
+
+| Topic | Change |
+|---|---|
+| Objective | five questions (amplification, sources of vulnerability, no-news counterfactual, persistence, competitors), see `PLAN.md` §1 |
+| H1 moderator | leadership vulnerability (founder, succession readiness, CEO-chair duality) at T−30, event-month FE; coverage gate with financial fallback; LV-without-founder rule because founder status also measures shock size; MSI and financial vulnerability secondary; volatility a control |
+| NVIDIA | four vulnerability families described separately, including resource/deployment exposure documented in the 2026-08-26 10-Q (land/power/shell guarantees, $56B commitments); no combined score |
+| Consistency | spec card under the header, identical to `configs/preregistration.yaml`, checked by `tests/test_plan_consistency.py` |

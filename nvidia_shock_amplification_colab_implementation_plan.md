@@ -1,6 +1,31 @@
 # NVIDIA State-Dependent Shock Amplification: Colab Implementation Plan
 
-**Version:** 1.5 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.5
+**Version:** 1.7 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.7
+
+> **Execution priority (v1.7):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis, with **leadership vulnerability** (founder CEO, no designated successor, CEO-chair duality, measured before T−30) as the primary moderator, a coverage gate with a financial-vulnerability fallback, and event-month fixed effects. Market stress (MSI) and financial vulnerability are secondary; volatility is a control. For NVIDIA, four vulnerability families (financial, leadership, operational, resource/deployment) are described separately, never combined. Where this document's older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
+
+```yaml spec-card
+version: "1.7"
+primary_hypothesis: H1
+outcome: "CAR[-1,+1]"
+primary_moderator: leadership_vulnerability
+primary_terms: ["performance:LV", "misconduct:LV"]
+baseline: voluntary
+direction: negative
+adjustment: holm
+family_alpha: 0.05
+fixed_effects: event_month
+sample_period: ["2005-01-01", "2025-12-31"]
+vulnerability_lag_sessions: 30
+coverage_gate: {overall: 0.80, misconduct: 0.70}
+fallback_primary_moderator: financial_vulnerability
+freeze_gate: step_4b
+session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
+event_time: earliest_public_source
+date_only_window_start: -1
+nvidia_families: [financial, leadership, operational, resource_deployment]
+nvidia_combined_score: false
+```
 
 ## 0. Mission and non-negotiable research rules
 
@@ -670,3 +695,21 @@ The project is complete when a fresh Colab runtime can execute the full pipeline
 | Tests | benchmark-disjointness test (no outcome firm in any benchmark); group assignment loaded from config with source; foreign-listing session mapping | `tests/test_h6_groups.py` |
 | Data | Hoberg-Phillips TNIC similarity (to verify: availability, license, coverage end) for the panel substitutability gradient | Stage 00 source audit |
 | Visuals | daily AR heatmap by group; group CAR per disclosure; rebound scatter | Stage 06 / 09 |
+
+### v1.6 (2026-11-13): scope tiers
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| Priority | stages for optional parts (03b, power parts of 07/09, 09 H2, 11 H5, H6 panel) run only after Stage 08 is reported | §21 ordering, per `PLAN.md` §2 |
+| Stage 01 | starts with a dated news timeline for the 2026-11-04/05 chip selloff | Stage 01 / 04 |
+| Stage 08 | leave-one-stress-episode-out robustness; interpretation rule in `configs/preregistration.yaml` | Stage 08 |
+
+### v1.7 (2026-11-13): vulnerability families
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| H1 moderator | leadership vulnerability from DEF 14A / 10-K accepted before T−30 (founder, President/COO titles, chair); coverage gate; financial fallback | Stage 06 (extraction, coverage gate), Stage 08 |
+| Fixed effects | event-month FE primary; quarter FE + MSI robustness | Stage 08 |
+| NVIDIA profile | four families incl. resource/deployment (10-Q exposures, hyperscaler capex releases, dated deployment reports) | Stages 03, 07 |
+| Step 1 additions | Nov 4–5 selloff cause; hyperscaler Q3 release times and capex changes; rule-built dated news list Aug 26 → Oct 28 | Stages 01, 04 |
+| Consistency | spec card identical to the preregistration; `tests/test_plan_consistency.py`, `tests/test_prereg.py` | CI |
