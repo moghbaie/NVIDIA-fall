@@ -1,7 +1,7 @@
 # State-Dependent Shock Amplification: NVIDIA Leadership News and Market Resilience
 
 **Research design and implementation plan**  
-**Version:** 1.2 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; see Appendix A change log)  
+**Version:** 1.5 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; see Appendix A change log)  
 **As-of date:** 2026-11-13  
 **Primary case:** NVIDIA (NVDA)  
 **Scope:** Publicly available financial, corporate, macroeconomic, industry, and news data
@@ -52,6 +52,44 @@ Leadership shocks have larger effects above a stress threshold than a simple lin
 
 **Falsification:** Threshold or regime models do not improve out-of-sample fit relative to the linear interaction model.
 
+### H6: Competitive spillover of a leader's leadership shock (added v1.5)
+
+**Statement.** A negative leadership shock at a dominant firm produces positive abnormal returns for
+close substitutes, and the transfer grows with competitive substitutability and with the leader's
+pre-event fragility.
+
+**Competing mechanism.** Bad news at a leader can also re-rate the whole industry (contagion: for
+example, doubt about AI demand). The observed rival return is the competitive effect minus the
+contagion effect (Lang and Stulz, 1992). The test is therefore a *difference*: close substitutes
+versus unaffected same-industry firms, not substitutes versus zero.
+
+**Groups (fixed from the leader's pre-event 10-K, never from returns).** For NVIDIA (10-K accepted
+2026-02-25): G1 named data-center accelerator / networking competitors (AMD, Broadcom, Marvell,
+Intel); G2 named suppliers (TSMC, Micron, Fabrinet; SK Hynix, Samsung, Hon Hai and Wistron are
+non-US listings used only as a sensitivity with their own session mapping); G3 semiconductor firms
+named in neither list; G4 cloud customers that also build in-house chips (mixed prediction).
+Samsung is both supplier and competitor and is excluded from the primary groups.
+
+**Benchmark rule.** No firm whose return is an H6 outcome may sit in any benchmark used for H6 or for
+the leader's own abnormal return. Rival ARs use a SPY-only market model (primary) and SPY + G3
+(sensitivity), estimated on [-252,-31] before the *first* disclosure so the whole sequence is
+outside the estimation window. Inference is at group-portfolio level, because same-date ARs are
+cross-correlated.
+
+**Rebound control.** The sector sold off on 2026-11-04/05, so a later rally may be a reversal. The
+cross-section of rival ARs is regressed on each firm's prior-selloff AR plus group indicators.
+
+**Falsification.** G1 − G3 CAR is not positive across E0/E1/E2 (NVIDIA, descriptive), and in the
+historical panel the rival response does not rise with substitutability (Hoberg-Phillips TNIC
+similarity, availability to be verified) or with the leader's pre-event fragility.
+
+**Status.** NVIDIA part: hypothesis-generating only, because AMD/Broadcom moves on 2026-11-12 were
+reported in the news before this hypothesis was written. Historical panel (dominant firm = largest
+market value in its industry at T, among the CEO-departure events): preregistered at Step 4b if
+the event count supports it, otherwise exploratory. Real-economy evidence (customer contracts,
+accelerator orders, market share, foundry capacity allocation) is H6b: deferred, collected only from
+dated public disclosures, never used as a feature.
+
 ### Hypothesis crosswalk with the Colab implementation plan (added v1.1)
 
 The two plans number hypotheses differently. Both numberings are kept; the implementation plan's
@@ -65,6 +103,7 @@ evaluated against every hypothesis, with H2-impl and H3-impl as the primary targ
 | H2 industry stress precedes news + H3 incremental effect | H3 pre-news vulnerability | pre-disclosure stress, ex-ante forecast | **primary**: forecasts with vs without power variables |
 | H4 fragility vs repricing (part) | H4 recovery duration | post-shock dynamics | PUSI regime as covariate in recovery models |
 | H4 fragility vs repricing (mean reversion) | H5 mean reversion vs repricing | equilibrium stability | control for repricing of the AI-power trade |
+| H6 competitive spillover (v1.5) | H6 competitive spillover | rival / supplier abnormal returns around a leader's shock | none planned; G2 power-equipment suppliers are not in scope |
 
 ## 3. Causal interpretation and identification challenges
 
@@ -239,7 +278,8 @@ leadership_related: true|false
 independent_external_shock: true|false|uncertain
 potential_downstream_of_leadership: true|false|uncertain
 shock_type: allegation|investigation|board_action|resignation|succession|regulation|earnings|supply|demand|macro|other
-severity: ordinal 0..3 (annotated, not inferred from stock reaction)
+severity: ordinal 0..3 (annotated, not inferred from stock reaction; NVIDIA chronology labels only)
+departure_type: voluntary|performance|misconduct|other (panel events; categorical, from the database code)
 novelty
 source_confidence
 annotation_notes
@@ -377,7 +417,30 @@ CAR_i,e = alpha + beta_N NewsSeverity_i,e + beta_S Stress_i,e_pre
           + firm_controls + event_controls + year_effects + error_i,e
 ```
 
-- **Primary parameter:** beta_NS. If severity is coded as nonnegative adverse intensity, a negative estimate supports amplification.
+**v1.3 primary specification (categorical event type).** Severity enters as categories, not as an
+equally spaced score: voluntary/planned departure (baseline), performance dismissal, misconduct
+dismissal.
+
+```
+CAR_i,e = alpha + g_P Perf + g_M Misc + beta_S Stress_pre + d_P Perf*Stress_pre + d_M Misc*Stress_pre
+          + controls(as of T) + error
+```
+
+Primary tests: d_P < 0 and d_M < 0, Holm-adjusted at family α = 0.05. Secondary: the pooled
+dismissal contrast, d_M = d_P, and the ordinal score. Controls (all as of T): CEO tenure, founder
+status, planned vs surprise, successor named in the announcement, size, sector, prior return; each
+control × stress as robustness. Step 0b power (synthetic outcomes, real counts): the pooled and
+ordinal tests fail when only misconduct amplifies; separate Holm-adjusted tests cost ≈10% in MDE and
+work in every scenario tested; the misconduct test detects only ≥1.3–2.6 pp before Holm.
+
+**Resilience outcomes (v1.3).** R1 immediate CAR[−1,+1] (primary); R2 additional damage, min over
+k∈[+2,+20] of CAR[−1,k] − CAR[−1,+1], judged against placebo events because its null mean is
+negative; R3 recovery time (Section 8.5 / H4).
+
+- **v1.1 form, kept as a secondary specification:** beta_NS with an ordinal severity score. The primary test is the v1.3 categorical specification above.
+- **v1.4 interpretation.** d_P and d_M compare dismissals with voluntary departures, which are not neutral events. Each type's total stress slope (beta_S + d_k) is reported with its CI against a matched non-event baseline (pseudo-event dates from the same firm, year and stress tercile). "Absolute amplification" is claimed only if a type's slope is below the non-event slope; otherwise the claim is "amplification relative to voluntary departures".
+- **v1.4 R2 sample.** Full sample with a competing-event indicator; the uncontaminated subsample and censoring at the first competing event are sensitivities. Unscheduled later disclosures are never controls (they can be caused by the crisis).
+- **v1.4 power.** Before any H1 estimate, power is re-simulated on the retained sample (controls, missing data, month clustering, residual variance from estimation windows and placebo dates only); MDEs by type go into the frozen preregistration.
 - Cluster standard errors by firm and calendar period as appropriate; assess sensitivity with bootstrap/randomization inference.
 - Include firm size, valuation, prior performance, sector, news severity, planned versus surprise succession, and concurrent disclosures.
 - Compare matched low-stress and high-stress events using propensity weighting/matching as a robustness check, not as a substitute for identification.
@@ -835,3 +898,33 @@ join on availability time) required these changes. No hypothesis or stage was re
 | Point-in-time validity | series without vintages (all EIA; FRED without ALFRED) flagged `current_vintage_only`; the confirmatory incremental-value test uses point-in-time-valid inputs only; FRED API key required |
 
 Feasibility evidence: `PLAN.md` §5 (v1.2 rows) and D11–D15.
+
+### v1.3 (2026-11-13): external review incorporated
+
+| Topic | Change |
+|---|---|
+| Severity (8.3) | categorical event type; primary = performance × stress and misconduct × stress, Holm-adjusted; pooled contrast and ordinal score secondary (power check: `reports/step0b/`) |
+| Outcomes (8.3) | resilience outcomes R1 immediate CAR, R2 additional damage over [+2,+20], R3 recovery time |
+| Controls (8.3) | founder, tenure, planned vs surprise, successor named, size, sector, prior return, all as of T; control × stress robustness |
+| Normal returns | fixed, short-window, EWMA-beta and volatility-scaled models compared on pre-2015 placebo events, also by stress tercile |
+| Reproducibility | per-stage `validation.json` and fresh-runtime run before each gate |
+| Provisional numbers | Step 0 market figures (e.g. NVDA −24.9% over Oct 14 → Nov 12) are provisional until the ingestion pipeline reproduces them |
+
+Details and rationale: `PLAN.md` D16–D20.
+
+### v1.4 (2026-11-13): second review
+
+| Topic | Change |
+|---|---|
+| H1 interpretation (8.3) | total stress slope per type vs a matched non-event baseline; "absolute" vs "relative" amplification wording rule |
+| R2 (8.3) | full sample with competing-event indicator; uncontaminated and censored versions as sensitivities |
+| Power | outcome-blind re-run on the real sample before H1; MDE by type written into the frozen preregistration |
+| Consistency | old beta_NS block relabelled secondary; event schema gains categorical `departure_type` |
+
+### v1.5 (2026-11-13): H6 competitive spillover added
+
+| Topic | Change |
+|---|---|
+| 2 Hypotheses | new H6 (competitive spillover), with contagion as the competing mechanism, groups fixed from the leader's 10-K, benchmark rule, rebound control, falsification and status; crosswalk row added. H1–H5 unchanged. |
+| Benchmarks | the leader's own AR benchmark may not contain any H6 outcome firm; NVIDIA's primary benchmark becomes SPY + unnamed semiconductor firms (G3); the Step 0 mixed basket becomes a sensitivity |
+| Evidence | exploratory check in `reports/step0c/` (provisional data) |

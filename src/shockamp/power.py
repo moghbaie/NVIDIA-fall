@@ -55,6 +55,54 @@ def simulate_power(
     return hits / reps
 
 
+def simulate_power_categorical(
+    counts: Sequence[int],
+    gammas: Sequence[float],
+    test: str,
+    sigma: float,
+    reps: int = 400,
+    alpha: float = 0.05,
+    rng: np.random.Generator | None = None,
+) -> float:
+    """Power when event type is categorical (no equal-spacing assumption). SYNTHETIC outcomes.
+
+    Category 0 is the baseline (voluntary); categories 1..K-1 get dummies. True model:
+    CAR = sum_k gamma_k * D_k * S + N(0, sigma^2), S ~ N(0,1), gamma_0 = 0 by construction.
+    test="pooled": fit CAR ~ D + S + D*S with D = any non-baseline category; test D*S.
+    test="ordinal": fit CAR ~ c + S + c*S with c = centred category index; test c*S.
+    test="cat<k>": fit the full categorical model (dummies, S, dummies*S); test D_k*S.
+    Rejection requires |t| > z_crit and the sign of the true pooled / category effect.
+    """
+    rng = rng or np.random.default_rng(0)
+    cat = np.repeat(np.arange(len(counts)), np.asarray(counts))
+    n = len(cat)
+    g = np.asarray(gammas, float)
+    dums = np.column_stack([(cat == k).astype(float) for k in range(1, len(counts))])
+    crit = stats.norm.ppf(1 - alpha / 2)
+    if test == "pooled":
+        d = (cat > 0).astype(float)
+        truth = float(np.average(g[1:], weights=np.asarray(counts[1:], float)))
+    elif test == "ordinal":  # equally spaced score 0..K-1, centred (the v1.1 primary)
+        d = cat - cat.mean()
+        truth = float(g[-1])
+    else:
+        k = int(test.removeprefix("cat"))
+        truth = float(g[k])
+    hits = 0
+    for _ in range(reps):
+        s = rng.standard_normal(n)
+        y = g[cat] * s + rng.normal(0, sigma, n)
+        if test in ("pooled", "ordinal"):
+            x = np.column_stack([np.ones(n), d, s, d * s])
+            j = 3
+        else:
+            x = np.column_stack([np.ones(n), dums, s, dums * s[:, None]])
+            j = 1 + dums.shape[1] + 1 + (k - 1)
+        t = _ols_hc1_t(x, y, j)
+        hits += (abs(t) > crit) and (np.sign(t) == np.sign(truth) if truth else True)
+    return hits / reps
+
+
 def power_grid(
     designs: dict[str, tuple[Sequence[float], Sequence[int]]],
     betas: Sequence[float],

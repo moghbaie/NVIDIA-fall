@@ -1,6 +1,6 @@
 # DRAFT preregistration (Step 0). Binds the cross-firm PANEL analysis, whose outcomes are unseen.
 # The NVIDIA case outcome was inspected on 2026-11-13 (exploratory); see PLAN.md D9.
-status: draft            # -> frozen once the user signs off at the end of Step 0
+status: draft            # -> frozen after the Step 4b outcome-blind power re-run and user sign-off
 as_of: 2026-11-13
 unit: trading_session
 exchange_tz: America/New_York
@@ -8,8 +8,38 @@ session_complete_after: "scheduled close (16:00; 13:00 on early-close days) from
 
 primary_hypothesis: H1
 primary_estimand: >
-  Change in CAR[-1,+1] (log points) per one-level increase in leadership-shock severity, per one
-  standard deviation increase in pre-event market stress (MSI), i.e. beta(sev x MSI). Prediction: < 0.
+  In CAR[-1,+1] ~ perf + misc + MSI + perf x MSI + misc x MSI + controls (voluntary = baseline):
+  d_P = perf x MSI and d_M = misc x MSI, each the extra CAR (log points) relative to a voluntary
+  departure per one SD of pre-event market stress. Prediction: < 0. Two primary tests, Holm-adjusted
+  at family alpha 0.05; H1 supported if either meets the decision rule. No equal-spacing assumption
+  (PLAN.md D16). d_M is the NVIDIA-relevant test; MDE about 1.5-2.9 pp after Holm.
+primary_tests:          # machine-readable; tests/test_prereg.py checks it (PLAN.md D16)
+  model: "CAR[-1,+1] ~ C(type, Treatment('voluntary')) * MSI + controls"
+  baseline: voluntary
+  terms: ["performance:MSI", "misconduct:MSI"]
+  direction: negative
+  adjustment: holm
+  family_alpha: 0.05
+  se: cluster_event_month
+reporting_required:     # PLAN.md D21; reported next to the verdict, not extra hypothesis tests
+  total_slopes: [voluntary, performance, misconduct]      # beta_S + d_k with 95% CI
+  non_event_baseline:
+    pseudo_dates_per_event: 5
+    match_on: [firm, calendar_year, msi_tercile]
+    exclude_within_sessions: {leadership_event: 60, earnings: 1}
+  wording: >
+    "relative to voluntary departures" when only d_k passes; "absolute amplification" only if
+    (type slope - non-event slope) < 0 also has a 95% CI excluding 0.
+secondary_estimands:   # labelled exploratory
+  - pooled dismissal contrast (count-weighted average of d_P, d_M)
+  - equality of d_M and d_P
+  - ordinal score {voluntary 0, performance 1, misconduct 2} x MSI (the v1.1 primary)
+outcomes:              # resilience measures (PLAN.md D17)
+  R1: CAR[-1,+1]                                            # primary
+  R2: min over k in [+2,+20] of CAR[-1,k] - CAR[-1,+1]       # additional damage; vs placebo distribution
+  R2_sample: full            # PLAN.md D22; competing_event recorded, never a control unless scheduled
+  R2_sensitivity: [uncontaminated_subsample, censor_at_first_competing_event]
+  R3: sessions until CAR[-1,k] >= 0, sustained 3 sessions, censored at +120   # H4
 primary_outcome_window: [-1, 1]
 secondary_windows:
   all_events: [[-1, 5], [-1, 10]]
@@ -25,12 +55,25 @@ normal_return_model:
   estimation_window: [-252, -31]
   min_obs: 120
   selection: chosen by rolling-origin backtest on pre-2015 events only (Step 4), never on outcomes
+  candidates: [fixed_252_31, short_126_11, ewma_beta_hl63, vol_scaled_ewma]
+  selection_criteria: placebo bias and 5% test size, out-of-sample error, each also by stress tercile
+  note: vol-scaled outcomes divide by pre-event volatility (part of stress), so secondary only
 severity:
   source: Gentry et al. CEO dismissal database, departure_code (coded from media, not from returns)
   codability_audit: stratified sample of codes 3/4/5 checked against announcement-day 8-K / press
     release only; agreement reported; H1 re-run on agreeing subset as robustness
-  primary_ordinal: {5: 0, 6: 0, 3: 1, 4: 2}     # voluntary < performance dismissal < misconduct
+  primary_categories: {voluntary: [5, 6], performance: [3], misconduct: [4]}
+  secondary_ordinal: {5: 0, 6: 0, 3: 1, 4: 2}
   excluded_from_primary: [1, 2, 7, 8, 9]          # death/illness analysed as separate contrast
+controls:              # all measured as of origin T (PLAN.md D18)
+  - ceo_tenure_years       # from succession chain; left-censored flag
+  - founder                # proxy filings, hand-verified; robustness on verified subset if coverage < 80%
+  - planned_departure      # announced effective date / interim appointment in the announcement
+  - successor_named        # 8-K Item 5.02(c) or press release on the announcement date
+  - log_size               # SEC XBRL market value (2009+); log dollar volume [-60,-11] otherwise
+  - sector                 # SIC 2-digit
+  - pre_event_return       # CAR[-60,-11]
+robustness_control_x_stress: true
 moderators:
   primary: MSI   # market stress, standardized on expanding window, as of origin T close
   point_in_time: inputs are market prices or ALFRED vintages; current_vintage_only series excluded
@@ -41,8 +84,8 @@ inference:
   alpha: 0.05
   multiplicity: primary test unadjusted; all secondary windows/moderators Holm-adjusted and labelled exploratory
 decision_rule:
-  supported: beta(sev x MSI) < 0, 95% CI excludes 0, same sign in >= 3 of 4 pre-listed robustness specs
-  not_supported: 95% CI excludes the MDE in the predicted direction
+  supported: d_P or d_M < 0 with Holm-adjusted p < 0.05 (CI at the Holm level excludes 0), same sign in >= 3 of 4 pre-listed robustness specs
+  not_supported: for both d_P and d_M, the 95% CI excludes that test's MDE in the predicted direction
   inconclusive: otherwise (CI contains both 0 and the MDE)
 sample:
   period: announcements 2005-01-01 .. latest available   # 8-K Item 5.02 regime starts 2004-08-23

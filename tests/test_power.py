@@ -23,3 +23,14 @@ def test_mde_monotone_in_sigma():
     )
     m = mde(g).set_index("sigma").mde
     assert m[0.04] < m[0.08]
+
+
+def test_categorical_power_size_and_power() -> None:
+    from shockamp.power import simulate_power_categorical
+
+    rng = np.random.default_rng(1)
+    counts = [600, 300, 60]
+    size = simulate_power_categorical(counts, [0, 0, 0], "cat2", 0.07, reps=300, rng=rng)
+    assert size < 0.10  # ~alpha under the null (SYNTHETIC)
+    big = simulate_power_categorical(counts, [0, -0.02, -0.04], "pooled", 0.07, reps=200, rng=rng)
+    assert big > 0.8

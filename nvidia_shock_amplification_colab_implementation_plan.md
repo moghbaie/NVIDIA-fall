@@ -1,10 +1,10 @@
 # NVIDIA State-Dependent Shock Amplification: Colab Implementation Plan
 
-**Version:** 1.2 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.2
+**Version:** 1.5 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.5
 
 ## 0. Mission and non-negotiable research rules
 
-Build a reproducible, publicly sourced empirical study of whether **pre-existing market, resource, and firm stress amplifies negative leadership-news shocks**. NVIDIA is the motivating case, but the primary interaction must be estimated across many companies and leadership events. Test five hypotheses: H1 shock amplification, H2 interacting stresses, H3 pre-news vulnerability, H4 recovery duration, H5 temporary mean reversion versus structural repricing.
+Build a reproducible, publicly sourced empirical study of whether **pre-existing market, resource, and firm stress amplifies negative leadership-news shocks**. NVIDIA is the motivating case, but the primary interaction must be estimated across many companies and leadership events. Test six hypotheses: H1 shock amplification, H2 interacting stresses, H3 pre-news vulnerability, H4 recovery duration, H5 temporary mean reversion versus structural repricing, H6 competitive spillover to rivals and suppliers (v1.5).
 
 **Never optimize the analysis to obtain a preferred conclusion.** Preserve null and contradictory results. Do not describe forecast accuracy as causal identification. Do not call a price fall mean reversion without an independently estimated, demonstrably stable equilibrium. No claim about a particular individual or event without independently verified dated sources. All examples in tests must be labeled synthetic. No fabricated historical market data, news, publication timestamps, analyst expectations, capacity, or p-values.
 
@@ -306,7 +306,7 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 
 **Build event registry:** one row per information shock, with earliest verified source and disclosure timestamp. Assign trading-session event date based on exchange calendar and whether announcement was premarket, during market, or after close. Group multi-day related disclosures; flag overlapping earnings, product releases, macro shocks, and confounded events. Keep an inclusion/exclusion audit. Sample other firms' leadership shocks using predefined search criteria, not their observed returns.
 
-**Baseline models:** market-adjusted returns, ex-NVDA industry-adjusted returns, OLS market model, regularized multi-factor model. Estimate normal returns on pre-event estimation window (default [-252,-31] trading sessions, with >=120 valid observations), embargo before event, and compute abnormal return AR and cumulative abnormal return CAR at preregistered windows [-1,+1], [0,+1], [0,+5], [0,+20]. Windows starting at 0 apply only to events with a known time of day; date-only events use the same windows started at −1 (v1.2). Use timestamp-specific intraday windows only when verified intraday data exist; daily windows otherwise.
+**Baseline models:** market-adjusted returns, ex-NVDA industry-adjusted returns, OLS market model, regularized multi-factor model. Estimate normal returns on pre-event estimation window (default [-252,-31] trading sessions, with >=120 valid observations), embargo before event, and compute abnormal return AR and cumulative abnormal return CAR at preregistered windows [-1,+1], [0,+1], [0,+5], [0,+20]. Windows starting at 0 apply only to events with a known time of day; date-only events use the same windows started at −1 (v1.2). Use timestamp-specific intraday windows only when verified intraday data exist; daily windows otherwise. **v1.3 candidates:** fixed [-252,-31] market model; short window [-126,-11]; EWMA beta (half-life 63 sessions); volatility-scaled AR (EWMA sigma). Select on pre-2015 placebo events by bias, 5% test size and out-of-sample error, overall and by stress tercile; never on NVIDIA. Volatility-scaled outcomes divide by pre-event volatility (part of stress), so they are secondary. Compute resilience outcomes R1 CAR[-1,+1], R2 additional damage min_{k in [+2,+20]} CAR[-1,k] - CAR[-1,+1] with its placebo distribution, R3 recovery time (Stage 10).
 
 **Before charts:** event coverage by year/firm/type, event overlaps, estimation window availability, benchmark residual distributions. **After charts:** event-aligned cumulative abnormal returns, model residual diagnostics, actual-versus-expected returns, placebo-date CAR distributions.
 
@@ -346,9 +346,9 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 
 **Notebook:** `10_H1_H2_interactions.ipynb`.
 
-**Primary estimand:** incremental change in event CAR for a one-unit standardized negative leadership shock when pre-event stress rises by one standard deviation. Fit firm/time fixed-effect panel regression with severity, stress, severity×stress, event-family controls, firm attributes, pre-event valuation, and relevant calendar effects. Severity must vary independently of return. Cluster uncertainty by firm and/or event date as supported by sample size; use wild cluster/bootstrap sensitivity when clusters are few.
+**Primary estimand (v1.3+):** d_P and d_M, the change in CAR[-1,+1] for a performance or misconduct dismissal relative to a voluntary departure per one SD of pre-event stress; two Holm-adjusted tests (`configs/preregistration.yaml: primary_tests`). The v1.1 estimand (one-unit standardized shock) is a secondary ordinal specification. Fit firm/time fixed-effect panel regression with severity, stress, severity×stress, event-family controls, firm attributes, pre-event valuation, and relevant calendar effects. Severity must vary independently of return. Cluster uncertainty by firm and/or event date as supported by sample size; use wild cluster/bootstrap sensitivity when clusters are few.
 
-**Specification:** `CAR_ie = alpha_i + lambda_period + beta1*severity_ie + beta2*stress_pre_ie + beta3*(severity_ie*stress_pre_ie) + theta'X_ie + error_ie`. Test primary 3-session CAR; other windows secondary. Do not simultaneously include redundant fixed effects that make stress unidentified. Check sample size and statistical power before fitting.
+**Specification (v1.3, categorical):** `CAR_ie = alpha + g_P*Perf + g_M*Misc + beta2*stress_pre + d_P*Perf*stress_pre + d_M*Misc*stress_pre + theta'X_ie(as of T) + error_ie`, voluntary as baseline. Primary tests: d_P < 0 and d_M < 0, Holm-adjusted. Secondary: pooled contrast (count-weighted average of d_P, d_M), equality, ordinal score `beta3*(severity*stress_pre)` (the v1.1 form). X: tenure, founder, planned vs surprise, successor named, size, sector, prior return; robustness adds X × stress. R2 is a secondary outcome with the same design. **v1.4:** also report total slopes per type (beta2 + d_k) against matched non-event dates (5 per event; same firm, year, stress tercile; ≥60 sessions from leadership events, ±1 from earnings); R2 on the full sample with `competing_event` (+ first date) and sensitivities (uncontaminated; censored at first competing event with a window-length-matched placebo). **Stage 08 entry gate:** outcome-blind power re-run on the retained sample with real covariates, missingness, MSI at event dates, cluster-robust SEs by event month, residual variance from estimation-window/placebo residuals only; MDE by type recorded in the preregistration, which is then frozen. Test primary 3-session CAR; other windows secondary. Do not simultaneously include redundant fixed effects that make stress unidentified. Check sample size and statistical power before fitting.
 
 **Before charts:** severity vs pre-event stress scatter, cohort balance, overlap/confounder frequencies, sample support across stress deciles. **After charts:** interaction marginal-effect curves with 95% CIs, predicted comparable shock under low/high stress, forest plot across benchmark/event windows, coefficient stability by leave-one-firm-out.
 
@@ -479,6 +479,7 @@ Statistical fixtures (SYNTHETIC):
 | H3 | forward returns and CAR gap | frozen ex-ante forecast + conditional counterfactual | calibrated forecast shows downside vulnerability before news | poor backtest calibration, future-factor leakage |
 | H4 | days to sustained CAR recovery | Kaplan–Meier + Cox/AFT | materially lower recovery hazard under stress with robustness | censoring, competing shocks, insufficient follow-up |
 | H5 | valuation spread and breaks | stationarity/ECM + break tests | stable reverting spread or documented break, clearly distinguished | nonstationary fundamentals, data revisions, short sample |
+| H6 | rival/supplier group CARs; G1 − G3 difference; panel rival CARs vs substitutability and leader fragility | group-portfolio event study, SPY-only benchmark, rebound control; panel regression with clustered SEs | G1 − G3 > 0 and rising with substitutability / fragility | contagion masking, groups chosen after seeing returns, rival news on the same day, foreign-session timing |
 
 **Power/utilities evaluation (v1.1), applied to every row:** compare models without power variables (M0) with M1 (+PUSI-F), M2 (+PUSI-P) and M3 (both), using rolling-origin walk-forward validation, predictive metrics (CRPS / pinball / RMSE / coverage), coefficient stability across folds, block-bootstrap uncertainty and the negative controls. Primary for H2 and H3; robustness for H1, H4 and H5.
 
@@ -486,7 +487,11 @@ Do not use a binary significance threshold as the only criterion. Report economi
 
 ## 20. Explicit visual inspection protocol at every stage
 
-For each stage, save a `stage_##_before.png`, `stage_##_after.png`, and `stage_##_validation.json` plus detailed plots. The **before** chart exposes source/raw-data assumptions. The **after** chart shows the transformed output or estimated effect. Include a side-by-side markdown summary with `what changed`, `why`, `possible artifact`, and `decision`. Use identical dates and axes when comparing before/after series. Use interactive Plotly for investigation and Matplotlib PNG for archived publication figures. Include source names, as-of date, sample N, uncertainty where appropriate. Do not interpret a smoothed line as evidence without corresponding raw points.
+For each stage, save a `stage_##_before.png`, `stage_##_after.png`, and `stage_##_validation.json` plus detailed plots.
+
+**`stage_##_validation.json` schema (v1.3):** `{stage, run_id, git_commit, started_utc, finished_utc, runtime: {fresh: bool, platform, python, packages_lock_sha256}, inputs: [{dataset, source_url, retrieved_utc, sha256, vintage | current_vintage_only, rows}], tests: [{name, status: PASS|FAIL|WARN|SKIP, detail}], figures: [{path, sha256}], outputs: [{path, sha256, rows}], gate: {decision: PASS|FAIL|WARN, reasons: [..]}}`. A stage without this file has not passed its gate.
+
+**Fresh-runtime rule (v1.3):** before each gate, run the stage end-to-end in a new runtime: on Colab, *Runtime → Disconnect and delete runtime*, then run all cells from the top; locally, a new venv and kernel via `nbclient`/`papermill`. Inputs come only from configs and checkpointed artifacts, never from earlier in-memory state; the JSON records `runtime.fresh = true`. CI (GitHub Actions) runs `pytest -W error -m "not data"` and each stage's `--smoke` mode on synthetic fixtures on every push. The **before** chart exposes source/raw-data assumptions. The **after** chart shows the transformed output or estimated effect. Include a side-by-side markdown summary with `what changed`, `why`, `possible artifact`, and `decision`. Use identical dates and axes when comparing before/after series. Use interactive Plotly for investigation and Matplotlib PNG for archived publication figures. Include source names, as-of date, sample N, uncertainty where appropriate. Do not interpret a smoothed line as evidence without corresponding raw points.
 
 **Required power/utilities charts (v1.1), by stage:**
 
@@ -558,7 +563,7 @@ These are starting points, not guarantees of particular API access, licensing, o
 
 ## 25. Definition of done
 
-The project is complete when a fresh Colab runtime can execute the full pipeline against a frozen, provenance-logged dataset snapshot; each stage has validated inputs, before/after visualizations, tests, and a gate decision; H1–H5 each receive an evidence-based verdict or a documented inconclusive result; the NVIDIA first-disclosure timeline is independently audited; ex-ante forecasts are not confused with conditional counterfactuals; the report includes uncertainty, placebo results, and limitations; and no result depends on invented or forward-leaked data.
+The project is complete when a fresh Colab runtime can execute the full pipeline against a frozen, provenance-logged dataset snapshot; each stage has validated inputs, before/after visualizations, tests, and a gate decision; H1–H6 each receive an evidence-based verdict or a documented inconclusive result; the NVIDIA first-disclosure timeline is independently audited; ex-ante forecasts are not confused with conditional counterfactuals; the report includes uncertainty, placebo results, and limitations; and no result depends on invented or forward-leaked data.
 
 ## 26. Change log
 
@@ -635,3 +640,33 @@ The project is complete when a fresh Colab runtime can execute the full pipeline
 | Session calendar | NYSE exchange calendar with early closes (new dependency, pinned) | Stage 01; new test: 14:00 ET news on an early-close day maps to the next session |
 | Severity | announcement-day codability audit | Stage 06 gate; new table `severity_audit` |
 | Point-in-time validity | `current_vintage_only` excluded from confirmatory M0–M3; FRED API key required (Colab Secret `FRED_API_KEY`) | §4, Stage 03b, Stages 07 and 09 (research plan 8.7) |
+
+### v1.3 (2026-11-13): external review incorporated
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| Severity | categorical event type, separate Holm-adjusted performance and misconduct tests primary; pooled and ordinal secondary | Stage 08; `configs/preregistration.yaml`; power check `scripts/step0b_severity_power.py`, `shockamp.power.simulate_power_categorical` |
+| Resilience outcomes | R1, R2 (additional damage, placebo-referenced), R3 | Stages 06, 08, 10 |
+| Controls | founder, tenure, planned vs surprise, successor named, size, sector, prior return, as of T; new fields in `event_registry` | Stage 06 (8-K text pass, proxy-filing founder check), Stage 08 |
+| Normal-return model | four candidates, placebo-based selection by stress tercile | Stage 06 |
+| Validation reports | `stage_##_validation.json` schema; fresh-runtime rule; CI smoke runs | §20, §18 |
+| Provisional numbers | Step 0 market numbers reproduced by Stage 01 or explained | Stage 01 gate |
+
+### v1.4 (2026-11-13): second review
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| H1 interpretation | total slopes vs matched non-event dates; wording rule | Stage 06 (pseudo-event sampler), Stage 08; tests: pseudo dates respect exclusion windows and matching |
+| R2 | full sample + `competing_event`, `competing_event_first_session` fields; two sensitivities | Stage 06 event registry, Stage 08 |
+| Power | outcome-blind re-run on the real sample before H1 (`shockamp.power`, cluster-aware) | Stage 08 entry gate |
+| Consistency | Stage 08 primary estimand restated; `primary_tests` block in the preregistration; `tests/test_prereg.py` | Stage 00 config schema |
+
+### v1.5 (2026-11-13): H6 competitive spillover
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| H6 | new hypothesis; groups G1–G4 from the leader's 10-K (`configs/tickers.yaml: h6_groups`, with source and accession) | Stage 06 (NVIDIA groups, panel rivals), Stage 09 (H6 panel) |
+| Benchmarks | H6 outcome firms never in a benchmark; NVIDIA primary benchmark = SPY + G3; mixed Step 0 basket = sensitivity | Stage 01 baskets, Stage 06 |
+| Tests | benchmark-disjointness test (no outcome firm in any benchmark); group assignment loaded from config with source; foreign-listing session mapping | `tests/test_h6_groups.py` |
+| Data | Hoberg-Phillips TNIC similarity (to verify: availability, license, coverage end) for the panel substitutability gradient | Stage 00 source audit |
+| Visuals | daily AR heatmap by group; group CAR per disclosure; rebound scatter | Stage 06 / 09 |

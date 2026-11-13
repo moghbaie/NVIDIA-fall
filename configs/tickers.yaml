@@ -1,5 +1,17 @@
 target: [NVDA]
-semis_ex_nvda: [TSM, ASML, AMAT, LRCX, MU, AMD, AVGO, AMKR, KLAC]
+semis_ex_nvda: [TSM, ASML, AMAT, LRCX, MU, AMD, AVGO, AMKR, KLAC]   # Step 0 mixed basket: sensitivity only (PLAN.md D24)
+h6_groups:   # fixed from NVIDIA FY2026 10-K, accession 0001045810-26-000021, accepted 2026-02-25
+  source: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm
+  G1_competitors: [AMD, AVGO, MRVL, INTC]        # named: accelerators / custom chips / networking
+  G1_extended: [QCOM, ANET, CSCO, HPE, LITE, AMBA]   # named in other segments; sensitivity
+  G2_suppliers: [TSM, MU, FN]                    # named foundry / memory / assembly
+  G2_foreign_sensitivity: ["000660.KS", "2317.TW", "3231.TW"]   # SK Hynix, Hon Hai, Wistron
+  G3_other_semis: [TXN, ADI, NXPI, ON, MCHP, AMKR, ASML, AMAT, LRCX, KLAC]   # named in neither list
+  G4_cloud_customers: [MSFT, AMZN, GOOGL, META, ORCL]   # customers and in-house chip competitors
+  excluded: ["005930.KS"]                        # Samsung: both supplier and competitor
+nvda_benchmark:
+  primary: [SPY, G3_other_semis]
+  sensitivity: [[SPY], [SPY, semis_ex_nvda]]
 memory_asia: ["000660.KS", "005930.KS"]
 power_infra: [VRT, ETN, PWR, EQIX, DLR]
 ai_demand: [MSFT, AMZN, GOOGL, META, ORCL]

@@ -1,0 +1,67 @@
+test,sigma,mde,scenario,mde_pp
+dismissal vs voluntary (pooled),0.05,0.004836309523809524,"equal spacing true
+(perf = g, misconduct = 2g)",0.4836309523809524
+dismissal vs voluntary (pooled),0.07,0.00703125,"equal spacing true
+(perf = g, misconduct = 2g)",0.703125
+dismissal vs voluntary (pooled),0.09,0.009006024096385543,"equal spacing true
+(perf = g, misconduct = 2g)",0.9006024096385543
+misconduct vs voluntary,0.05,0.006995192307692308,"equal spacing true
+(perf = g, misconduct = 2g)",0.6995192307692308
+misconduct vs voluntary,0.07,0.009324324324324324,"equal spacing true
+(perf = g, misconduct = 2g)",0.9324324324324325
+misconduct vs voluntary,0.09,0.012802197802197803,"equal spacing true
+(perf = g, misconduct = 2g)",1.2802197802197803
+ordinal 0/1/2 (v1.1 primary),0.05,0.004742424242424242,"equal spacing true
+(perf = g, misconduct = 2g)",0.47424242424242424
+ordinal 0/1/2 (v1.1 primary),0.07,0.006621621621621622,"equal spacing true
+(perf = g, misconduct = 2g)",0.6621621621621622
+ordinal 0/1/2 (v1.1 primary),0.09,0.0085,"equal spacing true
+(perf = g, misconduct = 2g)",0.8500000000000001
+performance vs voluntary,0.05,0.005966666666666667,"equal spacing true
+(perf = g, misconduct = 2g)",0.5966666666666667
+performance vs voluntary,0.07,0.008020833333333333,"equal spacing true
+(perf = g, misconduct = 2g)",0.8020833333333333
+performance vs voluntary,0.09,0.010785714285714287,"equal spacing true
+(perf = g, misconduct = 2g)",1.0785714285714287
+dismissal vs voluntary (pooled),0.05,0.005546875000000001,"dismissals alike
+(perf = misconduct = g)",0.5546875000000001
+dismissal vs voluntary (pooled),0.07,0.007830188679245283,"dismissals alike
+(perf = misconduct = g)",0.7830188679245284
+dismissal vs voluntary (pooled),0.09,0.010094339622641512,"dismissals alike
+(perf = misconduct = g)",1.0094339622641513
+misconduct vs voluntary,0.05,0.014102564102564103,"dismissals alike
+(perf = misconduct = g)",1.4102564102564104
+misconduct vs voluntary,0.07,0.019062500000000003,"dismissals alike
+(perf = misconduct = g)",1.9062500000000002
+misconduct vs voluntary,0.09,0.025670103092783506,"dismissals alike
+(perf = misconduct = g)",2.5670103092783507
+ordinal 0/1/2 (v1.1 primary),0.05,0.006130952380952381,"dismissals alike
+(perf = misconduct = g)",0.6130952380952381
+ordinal 0/1/2 (v1.1 primary),0.07,0.0081140350877193,"dismissals alike
+(perf = misconduct = g)",0.8114035087719299
+ordinal 0/1/2 (v1.1 primary),0.09,0.009946236559139785,"dismissals alike
+(perf = misconduct = g)",0.9946236559139785
+performance vs voluntary,0.05,0.006006493506493507,"dismissals alike
+(perf = misconduct = g)",0.6006493506493507
+performance vs voluntary,0.07,0.008020833333333333,"dismissals alike
+(perf = misconduct = g)",0.8020833333333333
+performance vs voluntary,0.09,0.010769230769230769,"dismissals alike
+(perf = misconduct = g)",1.0769230769230769
+dismissal vs voluntary (pooled),0.05,0.05594594594594595,"only misconduct amplifies
+(perf = 0, misconduct = g)",5.594594594594595
+dismissal vs voluntary (pooled),0.07,,"only misconduct amplifies
+(perf = 0, misconduct = g)",
+dismissal vs voluntary (pooled),0.09,,"only misconduct amplifies
+(perf = 0, misconduct = g)",
+misconduct vs voluntary,0.05,0.013433734939759035,"only misconduct amplifies
+(perf = 0, misconduct = g)",1.3433734939759034
+misconduct vs voluntary,0.07,0.019200000000000002,"only misconduct amplifies
+(perf = 0, misconduct = g)",1.9200000000000002
+misconduct vs voluntary,0.09,0.025888888888888892,"only misconduct amplifies
+(perf = 0, misconduct = g)",2.588888888888889
+ordinal 0/1/2 (v1.1 primary),0.05,0.02475,"only misconduct amplifies
+(perf = 0, misconduct = g)",2.475
+ordinal 0/1/2 (v1.1 primary),0.07,0.034339622641509436,"only misconduct amplifies
+(perf = 0, misconduct = g)",3.4339622641509435
+ordinal 0/1/2 (v1.1 primary),0.09,0.04507462686567165,"only misconduct amplifies
+(perf = 0, misconduct = g)",4.507462686567165
