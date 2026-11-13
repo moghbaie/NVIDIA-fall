@@ -1,0 +1,8 @@
+target: [NVDA]
+semis_ex_nvda: [TSM, ASML, AMAT, LRCX, MU, AMD, AVGO, AMKR, KLAC]
+memory_asia: ["000660.KS", "005930.KS"]
+power_infra: [VRT, ETN, PWR, EQIX, DLR]
+ai_demand: [MSFT, AMZN, GOOGL, META, ORCL]
+benchmarks: [SPY, QQQ, SOXX, SMH]   # SOXX/SMH contain NVDA: never used as clean controls
+volatility: ["^VIX", "^VXN"]
+fred: [STLFSI4, BAA10Y, DGS2, DGS10, VIXCLS]

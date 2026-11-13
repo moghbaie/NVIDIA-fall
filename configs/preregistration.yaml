@@ -1,0 +1,45 @@
+# DRAFT preregistration (Step 0). Binds the cross-firm PANEL analysis, whose outcomes are unseen.
+# The NVIDIA case outcome was inspected on 2026-11-13 (exploratory); see PLAN.md D9.
+status: draft            # -> frozen once the user signs off at the end of Step 0
+as_of: 2026-11-13
+unit: trading_session
+exchange_tz: America/New_York
+session_complete_after: "16:00 local close"
+
+primary_hypothesis: H1
+primary_estimand: >
+  Change in CAR[-1,+1] (log points) per one-level increase in leadership-shock severity, per one
+  standard deviation increase in pre-event market stress (MSI), i.e. beta(sev x MSI). Prediction: < 0.
+primary_outcome_window: [-1, 1]
+secondary_windows: [[0, 1], [0, 5], [-1, 10]]
+event_time_rule: >
+  Event session = first session whose close reflects the first public announcement (after-close or
+  non-session-day announcements map to the next session). Origin T = prior session.
+normal_return_model:
+  primary: market model on SPY + equal-weight sector basket excluding the event firm
+  estimation_window: [-252, -31]
+  min_obs: 120
+  selection: chosen by rolling-origin backtest on pre-2015 events only (Step 4), never on outcomes
+severity:
+  source: Gentry et al. CEO dismissal database, departure_code (outcome-blind, coded from media)
+  primary_ordinal: {5: 0, 6: 0, 3: 1, 4: 2}     # voluntary < performance dismissal < misconduct
+  excluded_from_primary: [1, 2, 7, 8, 9]          # death/illness analysed as separate contrast
+moderators:
+  primary: MSI   # market stress, standardized on expanding window, as of origin T close
+  secondary: FFI # firm fragility, as of T
+  excluded: LUI  # leadership news intensity is treatment, never moderator
+inference:
+  se: cluster by event month; wild-cluster bootstrap as robustness
+  alpha: 0.05
+  multiplicity: primary test unadjusted; all secondary windows/moderators Holm-adjusted and labelled exploratory
+decision_rule:
+  supported: beta(sev x MSI) < 0, 95% CI excludes 0, same sign in >= 3 of 4 pre-listed robustness specs
+  not_supported: 95% CI excludes the MDE in the predicted direction
+  inconclusive: otherwise (CI contains both 0 and the MDE)
+sample:
+  period: announcements 2005-01-01 .. latest available   # 8-K Item 5.02 regime starts 2004-08-23
+  universe: S&P 1500 firms in the database with US-listed prices
+  exclusions:
+    - confounding earnings release within [-1,+1]
+    - missing estimation window
+    - M&A-driven departures (code 7)

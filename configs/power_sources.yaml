@@ -1,0 +1,49 @@
+# Power / utilities / electricity sources (verified 2026-11-13). Mirror of research plan Section 5.1.
+# status: verified | to_verify | unavailable | excluded. Unverified entries are not ingested.
+defaults:
+  missing_policy: keep_nan          # never interpolate / backfill
+  join: asof_on_available_at        # values reach the session grid only after release
+  duplicate_policy: fail
+  outlier_policy: flag_robust_z_gt_6_no_delete
+financial:   # PUSI-F (Yahoo Finance via yfinance; available at 16:00 ET session close)
+  - {id: XLU,  name: Utilities Select Sector SPDR ETF, first: 1998-12-22, units: USD_adj_close, status: verified}
+  - {id: "^UTY", name: PHLX Utility Sector Index, first: 1990-01-02, units: index_price_return, status: verified}
+  - {id: GRID, name: First Trust Nasdaq Clean Edge Smart Grid Infrastructure ETF, first: 2009-11-17, units: USD_adj_close, status: verified}
+  - {id: ETN,  name: Eaton, first: 1990-01-02, units: USD_adj_close, status: verified}
+  - {id: VRT,  name: Vertiv, first: 2018-08-02, units: USD_adj_close, status: verified}
+  - {id: PWR,  name: Quanta Services, first: 1998-02-12, units: USD_adj_close, status: verified}
+  - {id: "^SP500-55", name: S&P 500 Utilities Index, status: unavailable, note: "Yahoo returns current bar only; proxy XLU"}
+basket_versions:
+  core:  {members: [XLU, "^UTY", ETN, PWR], from: 2005-01-01}
+  plus_grid: {members: [XLU, "^UTY", ETN, PWR, GRID], from: 2009-11-17}
+  full:  {members: [XLU, "^UTY", ETN, PWR, GRID, VRT], from: 2018-08-02}
+placebo:
+  - {id: XLP, status: verified, note: "2015+ confirmed; full start checked at Stage 00"}
+  - {id: XLV, status: to_verify}
+physical:    # PUSI-P
+  eia:  # https://api.eia.gov/v2/ ; requires EIA_API_KEY (free); public domain; no vintages -> current_vintage_only
+    - {route: electricity/retail-sales, data: [price, sales], facets: [stateid, sectorid], freq: monthly, first: 2001-01, units: {price: cents_per_kWh, sales: million_kWh}, release_rule: electric_power_monthly_release_date, max_age_months: 4, status: verified}
+    - {route: electricity/electric-power-operational-data, freq: monthly, first: 2001-01, release_rule: electric_power_monthly_release_date, max_age_months: 4, status: verified}
+    - {route: electricity/rto/daily-region-data, types: [D, DF, NG, TI], facets: [respondent], freq: daily, first_api: 2019-01-01, first_bulk: 2015-07-01, units: MWh, release_rule: "D ~1h after hour; DF ~11:00 ET same day; NG/TI ~11:00 ET next day; use complete published days only", status: verified}
+    - {route: electricity/operating-generator-capacity, freq: monthly, first: 2008-01, units: MW, release_rule: conservative_2_month_lag_until_confirmed, max_age_months: 4, status: verified}
+  fred:  # release dates from ALFRED realtime_start (FRED_API_KEY)
+    - {id: APU000072610, name: Avg price electricity per kWh US city avg, freq: monthly, units: USD_per_kWh, status: verified}
+    - {id: CUSR0000SEHF01, name: CPI electricity SA, freq: monthly, units: index, status: verified}
+    - {id: PCU22112211, name: PPI electric power G/T/D, freq: monthly, units: index, status: verified}
+    - {id: WPU0543, name: PPI industrial electric power, freq: monthly, units: index, status: verified}
+    - {id: IPG2211S, name: IP electric power G/T/D, freq: monthly, units: index_2017_100, status: verified}
+    - {id: CAPUTLG2211S, name: Capacity utilization electric power G/T/D, freq: monthly, units: percent, status: verified}
+    - {id: DHHNGSP, name: Henry Hub spot (control), freq: daily, units: USD_per_MMBtu, status: verified}
+  reports:  # curated; extraction_method + reviewer + page required
+    - {id: pjm_bra, url: "https://www.pjm.com/markets-and-operations/rpm", metric: rto_and_lda_clearing_price, units: USD_per_MW_day_UCAP, available_at: report_date, license: not_stated_cite_only, status: verified}
+    - {id: lbnl_queued_up, url: "https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics", metric: active_queue_capacity_and_time_in_queue, units: MW, available_at: edition_publication_date, license: CC-BY-4.0, status: verified}
+    - {id: nerc_assessments, docs: [LTRA, SRA, WRA], metric: [anticipated_reserve_margin, risk_rating], units: [percent, ordinal], available_at: publication_month_end, license: to_check, status: verified}
+context:  # is_projection: true -> never a regressor
+  - {id: lbnl_dc_2024, doi: 10.71468/P1WC7Q, published: 2024-12-19, status: verified}
+  - {id: iea_energy_ai_2025, status: to_verify, note: "site refused automated access; data product non-CC terms per snippets"}
+  - {id: eia_datacenter_series, status: unavailable, note: "no EIA series; AEO2026 commentary only"}
+excluded:
+  - {id: pjm_dataminer2, reason: "account required; redistribution prohibited"}
+  - {id: ercot_public_api, reason: "registration, tokens, download limits, no reuse license"}
+  - {id: caiso_oasis, reason: "~39-month retention; rate-limited"}
+  - {id: ferc_714, reason: "unverifiable (403); EIA-930 preferred"}

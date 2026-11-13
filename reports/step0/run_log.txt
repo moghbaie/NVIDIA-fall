@@ -1,0 +1,49 @@
+                   source      status  latency_s
+  Yahoo prices (yfinance)   available       0.41
+             FRED STLFSI4   available       0.33
+    SEC EDGAR submissions   available       0.34
+            GDELT DOC 2.0 conditional      38.74
+CEO dismissal DB (Zenodo)   available       1.64
+{
+ "E0 [0,+1]": {
+  "CAR_pct": -0.59,
+  "z": -0.23,
+  "n": 2
+ },
+ "E1 [0,+1]": {
+  "CAR_pct": -14.3,
+  "z": -5.63,
+  "n": 2
+ },
+ "E2 [0,0]": {
+  "CAR_pct": -3.79,
+  "z": -2.11,
+  "n": 1
+ },
+ "E1\u2192E2 [E1,E2]": {
+  "CAR_pct": -18.2,
+  "z": -5.07,
+  "n": 4
+ }
+}
+                                n  announce_date  eight_k_links
+group                                                          
+Death/illness                 127           0.58           0.67
+Dismissed: misconduct/legal   165           0.39           0.68
+Dismissed: performance       1290           0.49           0.66
+Other/M&A/interim            1696           0.37           0.64
+Voluntary                    2548           0.55           0.65
+                                          design  sigma      mde  match_rate
+ misconduct vs voluntary (n=1356, 82 misconduct)   0.05 0.016854         0.5
+ misconduct vs voluntary (n=1356, 82 misconduct)   0.07 0.023889         0.5
+ misconduct vs voluntary (n=1356, 82 misconduct)   0.09 0.028521         0.5
+                          ordinal 0/1/2 (n=2001)   0.05 0.006171         0.5
+                          ordinal 0/1/2 (n=2001)   0.07 0.007483         0.5
+                          ordinal 0/1/2 (n=2001)   0.09 0.010185         0.5
+misconduct vs voluntary (n=1898, 115 misconduct)   0.05 0.013536         0.7
+misconduct vs voluntary (n=1898, 115 misconduct)   0.07 0.018953         0.7
+misconduct vs voluntary (n=1898, 115 misconduct)   0.09 0.025421         0.7
+                          ordinal 0/1/2 (n=2800)   0.05 0.004749         0.7
+                          ordinal 0/1/2 (n=2800)   0.07 0.006818         0.7
+                          ordinal 0/1/2 (n=2800)   0.09 0.008467         0.7
+wrote ['fig1_nvda_chronology.png', 'fig2_panel_feasibility.png', 'fig3_power.png', 'nvda_exploratory_ar.csv', 'panel_counts_by_year.csv', 'panel_coverage.csv', 'power_grid.csv', 'power_mde.csv', 'run_log.txt', 'source_audit.json', 'summary.json']

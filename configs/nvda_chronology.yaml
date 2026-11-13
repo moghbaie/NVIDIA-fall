@@ -1,0 +1,40 @@
+# NVIDIA leadership-news disclosure sequence. Verified facts only; unverified fields marked.
+# Allegations are attributed to their sources and are not treated as established facts.
+events:
+  - id: E0
+    first_public_date: 2026-10-29
+    time_known: false
+    description: NYT report that a Megaspeed-linked businesswoman (Alice Huang) was allegedly recruited by China's MSS and had a close relationship with Jensen Huang; NVIDIA spokesperson pushes back the same day.
+    sources:
+      - https://www.cnbc.com/2026/10/29/nvidia-jensen-huang-chinese-intelligence-asset.html
+    verified: partial   # NYT original timestamp not yet verified
+  - id: E1
+    first_public_date: 2026-11-08   # Sunday -> first session 2026-11-09
+    time_known: false
+    description: NVIDIA board opens independent investigation (committee of independent directors + outside counsel); Huang memo to employees admits extramarital affair.
+    sources:
+      - https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors
+      - https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-investigation-china-spy.html
+      - https://www.cnn.com/2026/11/08/business/nvidia-investigation-ceo-jensen-huang
+    verified: yes
+  - id: E1b
+    first_public_date: 2026-11-10
+    time_known: false
+    description: Statement from the independent members of the NVIDIA board (content not yet reviewed).
+    sources: [https://nvidianews.nvidia.com/]
+    verified: title_only
+  - id: E2
+    first_public_date: 2026-11-12
+    time_known: false
+    description: Board accepted Huang's resignation on 2026-11-11 (8-K Item 5.02); announced 2026-11-12; CFO Colette Kress interim CEO; Harvey Jones appointed Chair. No reason stated in filing.
+    sources:
+      - https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition/
+      - https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm
+    verified: yes   # intraday release time unverified; CNBC reported board decision the prior night
+confounders:
+  - date: 2026-11-05
+    description: Broad semiconductor selloff (ex-NVDA basket -14.6%, SPY -4.5%, VIX 28.2). Cause not yet identified.
+  - date: 2026-11-04
+    description: Unexplained NVDA-specific move (exploratory AR -4.9%, z -2.9). To investigate in Step 1.
+  - date: 2026-11-17
+    description: NVIDIA Q3 FY2027 earnings, ~13:20 PT. Windows beyond this are confounded.

@@ -1,0 +1,47 @@
+[
+  {
+    "source": "Yahoo prices (yfinance)",
+    "status": "available",
+    "latency_s": 0.41,
+    "rows": 2985,
+    "first": "2015-01-02",
+    "last": "2026-11-13",
+    "note": "unofficial API; last row may be an unfinished session"
+  },
+  {
+    "source": "FRED STLFSI4",
+    "status": "available",
+    "latency_s": 0.33,
+    "rows": 1715,
+    "first": "1993-12-31",
+    "last": "2026-11-06",
+    "note": "STLFSI4 weekly; current vintage only (ALFRED for vintages)"
+  },
+  {
+    "source": "SEC EDGAR submissions",
+    "status": "available",
+    "latency_s": 0.34,
+    "rows": 1000,
+    "eight_k": 61,
+    "last_8k_accepted": "2026-11-12T13:52:41.000Z",
+    "note": "acceptanceDateTime gives a second-resolution public timestamp"
+  },
+  {
+    "source": "GDELT DOC 2.0",
+    "status": "conditional",
+    "latency_s": 38.74,
+    "articles_recent": 10,
+    "articles_2018": "non-JSON response: 'Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic us'",
+    "note": "historical query returned nothing"
+  },
+  {
+    "source": "CEO dismissal DB (Zenodo)",
+    "status": "available",
+    "latency_s": 1.64,
+    "rows": 9509,
+    "sha256": "663bcaa033eb816d",
+    "license": "CC-BY-4.0",
+    "url": "https://zenodo.org/records/23328926",
+    "note": "archival version 26Nov25; announce dates non-randomly missing"
+  }
+]
