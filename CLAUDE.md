@@ -1,83 +1,100 @@
-# CLAUDE.md — Supply Chain Twin
+# CLAUDE.md — State-Dependent Shock Amplification (NVIDIA fall)
 
-Research code: Bayesian latent-demand estimation on FreshRetailNet-50K and an adaptive
-supply-chain decision twin. Plan: `plan.md`. Data facts: `docs/data_card.md`, `docs/data_model.md`.
+Research code: does a firm-specific governance shock (CEO misconduct / dismissal) move the stock
+more when market, sector and power-sector stress are already high? Applied to NVIDIA's Oct–Nov 2026
+disclosure sequence, tested on a cross-firm panel of CEO departures.
+
+Plans: `PLAN.md` (execution plan, steps and gates), `state_dependent_shock_amplification_research_plan.md`
+(research design, hypotheses H1–H5), `nvidia_shock_amplification_colab_implementation_plan.md`
+(stages, schemas, tests). Progress and decisions: `reports/progress.md`, `reports/decision_log.md`.
 
 ## Non-negotiable rules
 
 ### Rule 1: Evaluate with rolling-origin backtesting, without leakage
 
-- The time unit is configurable: "day" or "hour". Lead time L, horizon H, origin step S and window
-  length W are all measured in that unit. Never hardcode a unit.
-- Data must be resampled to the chosen unit before backtesting. For "day", define day boundaries in
-  a fixed timezone (state which one). Treat a day as complete only once its last hour has passed.
-- At each origin T:
-  - Training: use only examples whose full target window ends at or before T. An example with
-    feature time t has target window (t + L, t + L + H], so include it only if t ≤ T − L − H.
-  - Prediction: compute features as of T and predict the window (T + L, T + L + H].
-- Data after T must never be used in training, feature fitting, scaling, imputation, target
-  encoding, or hyperparameter tuning for that fold. If tuning, use a nested time split inside the
-  training window.
-- Use an [expanding / sliding (length W)] training window. Advance the origin by S units for N
-  folds. Report metrics per fold and aggregated across folds.
+- The time unit is the **NYSE trading session** (daily). Horizons, embargoes, estimation windows and
+  origin steps are counted in sessions on the exchange calendar, never in calendar days. Do not
+  hardcode a session count outside `src/shockamp` constants or `configs/`.
+- Day boundaries are fixed in **America/New_York**. A session is complete only after its 16:00 ET
+  close. Known gap: early closes (13:00) are not modelled yet, so news between 13:00 and 16:00 on
+  an early-close day would map to the wrong session; check such events by hand. Intraday data is
+  not used.
+- At each origin T (end of session T):
+  - Training: use only examples whose full target window ends at or before T. An example at session
+    t with target window (t + L, t + L + H] is included only if t ≤ T − L − H.
+  - Prediction: compute features as of T and predict (T + L, T + L + H].
+- Data after T must never be used in training, feature fitting, scaling, imputation, index
+  construction (PCA loadings, z-score means/SDs, weights), or hyperparameter tuning for that fold.
+  Tune only with a nested time split inside the training window.
+- Walk-forward with an expanding training window unless a config says sliding. Report metrics per
+  fold and aggregated across folds.
 
 ### Rule 2: Build features using only past data (point-in-time correctness)
 
-- Every feature is computed as of the origin T, never as of the target time. "Lag k" means k units
-  before T, in the configured unit.
-- A feature may only use data available at or before T. Rolling and lag features must look backward
-  only (shift before rolling; no centered windows, no backfill).
-- When the unit is "day" but raw data is hourly, aggregate only complete days at or before T. Never
-  include a partial day after T.
-- Statistics fitted on data (means, scalers, encoders, normalizers) are fitted only on each fold's
-  training window, then applied to its test window.
-- Join external data on its availability timestamp, not its event timestamp.
+- Every feature is computed as of origin T. "Lag k" means k sessions before T.
+- Rolling and lag features look backward only (shift before rolling; no centered windows, no
+  backfill, no forward-fill across a release that had not happened yet).
+- Statistics fitted on data are fitted only on each fold's training window.
+- **Join external data on its availability timestamp, not its reference period** (`pit.asof_join`).
+- Do not interpolate unavailable historical observations. Missing stays missing, with a reason.
 
-Before changing the pipeline: check it against both rules. If it breaks them, explain where,
-update the plan, rewrite only the affected code, and keep the leakage tests (run for both "day" and
-"hour") passing.
+Before changing the pipeline: check it against both rules. If it breaks them, explain where, update
+the plans, rewrite only the affected code, and keep `tests/test_no_leakage.py` passing.
 
 ## How the rules are applied in this project
 
-- **Timezone / day boundaries.** A day is the dataset's `dt` with hour index 0–23 in store-local
-  time. The provider does not state the timezone; all stores are Dingdong (China) stores, so we
-  assume **Asia/Shanghai (UTC+8, no DST)**. A day is complete after hour 23.
-- **Unit indexing.** Unit index `u` = day index (day) or `day*24 + hour` (hour). Origin `T` = the
-  end of unit `T`; everything in units ≤ T is observed. Lag k = value of unit `T − k`.
-- **Availability timestamps of fields** (when a value may first be used):
+- **Event timing.** For an event first public at `public_at` (UTC): before 16:00 ET on a session →
+  event session = that session; after the close or on a non-session day → next session. Origin
+  T = the last complete session before `public_at` (`calendar.map_event`). Events known only by date
+  (`time_known=False`) map to the first session on/after that date, and their windows must start
+  at −1 to absorb the timing ambiguity.
+- **Abnormal returns.** Market model fitted on sessions [−252, −31] relative to the event session,
+  min 120 obs (`returns.fit_market_model`); nothing at or after −30 enters the fit. Stress features
+  are measured as of T, i.e. before the event window.
+- **Availability timestamps** (when a value may first be used):
 
-  | Field | Event time | Available at |
+  | Source | Reference time | Available at |
   |---|---|---|
-  | `hours_sale[h]`, `hours_stock_status[h]` | hour h of day d | end of that hour |
-  | `sale_amount`, `stock_hour6_22_cnt` | day d | end of day d (complete day) |
-  | weather, `discount`, `activity_flag` | day d | **end of day d** (daily record; not known in advance) |
-  | weekday, hour of day | target time | deterministic calendar: always available |
-  | `holiday_flag` | day d | treated as a published calendar: available in advance (decided 2026-11-12) |
+  | Prices / returns (Yahoo adjusted closes) | session d | close of d (16:00 ET) |
+  | 8-K filings | event | EDGAR acceptance timestamp |
+  | News reports | event | first verifiable publication timestamp |
+  | FRED / ALFRED series | observation period | vintage `realtime_start`; if no vintage, official release date |
+  | EIA API v2 | month/week | publication date of that release (no vintages: latest revised values, documented limitation) |
+  | PJM BRA, LBNL, NERC reports | report | publication date of the report |
+  | Gentry et al. departure coding | event | event characteristic; must be codable from announcement-day information |
+  | Exchange calendar | any | always (deterministic) |
 
-  Target-time promotions are NOT features: no availability timestamp proves they are known ahead.
-- **Hourly availability class** of hour u needs the flag of hour u+1, so it is only usable when
-  u + 1 ≤ T.
-- **Code.** `sctwin.timeunit` resamples to the unit; `sctwin.features.FeatureBuilder` builds
-  as-of-T features; `sctwin.backtest` defines folds and `check_split` asserts the rules on every
-  fold at run time; `tests/test_no_leakage.py` perturbs all data after T (both units) and requires
-  features, training sets and predictions to be unchanged.
+- **Locked confirmatory test.** `configs/preregistration.yaml` is frozen (after user sign-off) before
+  any H1 estimate is computed. Later changes go in `reports/decision_log.md` and mark affected
+  results exploratory. The NVIDIA sequence is an application of the frozen model, not a tuning set.
+- **Power and Utilities Stress Index (PUSI).** Financial (PUSI-F) and physical (PUSI-P) families
+  stay separate; PUSI-X (projections) is context only, never a model input. Rising utility prices are
+  not assumed to mean stress. Incremental value is judged only by walk-forward M0–M3 comparisons and
+  the negative controls in research plan §8.7–8.8.
+- **Code.** `shockamp.calendar` (sessions, event mapping), `shockamp.pit` (as-of joins,
+  `assert_available`), `shockamp.returns` (market model, AR/CAR), `shockamp.power` (simulated H1
+  power). `tests/test_no_leakage.py` perturbs all data after T and requires fits and features to be
+  unchanged.
 
 ## Other conventions
 
-- The official `eval` split is the locked final test; development code never loads it.
-- Raw data, runs and model outputs stay out of git (`data/`, `runs/`).
+- Raw data, runs and model outputs stay out of git (`data/`, `runs/`). Figures and small summary
+  tables go in `reports/<step>/`.
+- Show results with figures after each step and agree on the next step with the user before starting
+  it. Do not publish to GitHub Pages until the user approves.
 - Before finishing: `ruff format`, `ruff check`, `mypy src`, `pytest -W error` (plus `-m data`).
-- Do not commit or push unless the user asks.
-- Never describe reconstructed demand as observed, replay as live telemetry, or synthetic costs
-  as retailer savings. Sales are normalized units.
+- Commit and push to `origin/main` only when the user asks.
+- Secrets (`EIA_API_KEY`, `FRED_API_KEY`, `SEC_USER_AGENT`) come from env vars / Colab Secrets,
+  never from files in git.
+- Wording: label simulated outcomes as synthetic; label exploratory results as exploratory;
+  attribute allegations to their source ("reported by", "alleged"), never state them as fact;
+  never call a proxy (e.g. XLU for S&P 500 Utilities) the original series.
 
 ## Commands
 
 ```bash
-uv pip install -e ".[dev,models]"
+uv pip install -e ".[dev]"
 .venv/Scripts/python -m pytest -W error -m "not data"   # synthetic tests
-.venv/Scripts/python -m pytest -m data                  # real-data tests
-.venv/Scripts/python scripts/audit_data.py              # Step 1 audit
-.venv/Scripts/python scripts/run_baselines.py --unit day|hour [--smoke]
-.venv/Scripts/python scripts/run_censoring_benchmark.py [--smoke]   # Step 4
+.venv/Scripts/python -m pytest -m data                  # network / real-data tests
+.venv/Scripts/python scripts/step0_feasibility.py       # Step 0 audit + figures -> reports/step0/
 ```
