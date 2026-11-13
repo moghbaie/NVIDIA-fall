@@ -1,0 +1,82 @@
+{
+  "status": {
+    "AMD": "CONTAMINATED",
+    "AVGO": "UNCLEAR",
+    "MRVL": "CLEAN",
+    "INTC": "CONTAMINATED"
+  },
+  "rows": [
+    {
+      "basket": "G1 all four (Step 0c)",
+      "members": "AMD,AVGO,MRVL,INTC",
+      "window": "session 0 (Nov 12)",
+      "basket_CAR_pct": 2.45,
+      "G3_CAR_pct": -0.35,
+      "diff_CAR_pct": 2.8,
+      "diff_z": 1.38
+    },
+    {
+      "basket": "G1 all four (Step 0c)",
+      "members": "AMD,AVGO,MRVL,INTC",
+      "window": "[-1,0] (Nov 11-12)",
+      "basket_CAR_pct": 5.38,
+      "G3_CAR_pct": 1.13,
+      "diff_CAR_pct": 4.25,
+      "diff_z": 1.48
+    },
+    {
+      "basket": "excl. contaminated (AVGO, MRVL)",
+      "members": "AVGO,MRVL",
+      "window": "session 0 (Nov 12)",
+      "basket_CAR_pct": 2.24,
+      "G3_CAR_pct": -0.35,
+      "diff_CAR_pct": 2.6,
+      "diff_z": 1.04
+    },
+    {
+      "basket": "excl. contaminated (AVGO, MRVL)",
+      "members": "AVGO,MRVL",
+      "window": "[-1,0] (Nov 11-12)",
+      "basket_CAR_pct": 5.15,
+      "G3_CAR_pct": 1.13,
+      "diff_CAR_pct": 4.02,
+      "diff_z": 1.14
+    },
+    {
+      "basket": "clean only (MRVL)",
+      "members": "MRVL",
+      "window": "session 0 (Nov 12)",
+      "basket_CAR_pct": -1.79,
+      "G3_CAR_pct": -0.35,
+      "diff_CAR_pct": -1.44,
+      "diff_z": -0.39
+    },
+    {
+      "basket": "clean only (MRVL)",
+      "members": "MRVL",
+      "window": "[-1,0] (Nov 11-12)",
+      "basket_CAR_pct": 2.77,
+      "G3_CAR_pct": 1.13,
+      "diff_CAR_pct": 1.65,
+      "diff_z": 0.31
+    },
+    {
+      "basket": "excl. INTC only (AMD, AVGO, MRVL)",
+      "members": "AMD,AVGO,MRVL",
+      "window": "session 0 (Nov 12)",
+      "basket_CAR_pct": 3.71,
+      "G3_CAR_pct": -0.35,
+      "diff_CAR_pct": 4.06,
+      "diff_z": 1.88
+    },
+    {
+      "basket": "excl. INTC only (AMD, AVGO, MRVL)",
+      "members": "AMD,AVGO,MRVL",
+      "window": "[-1,0] (Nov 11-12)",
+      "basket_CAR_pct": 6.59,
+      "G3_CAR_pct": 1.13,
+      "diff_CAR_pct": 5.46,
+      "diff_z": 1.78
+    }
+  ]
+}

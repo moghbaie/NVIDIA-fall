@@ -1,0 +1,160 @@
+# Step 1(d): NVIDIA's disclosed exposures to the AI-infrastructure buildout, as typed records.
+# Amounts are NOT additive across records: a purchase commitment, a contingent guarantee (maximum
+# gross exposure) and a recognized liability have different economic meanings.
+# measure: contractual_commitment = undiscounted future payments NVIDIA has agreed to make
+#          maximum_gross_exposure  = worst case if every trigger fires; not an expected loss
+#          carrying_amount         = recognized on the balance sheet
+#          notional                = contract notional, not a loss estimate
+#          not_quantified          = disclosed risk without an amount
+# `mechanism` states how a deployment bottleneck COULD transmit to NVIDIA (hypothesis, not a finding).
+filings:
+  10Q_2026-08-26:
+    form: 10-Q
+    period_end: 2026-07-26
+    accession: 0001045810-26-000075
+    accepted_utc: "2026-08-26T20:36:00Z"     # 16:36 ET -> first reaction session 2026-08-27
+    url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm
+  10K_2026-02-25:
+    form: 10-K
+    period_end: 2026-01-25
+    accession: 0001045810-26-000021
+    accepted_utc: "2026-02-25T21:42:19Z"     # 16:42 ET -> first reaction session 2026-02-26
+    url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm
+
+records:
+  - id: X01
+    filing: 10Q_2026-08-26
+    section: Note 10 Commitments (Supply and capacity)
+    category: purchase_commitment
+    family: operational
+    amount_usd_bn: 279
+    measure: contractual_commitment
+    timing: "FY2027 rem. 92, FY2028 87, FY2029 88, FY2030 6, FY2031 5, later 1"
+    counterparty: suppliers (primarily memory and manufacturing facilities); not named
+    trigger: committed; some agreements cancelable, reschedulable or adjustable before firm orders (cost may apply)
+    change: up from $119B one quarter earlier (10-Q filed 2026-05-20)
+    quote: "increasing supply commitments from $ 119 billion last quarter to $ 279 billion as of July 26, 2026"
+    mechanism: if customer deployment slows, NVIDIA still holds supply it committed to buy -> inventory and margin pressure
+  - id: X02
+    filing: 10Q_2026-08-26
+    section: Note 10 Additional Commitments (AI cloud agreements)
+    category: service_commitment_to_customers
+    family: resource_deployment
+    amount_usd_bn: 36
+    measure: contractual_commitment
+    timing: "FY2028 6, FY2029 8, FY2030 7, FY2031 6, later 9"
+    counterparty: AI clouds that buy NVIDIA data-center products; not named
+    trigger: NVIDIA commits to buy cloud services; the AI clouds may sell that capacity to third parties instead; commitment decreases as capacity is used
+    quote: "AI clouds procure our data center infrastructure products and we commit to cloud service agreements"
+    mechanism: weak third-party demand for deployed capacity leaves NVIDIA paying for it (demand partly backstopped by NVIDIA itself)
+  - id: X03
+    filing: 10Q_2026-08-26
+    section: Note 10 Additional Commitments (Data center leases not commenced for third party)
+    category: lease_commitment_not_commenced
+    family: resource_deployment
+    amount_usd_bn: 20
+    measure: contractual_commitment
+    timing: "~15-year leases expected to commence FY2028-FY2029, dependent on construction completion"
+    counterparty: lessors (not named); expected reassignment to third parties
+    trigger: lease commencement; NVIDIA remains obligated unless reassigned
+    quote: "We expect to reassign these data center leases to third parties"
+    mechanism: construction or power delays shift commencement; failure to reassign leaves NVIDIA as lessee
+  - id: X04
+    filing: 10Q_2026-08-26
+    section: Note 8 / Note 10 Guarantees (Land, power, and shell guarantees for AI clouds)
+    category: contingent_guarantee
+    family: resource_deployment
+    amount_usd_bn: 3.5
+    measure: maximum_gross_exposure
+    timing: "reduced as partners pay lessors over 5-7 years"
+    counterparty: select AI-cloud partners' data-center lessors; not named
+    trigger: partner default on lease obligations; partners placed $0.712B in escrow (not netted)
+    fair_value: not significant (credit derivative)
+    quote: "land, power, and shell guarantees for select AI cloud partners' data center lease obligations in the event of their default"
+    mechanism: an AI-cloud partner unable to monetize capacity (e.g. delayed power) defaults -> guarantee called
+  - id: X05
+    filing: 10Q_2026-08-26
+    section: Note 10 Guarantees (SB Energy Corp. guarantees; subsequent event, August 2026)
+    category: contingent_guarantee
+    family: resource_deployment
+    amount_usd_bn: 105
+    measure: maximum_gross_exposure
+    timing: "effective as each of nine construction phases' leases commence, first expected FY2029; declines over each 20-year lease"
+    counterparty: affiliates of SB Energy Corp. (lessor), on behalf of an affiliate of OpenAI Group PBC (tenant); ~4.25 GW IT load, PORTS Technology Campus, Pike County, Ohio
+    trigger: certain tenant defaults; limited to defined portions of lease and power payments; terminates if OpenAI achieves a satisfactory credit rating or at lease end
+    other: site exclusively hosts NVIDIA AI infrastructure (limited exceptions); NVIDIA option to support ~3.8 GW more
+    quote: "guarantees, capped at a total of $ 105 billion, to provide credit support on a land, power, and shell buildout"
+    mechanism: links NVIDIA's credit exposure to one customer's ability to pay for powered capacity; not effective before FY2029
+  - id: X06
+    filing: 10Q_2026-08-26
+    section: Note 10 Commitments (Cloud service agreements)
+    category: service_commitment_own_use
+    family: financial
+    amount_usd_bn: 29
+    measure: contractual_commitment
+    timing: "FY2027 rem. 3, FY2028 8, FY2029 7, FY2030 6, FY2031 4, later 1"
+    counterparty: cloud providers; not named
+    trigger: committed
+    quote: "These commitments provide the cloud infrastructure to support our research and development"
+    mechanism: own R&D compute; weak link to customer deployment
+  - id: X07
+    filing: 10Q_2026-08-26
+    section: Note 10 Commitments (Data center leases not commenced; own use)
+    category: lease_commitment_not_commenced
+    family: financial
+    amount_usd_bn: 25
+    measure: contractual_commitment
+    timing: "mostly FY2032 and later (20)"
+    counterparty: lessors; not named
+    trigger: lease commencement
+    quote: "These leases will be primarily used for engineering"
+    mechanism: own use; weak link to customer deployment
+  - id: X08
+    filing: 10Q_2026-08-26
+    section: Note 10 Commitments (Equity investments; Capital expenditures)
+    category: investment_commitment
+    family: financial
+    amount_usd_bn: 33
+    measure: contractual_commitment
+    timing: "equity investments 25 (mostly FY2027-28); capital expenditures 8"
+    counterparty: investees not named in this note
+    trigger: committed
+    quote: "Equity investments 18 3 2 2 ... 25 Capital expenditures 7 1 ... 8"
+    mechanism: investments in ecosystem partners can lose value if the buildout slows
+  - id: X09
+    filing: 10Q_2026-08-26
+    section: Note 9 Debt
+    category: recognized_liability
+    family: financial
+    amount_usd_bn: 33.4
+    measure: carrying_amount
+    timing: "notes due through 2060; $25.0B issued June 2026"
+    counterparty: noteholders
+    trigger: n/a (scheduled)
+    change: up from $8.5B at 2026-01-25
+    quote: "In June 2026, we issued an aggregate of $ 25.0 billion of senior unsecured notes"
+    mechanism: financial flexibility; not a deployment exposure by itself
+  - id: X10
+    filing: 10Q_2026-08-26
+    section: Risk factors / MD&A
+    category: operational_risk_disclosure
+    family: resource_deployment
+    amount_usd_bn: null
+    measure: not_quantified
+    timing: n/a
+    counterparty: customers and partners building data centers
+    trigger: shortages of land, power, shell, capital
+    quote: "any shortage of these or other necessary resources could impact our future revenue and financial performance"
+    mechanism: the transmission chain itself, as stated by NVIDIA
+  - id: X11
+    filing: 10K_2026-02-25
+    section: Note (concentration of credit risk)
+    category: customer_concentration
+    family: operational
+    amount_usd_bn: null
+    measure: not_quantified
+    timing: as of 2026-01-25
+    counterparty: three direct customers (not named)
+    trigger: n/a
+    quote: "Three direct customers accounted for 25 %, 18 %, and 13 % of our accounts receivable balance"
+    mechanism: deployment delays at a few large customers move a large share of receivables and orders

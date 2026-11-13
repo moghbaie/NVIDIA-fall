@@ -30,11 +30,66 @@ events:
     sources:
       - https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition/
       - https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm
-    verified: yes   # 8-K accepted 08:52 ET (pre-market); CNBC reported the board decision the prior evening, so earliest public time may be 2026-11-11 after close. Either way the event session is 2026-11-12.
+    verified: yes   # 8-K accepted 08:52 ET (pre-market); CNBC reported the board decision the prior evening, so earliest public time may be 2026-11-11 after close. Either way the event session is 2026-11-12. Step 1(f): TipRanks 06:40 ET on 2026-11-12 already reported possible removal and AMD/AVGO premarket gains, so first public time is before 08:52 ET; event session unchanged.
+# Step 1(a)/(b), 2026-11-13. Release times = SEC EDGAR 8-K acceptance (America/New_York);
+# reaction session via the 16:00 rule. Causes from secondary sources are attributed, not established.
+sec_releases:
+  - {firm: META, accepted: "2026-10-21 16:03", items: "2.02", reaction_session: 2026-10-22, note: "Q3 results"}
+  - {firm: GOOGL, accepted: "2026-10-28 16:01", items: "2.02", reaction_session: 2026-10-29, note: "Q3 results; same session as E0"}
+  - {firm: MSFT, accepted: "2026-10-28 16:04", items: "2.02", reaction_session: 2026-10-29, note: "FQ1 results; same session as E0"}
+  - {firm: AMZN, accepted: "2026-10-29 16:05", items: "2.02", reaction_session: 2026-10-30, note: "Q3 results; inside the E0 [-1,+1] window"}
+  - {firm: INTC, accepted: "2026-10-29 16:08", items: "2.02", reaction_session: 2026-10-30, note: "Q3 results; explains INTC AR -29% on Oct 30"}
+  - {firm: MRVL, accepted: "2026-11-02 08:06", items: "2.02", reaction_session: 2026-11-02, note: "results, pre-market"}
+  - {firm: AMD, accepted: "2026-11-03 16:16", items: "2.02", reaction_session: 2026-11-04, note: "Q3 results"}
+  - {firm: QCOM, accepted: "2026-11-04 16:03", items: "2.02", reaction_session: 2026-11-05, note: "FQ4 results; weak guidance (reported)"}
+  - {firm: MSFT, accepted: "2026-11-05 06:01", items: "5.02", reaction_session: 2026-11-05, note: "director (Emma Walmsley) will not stand for re-election; no disagreement stated; immaterial"}
+  - {firm: MRVL, accepted: "2026-11-12 09:11", items: "5.02", reaction_session: 2026-11-12, note: "three independent directors added (board 7 -> 10); routine, not an officer change"}
 confounders:
-  - date: 2026-11-05
-    description: Broad semiconductor selloff (ex-NVDA basket -14.6%, SPY -4.5%, VIX 28.2). Cause not yet identified.
+  - date: 2026-11-03
+    description: >
+      US midterm elections; reporting links the following chip selloff partly to post-election
+      worries about data-center spending and AI regulation (attributed, secondary sources).
   - date: 2026-11-04
-    description: Unexplained NVDA-specific move (exploratory AR -4.9%, z -2.9). To investigate in Step 1.
+    description: NVDA AR -4.9% (exploratory); AMD results (Nov 3 after close) react in this session.
+  - date: 2026-11-05
+    description: >
+      Broad semiconductor selloff (SOX about -9% to -12% depending on source; ex-NVDA basket -14.6%,
+      SPY -4.5%, VIX 28.2). Reported drivers: Qualcomm weak guidance (Nov 4 after close), Arm
+      results, memory shortage, doubts about AI capex financing, post-election worries. No source
+      found linking it to the Oct 29 NVIDIA report (searched 2026-11-13; absence of evidence, not
+      proof). Provisional reading: stress at E1 is pre-existing, not caused by the leadership news.
   - date: 2026-11-17
     description: NVIDIA Q3 FY2027 earnings, ~13:20 PT. Windows beyond this are confounded.
+# Step 1(f), 2026-11-13: own news of the H6 G1 competitors in the E2 session (2026-11-12).
+# Searched: press releases, 8-Ks, analyst actions, products, contracts, credible press. Attribution is
+# as reported by the cited outlets. endogenous = the item itself cites NVIDIA's leadership news.
+peer_contamination_e2:
+  - ticker: AMD
+    status: CONTAMINATED
+    items:
+      - "William Blair upgrade to Outperform before the open (reported 06:40 ET); same note cut NVDA, citing NVIDIA leadership uncertainty (endogenous), Intel supply problems and AMD valuation (own)"
+      - "run-up: +7.3% on 2026-11-11 (Anthropic filing showing a USD 2.5B AMD placement, Goldman top pick); Oppenheimer upgrade 2026-11-09"
+    sources:
+      - https://www.tipranks.com/news/why-ai-chip-stocks-amd-and-broadcom-are-rising-in-premarket-today-november-12
+      - https://finance.yahoo.com/markets/article/amd-broadcom-stocks-jump-as-nvidia-ceo-jensen-huang-resigns-143725561.html
+  - ticker: AVGO
+    status: UNCLEAR
+    items:
+      - "no press release or filing 2026-11-11 after close or 2026-11-12 found"
+      - "Anthropic placement (~USD 1B) and Goldman top pick on 2026-11-10/11, before the window"
+      - "KeyBanc note on an Anthropic design win, date unknown: same-day analyst news cannot be excluded"
+    sources:
+      - https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announce-fourth-quarter-and-fiscal-year-2026
+      - https://coincodex.com/article/95374/broadcom-stock-gains-17-in-a-week-as-nvidia-sell-off-sends-investors-looking-for-ai-alternatives/
+  - ticker: MRVL
+    status: CLEAN
+    items:
+      - "8-K 5.02 accepted 09:11 ET: three independent directors added; routine"
+    sources:
+      - https://www.sec.gov/Archives/edgar/data/1835632/000183563226000026/mrvl-20261111.htm
+  - ticker: INTC
+    status: CONTAMINATED
+    items:
+      - "Bank of America price-target cut to USD 80 from 100 on 2026-11-12; MarketBeat ties the mid-day drop to it"
+    sources:
+      - https://www.marketbeat.com/instant-alerts/price-intel-nasdaq-intc-stock-falls-21-on-analyst-downgrade-2026-11-12/

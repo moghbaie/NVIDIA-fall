@@ -6,7 +6,7 @@ h6_groups:   # fixed from NVIDIA FY2026 10-K, accession 0001045810-26-000021, ac
   G1_extended: [QCOM, ANET, CSCO, HPE, LITE, AMBA]   # named in other segments; sensitivity
   G2_suppliers: [TSM, MU, FN]                    # named foundry / memory / assembly
   G2_foreign_sensitivity: ["000660.KS", "2317.TW", "3231.TW"]   # SK Hynix, Hon Hai, Wistron
-  G3_other_semis: [TXN, ADI, NXPI, ON, MCHP, AMKR, ASML, AMAT, LRCX, KLAC]   # named in neither list
+  G3_other_semis: [TXN, ADI, NXPI, "ON", MCHP, AMKR, ASML, AMAT, LRCX, KLAC]   # named in neither list
   G4_cloud_customers: [MSFT, AMZN, GOOGL, META, ORCL]   # customers and in-house chip competitors
   excluded: ["005930.KS"]                        # Samsung: both supplier and competitor
 nvda_benchmark:

@@ -1,0 +1,19 @@
+# Point-in-time policy per FRED series (Step 1e). Checked empirically in scripts/step1e_market_data.py.
+#   vintage           : value as first published in ALFRED; usable from the first NYSE session strictly
+#                       after realtime_start. Observations before the first archived vintage are NOT
+#                       point-in-time (unavailable for confirmatory use).
+#   market_unrevised  : daily market quote that is essentially never revised. Usable from the first NYSE
+#                       session strictly after the observation date (one-session lag). Valid only while the
+#                       vintage-era revision share stays below max_revised_share; otherwise the check FAILs.
+# ALFRED rows published before their own observation date (holiday placeholders) are dropped.
+series:
+  STLFSI4:
+    policy: vintage
+    note: >
+      Re-estimated weekly (99.8% of values revised after first release); first ALFRED vintage
+      2022-11-10. Values before then are later back-casts: not usable point-in-time for panel events
+      before 2022-11. Usable for the NVIDIA 2026 case only.
+  BAA10Y: {policy: market_unrevised, max_revised_share: 0.005}
+  DGS2: {policy: market_unrevised, max_revised_share: 0.005}
+  DGS10: {policy: market_unrevised, max_revised_share: 0.005}
+  VIXCLS: {policy: market_unrevised, max_revised_share: 0.005}

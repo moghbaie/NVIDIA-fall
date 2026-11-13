@@ -1,11 +1,13 @@
-# CLAUDE.md — State-Dependent Shock Amplification (NVIDIA fall)
+# CLAUDE.md — Before the Headline (NVIDIA fall)
 
-Research code: does a firm-specific governance shock (CEO misconduct / dismissal) move the stock
-more when market, sector and power-sector stress are already high? Applied to NVIDIA's Oct–Nov 2026
-disclosure sequence, tested on a cross-firm panel of CEO departures.
+Research code (plans v1.9): how much of NVIDIA's Oct–Nov 2026 stock decline is consistent with
+independently observable non-leadership factors (pre-existing exposures, political/regulatory news,
+market and sector repricing), and does a material leadership-associated return remain? Primary
+analysis N1 is exploratory with frozen rules (written after the returns were seen). Secondary
+statistical study: a cross-firm panel of CEO departures (H1a/H1b, leadership concentration).
 
 Plans: `PLAN.md` (execution plan, steps and gates), `state_dependent_shock_amplification_research_plan.md`
-(research design, hypotheses H1–H5), `nvidia_shock_amplification_colab_implementation_plan.md`
+(research design; v1.9 numbering N1–N4 / H1a, H1b, H4–H6), `nvidia_shock_amplification_colab_implementation_plan.md`
 (stages, schemas, tests). Progress and decisions: `reports/progress.md`, `reports/decision_log.md`.
 
 ## Non-negotiable rules
@@ -64,9 +66,11 @@ the plans, rewrite only the affected code, and keep `tests/test_no_leakage.py` p
   | Gentry et al. departure coding | event | event characteristic; must be codable from announcement-day information |
   | Exchange calendar | any | always (deterministic) |
 
-- **Locked confirmatory test.** `configs/preregistration.yaml` is frozen (after user sign-off) before
-  any H1 estimate is computed. Later changes go in `reports/decision_log.md` and mark affected
-  results exploratory. The NVIDIA sequence is an application of the frozen model, not a tuning set.
+- **Frozen rules.** `configs/preregistration.yaml` fixes the NVIDIA attribution rules
+  (`nvidia_attribution`, frozen at the user's v1.9 sign-off, exploratory) and the panel test
+  (`panel_*`, frozen after Step 4b, before any H1a/H1b estimate). Later changes go in
+  `reports/decision_log.md` and mark affected results exploratory. Each step or model is reported
+  with data and figures before the next one starts.
 - **Power and Utilities Stress Index (PUSI).** Financial (PUSI-F) and physical (PUSI-P) families
   stay separate; PUSI-X (projections) is context only, never a model input. Rising utility prices are
   not assumed to mean stress. Incremental value is judged only by walk-forward M0–M3 comparisons and

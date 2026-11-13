@@ -1,0 +1,13 @@
+{
+  "frozen": {
+    "inventory": "news_inventory.yaml",
+    "sha256": "a1ab73d3f405c03905ddad9abef1e30f9591780a854166cdf258c3b8d9634ddd",
+    "n_items": 31,
+    "frozen_at_utc": "2026-11-13T18:45:27.527602+00:00"
+  },
+  "n_items": 31,
+  "nvda_verdicts": {
+    "no detectable reaction": 30,
+    "consistent": 1
+  }
+}

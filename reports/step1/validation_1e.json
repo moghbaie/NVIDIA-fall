@@ -1,0 +1,834 @@
+{
+  "step": "1e",
+  "generated_utc": "2026-11-13T18:33:04.082815+00:00",
+  "snapshot_last_session": "2026-11-12",
+  "summary": {
+    "PASS": 41,
+    "WARN": 1
+  },
+  "gate": "PASS",
+  "checks": [
+    {
+      "item": "NYSE calendar",
+      "classification": "calendar",
+      "status": "PASS",
+      "source": "exchange_calendars XNYS",
+      "availability": "deterministic",
+      "detail": "5753 complete sessions 2004-01-02..2026-11-12; 46 early closes in range"
+    },
+    {
+      "item": "price ADI",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price AMAT",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price AMBA",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2012-10-10..2026-11-12, rows 3543, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price AMD",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price AMKR",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price AMZN",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price ANET",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2014-06-06..2026-11-12, rows 3129, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "item": "price ASML",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price AVGO",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2009-08-06..2026-11-12, rows 4345, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price CSCO",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price FN",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2010-06-25..2026-11-12, rows 4122, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price GOOGL",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-08-19..2026-11-12, rows 5595, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "item": "price HPE",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2015-10-19..2026-11-12, rows 2784, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "item": "price INTC",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price KLAC",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price LITE",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2015-07-23..2026-11-12, rows 2845, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price LRCX",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price MCHP",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price META",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2012-05-18..2026-11-12, rows 3643, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price MRVL",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "item": "price MSFT",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price MU",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price NVDA",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 4"
+    },
+    {
+      "item": "price NXPI",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2010-08-06..2026-11-12, rows 4093, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price ON",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price ORCL",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price QCOM",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "item": "price QQQ",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price SPY",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price TSM",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 4"
+    },
+    {
+      "item": "price TXN",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "price ^VIX",
+      "classification": "market price",
+      "status": "WARN",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5755, missing sessions 0, non-session rows 2, splits 0"
+    },
+    {
+      "item": "price ^VXN",
+      "classification": "market price",
+      "status": "PASS",
+      "source": "Yahoo via yfinance (prototype source)",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "detail": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "item": "ALFRED STLFSI4",
+      "classification": "macro series (vintage)",
+      "status": "PASS",
+      "source": "FRED/ALFRED API",
+      "availability": "session after realtime_start (one-session lag; vintage dates carry no intraday time)",
+      "detail": "first vintage 2022-11-10; vintage-era share revised after first release 99.0%; holiday placeholders dropped 0; first usable session since 2005: 2022-11-11; look-ahead violations 0"
+    },
+    {
+      "item": "ALFRED BAA10Y",
+      "classification": "macro series (market_unrevised)",
+      "status": "PASS",
+      "source": "FRED/ALFRED API",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "detail": "first vintage 2014-01-27; vintage-era share revised after first release 0.4%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "item": "ALFRED DGS2",
+      "classification": "macro series (market_unrevised)",
+      "status": "PASS",
+      "source": "FRED/ALFRED API",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "detail": "first vintage 2005-06-28; vintage-era share revised after first release 0.0%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "item": "ALFRED DGS10",
+      "classification": "macro series (market_unrevised)",
+      "status": "PASS",
+      "source": "FRED/ALFRED API",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "detail": "first vintage 2005-06-28; vintage-era share revised after first release 0.1%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "item": "ALFRED VIXCLS",
+      "classification": "macro series (market_unrevised)",
+      "status": "PASS",
+      "source": "FRED/ALFRED API",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "detail": "first vintage 2010-11-22; vintage-era share revised after first release 0.0%; holiday placeholders dropped 32; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "item": "cache reproducibility",
+      "classification": "reproducibility",
+      "status": "PASS",
+      "source": "data/raw cache",
+      "availability": "n/a",
+      "detail": "33/33 price hashes identical on a second pass from the cache"
+    },
+    {
+      "item": "reproduce Step 0 NVDA daily ARs",
+      "classification": "reproducibility",
+      "status": "PASS",
+      "source": "cached snapshot vs reports/step0",
+      "availability": "n/a",
+      "detail": "max |diff| 0.000 pp over 21 sessions (Step 0 used yfinance auto-adjusted closes pulled earlier the same day)"
+    },
+    {
+      "item": "reproduce Step 0c NVDA CARs",
+      "classification": "reproducibility",
+      "status": "PASS",
+      "source": "cached snapshot vs reports/step0c",
+      "availability": "n/a",
+      "detail": "max |diff| 0.000 pp, 9 benchmark x event cells"
+    }
+  ],
+  "manifest": [
+    {
+      "source": "yahoo",
+      "key": "ADI_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/ADI_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "ADI",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:00.328887+00:00",
+      "rows": 5753,
+      "sha256": "bfd149b0a7dbc04cb21614d9c5642a0e4dac4e1ef1deb895796ef2fd402ee57f"
+    },
+    {
+      "source": "yahoo",
+      "key": "AMAT_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AMAT_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AMAT",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:00.586991+00:00",
+      "rows": 5753,
+      "sha256": "818ad9d3f45179c30707e1289ebf50cb6633a5ddf00496e476c3aa3c74952a58"
+    },
+    {
+      "source": "yahoo",
+      "key": "AMBA_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AMBA_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AMBA",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:00.855886+00:00",
+      "rows": 3543,
+      "sha256": "95bfb32685d7e009fb594fc45828a6f0c1a0c90a1721da523c1826832352382b"
+    },
+    {
+      "source": "yahoo",
+      "key": "AMD_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AMD_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AMD",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:01.105279+00:00",
+      "rows": 5753,
+      "sha256": "011624eb4ebc1cdde86acf5227c6f8c262af1493f4f49d0f7a0d04b831ebb3b8"
+    },
+    {
+      "source": "yahoo",
+      "key": "AMKR_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AMKR_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AMKR",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:01.409886+00:00",
+      "rows": 5753,
+      "sha256": "cc7902752cbfe44ab00c4c80570f688416c177b461e71fd93745811f0f10095d"
+    },
+    {
+      "source": "yahoo",
+      "key": "AMZN_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AMZN_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AMZN",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:01.664782+00:00",
+      "rows": 5753,
+      "sha256": "73c67ce9762f1b6ef98660f5c0282e138b2e2b98b03de69295b7d722af4a78ea"
+    },
+    {
+      "source": "yahoo",
+      "key": "ANET_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/ANET_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "ANET",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:01.926405+00:00",
+      "rows": 3129,
+      "sha256": "fe95c1d045389bd28428bbc07f98c1eb2c254107be206a28b9bd9dec57354579"
+    },
+    {
+      "source": "yahoo",
+      "key": "ASML_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/ASML_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "ASML",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:02.243214+00:00",
+      "rows": 5753,
+      "sha256": "eda0c1f9194f9f50e9700b008cfeb664f38c2f4cb6e569242fa4c2f4a48f1e66"
+    },
+    {
+      "source": "yahoo",
+      "key": "AVGO_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/AVGO_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "AVGO",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:02.497514+00:00",
+      "rows": 4345,
+      "sha256": "36d40d319fc0d497859c6da7762fb8ab0622f7e7e1a9027e35219ce55cfc1296"
+    },
+    {
+      "source": "yahoo",
+      "key": "CSCO_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/CSCO_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "CSCO",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:02.820708+00:00",
+      "rows": 5753,
+      "sha256": "11040135f54612d9ef3023b5bbf8d1fc095bf22b641a39ad3dc3a2d3cb1abf4f"
+    },
+    {
+      "source": "yahoo",
+      "key": "FN_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/FN_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "FN",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:03.031349+00:00",
+      "rows": 4122,
+      "sha256": "6185a06a2d3b9a25501a2cf6dba888b76d4bc44b082b9ffeef1e0c6ae3dfb6be"
+    },
+    {
+      "source": "yahoo",
+      "key": "GOOGL_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/GOOGL_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "GOOGL",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:03.276065+00:00",
+      "rows": 5595,
+      "sha256": "59f9c7fecabc997f3bb2c8c08091de071b667a0ebbe946a149854c6d81c683d3"
+    },
+    {
+      "source": "yahoo",
+      "key": "HPE_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/HPE_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "HPE",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:03.591092+00:00",
+      "rows": 2784,
+      "sha256": "99b849f6ad7929f444444c2f2211fd61aecd2eee6ccf24ec7d903c1816a9e31c"
+    },
+    {
+      "source": "yahoo",
+      "key": "INTC_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/INTC_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "INTC",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:03.877042+00:00",
+      "rows": 5753,
+      "sha256": "41448c830929d7816f7796bc422b158af3b733a5eb72c0a9a23e14dab6753137"
+    },
+    {
+      "source": "yahoo",
+      "key": "KLAC_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/KLAC_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "KLAC",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:04.163011+00:00",
+      "rows": 5753,
+      "sha256": "42a9e6e4c2225a152a17aaaaa411434916e7f9295103c740deb86c5c9399cc52"
+    },
+    {
+      "source": "yahoo",
+      "key": "LITE_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/LITE_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "LITE",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:04.401926+00:00",
+      "rows": 2845,
+      "sha256": "7c0ba60c1bc732c30ae8e61988416b688cfa75d0e679e881a7222769c1917e10"
+    },
+    {
+      "source": "yahoo",
+      "key": "LRCX_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/LRCX_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "LRCX",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:04.640111+00:00",
+      "rows": 5753,
+      "sha256": "1c387875fb64276148dd91703e967cf41e146d5712a830e7cad46043e3b3bc65"
+    },
+    {
+      "source": "yahoo",
+      "key": "MCHP_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/MCHP_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "MCHP",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:04.959424+00:00",
+      "rows": 5753,
+      "sha256": "763f0da9dd5166c9a0502b54318cc0345e38bdb2ee83f062edfeea27b5820025"
+    },
+    {
+      "source": "yahoo",
+      "key": "META_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/META_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "META",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:05.285117+00:00",
+      "rows": 3643,
+      "sha256": "f83461c41f9843b07ccadead76593f3d7bec6254dd6d3f825534a4b4d6398f73"
+    },
+    {
+      "source": "yahoo",
+      "key": "MRVL_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/MRVL_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "MRVL",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:05.531903+00:00",
+      "rows": 5753,
+      "sha256": "4fa0a4b25d44c32ae58f8f14d69d98c4cb40455e9a54e527e6ff282b2b6013fd"
+    },
+    {
+      "source": "yahoo",
+      "key": "MSFT_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/MSFT_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "MSFT",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:05.793649+00:00",
+      "rows": 5753,
+      "sha256": "714a9991442d4f38a552b983b432f846344ff2f92d61e7ac69584b1a41e43b66"
+    },
+    {
+      "source": "yahoo",
+      "key": "MU_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/MU_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "MU",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:06.069387+00:00",
+      "rows": 5753,
+      "sha256": "c5b9814689ec9ec56392302054471e5023627cf9f9f84395165b074ff8f76f60"
+    },
+    {
+      "source": "yahoo",
+      "key": "NVDA_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/NVDA_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "NVDA",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:06.356602+00:00",
+      "rows": 5753,
+      "sha256": "a3c9ae6b99a62e2409954768aeec6db1b835833b84548872b4d0641e10e93232"
+    },
+    {
+      "source": "yahoo",
+      "key": "NXPI_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/NXPI_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "NXPI",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:06.588042+00:00",
+      "rows": 4093,
+      "sha256": "925846bd4b0c3ce0f96488c33640fed616e0204c32031fd3da494dd81d7c86a2"
+    },
+    {
+      "source": "yahoo",
+      "key": "ON_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/ON_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "ON",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:06.780562+00:00",
+      "rows": 5753,
+      "sha256": "83813a19dc7db042276f941c4fd68f530d45bf903f677775a90d8ec3f4358336"
+    },
+    {
+      "source": "yahoo",
+      "key": "ORCL_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/ORCL_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "ORCL",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:07.122143+00:00",
+      "rows": 5753,
+      "sha256": "63dc57065d2e588735eac25891e3d7b9c0f67ce4e30505e95f28e894d1f724b9"
+    },
+    {
+      "source": "yahoo",
+      "key": "QCOM_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/QCOM_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "QCOM",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:07.396370+00:00",
+      "rows": 5753,
+      "sha256": "34ed12d70c51ef7888ccf9781876e19676654875d08886ad2eb2bf36ee13f28b"
+    },
+    {
+      "source": "yahoo",
+      "key": "QQQ_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/QQQ_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "QQQ",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:07.710157+00:00",
+      "rows": 5753,
+      "sha256": "1bb7b7e36af238b745b153607f81f1aec0331c02c52285b6357a60fed90a1352"
+    },
+    {
+      "source": "yahoo",
+      "key": "SPY_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/SPY_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "SPY",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:08.028437+00:00",
+      "rows": 5753,
+      "sha256": "8e4b8714f21a3e26c9a4dc3d2aa7d2dcb9aa271d10c7ae436471e15a9ced8de1"
+    },
+    {
+      "source": "yahoo",
+      "key": "TSM_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/TSM_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "TSM",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:08.331095+00:00",
+      "rows": 5753,
+      "sha256": "e88e6e90278dc4c6c29891c6690e4940355de64ca274d92ffa91506b76c8fe30"
+    },
+    {
+      "source": "yahoo",
+      "key": "TXN_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/TXN_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "TXN",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:08.671295+00:00",
+      "rows": 5753,
+      "sha256": "109efb20ee68d4461dbebecd9842782b879b150f1833a79bf1b3edf92aba203a"
+    },
+    {
+      "source": "yahoo",
+      "key": "^VIX_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/_VIX_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "^VIX",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:08.939927+00:00",
+      "rows": 5755,
+      "sha256": "438c2ce8a195d17769efc8a67b476933ded698feb6dee3522d3b74abd993b845"
+    },
+    {
+      "source": "yahoo",
+      "key": "^VXN_2004-01-01_2026-11-13",
+      "path": "data/raw/yahoo/_VXN_2004-01-01_2026-11-13.parquet",
+      "params": {
+        "ticker": "^VXN",
+        "start": "2004-01-01",
+        "end": "2026-11-13"
+      },
+      "retrieved_at_utc": "2026-11-13T18:28:09.196242+00:00",
+      "rows": 5753,
+      "sha256": "7691f33ecfcfc74af465b0f7b1ecb36444d93c03994dd417a6ebe92d6e4f0d1e"
+    },
+    {
+      "source": "alfred",
+      "key": "STLFSI4",
+      "path": "data/raw/alfred/STLFSI4.parquet",
+      "params": {
+        "series_id": "STLFSI4"
+      },
+      "retrieved_at_utc": "2026-11-13T18:29:28.216592+00:00",
+      "rows": 321526,
+      "sha256": "1522321deabaf353b7a71ebd15f7a3fd79004b9a0b77c5c70bf64ffa4478ed19"
+    },
+    {
+      "source": "alfred",
+      "key": "BAA10Y",
+      "path": "data/raw/alfred/BAA10Y.parquet",
+      "params": {
+        "series_id": "BAA10Y"
+      },
+      "retrieved_at_utc": "2026-11-13T18:29:43.569493+00:00",
+      "rows": 20149,
+      "sha256": "3bd40c0254cc94019e040d96757549cb8cf04ce8f89007f8422d7a3e3a72e65f"
+    },
+    {
+      "source": "alfred",
+      "key": "DGS2",
+      "path": "data/raw/alfred/DGS2.parquet",
+      "params": {
+        "series_id": "DGS2"
+      },
+      "retrieved_at_utc": "2026-11-13T18:29:47.470397+00:00",
+      "rows": 34633,
+      "sha256": "6966e7a07840557bc8b4bcee6840b74283e8d752f2907fa56e4fecb70c14d4d5"
+    },
+    {
+      "source": "alfred",
+      "key": "DGS10",
+      "path": "data/raw/alfred/DGS10.parquet",
+      "params": {
+        "series_id": "DGS10"
+      },
+      "retrieved_at_utc": "2026-11-13T18:29:55.239730+00:00",
+      "rows": 45913,
+      "sha256": "76033ada49124d31268109fa5637ba9ab0a2b74a608c2355c153430887adcf1c"
+    },
+    {
+      "source": "alfred",
+      "key": "VIXCLS",
+      "path": "data/raw/alfred/VIXCLS.parquet",
+      "params": {
+        "series_id": "VIXCLS"
+      },
+      "retrieved_at_utc": "2026-11-13T18:29:58.498865+00:00",
+      "rows": 26529,
+      "sha256": "371030aa23dd5daab3cac7912204641b0926405f6d2678845ea7980bf2766cde"
+    }
+  ]
+}

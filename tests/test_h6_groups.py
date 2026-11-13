@@ -30,3 +30,11 @@ def test_nvda_primary_benchmark_excludes_competitors_and_suppliers() -> None:
     tickers = {t for b in bench for t in (g[b] if b in g else [b])}
     outcome = set(g["G1_competitors"]) | set(g["G1_extended"]) | set(g["G2_suppliers"])
     assert not tickers & outcome
+
+
+def test_all_tickers_are_strings() -> None:
+    """YAML 1.1 parses bare ON / YES / NO as booleans; every ticker must stay a string."""
+    g = _cfg()["h6_groups"]
+    for k, v in g.items():
+        if isinstance(v, list):
+            assert all(isinstance(t, str) for t in v), f"{k} has a non-string ticker: {v}"

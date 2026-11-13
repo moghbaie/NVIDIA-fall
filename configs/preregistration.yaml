@@ -1,40 +1,64 @@
-# DRAFT preregistration v1.8. Binds the cross-firm PANEL analysis, whose outcomes are unseen.
-# The NVIDIA case outcome was inspected on 2026-11-13 (exploratory); see PLAN.md D9.
+# DRAFT preregistration v1.9.
+# PRIMARY: NVIDIA attribution (N1, block `nvidia_attribution`). Specified 2026-11-13 AFTER NVIDIA's
+#   Oct-Nov returns were seen (PLAN.md D9, D28): exploratory with frozen rules, never confirmatory,
+#   never exact causal percentages. Any change after this version is a logged deviation.
+# SECONDARY statistical study: the cross-firm CEO-departure panel (H1a/H1b, blocks panel_*),
+#   whose outcomes are unseen; unchanged from v1.8 apart from key names.
 # spec_card is the single source of truth; PLAN.md and both reference plans carry an identical
 # card, checked by tests/test_plan_consistency.py.
-status: draft            # -> frozen after the Step 4b outcome-blind power re-run and user sign-off
+status: draft            # nvidia_attribution frozen at user sign-off of v1.9; panel_* frozen after Step 4b
 as_of: 2026-11-13
-version: "1.8"
+version: "1.9"
 
 spec_card:
-  version: "1.8"
-  primary_hypothesis: H1
-  outcome: "CAR[-1,+1]"
-  primary_moderator: leadership_concentration
-  primary_terms: ["performance:LC", "misconduct:LC"]
-  term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
-  baseline: voluntary
-  direction: negative
-  adjustment: holm
-  family_alpha: 0.05
-  fixed_effects: event_month
-  sample_period: ["2005-01-01", "2025-12-31"]
-  moderator_lag_sessions: 30
-  coverage_gate: {overall: 0.80, misconduct: 0.70}
-  coverage_gate_failure: halt_and_decide_outcome_blind
-  freeze_gate: step_4b
+  version: "1.9"
+  title: "Before the Headline: Pre-existing Exposure, Sector Shocks and Leadership News in NVIDIA's 2026 Decline"
+  primary_hypothesis: N1
+  primary_status: exploratory_frozen_rules_specified_after_outcome_seen
+  causal_share_claims: false
+  nvidia_cutoff: "2026-10-28 close"
+  nvidia_window: ["2026-10-29", "2026-11-16"]
+  nvidia_window_sessions: 13
+  counterfactuals_required: [A, B1, B2, B3, B4]
+  b_factors: {B1: [SPY, G3], B2: [SPY, dVIX, dDGS10, dBAA10Y], B3: [SPY], B4: [SPY, G3, G4]}
+  session_categories: [L, P, X, LP, LX, PX, N]
+  mixed_sessions: unresolved_never_assigned_to_leadership
+  leadership_scenarios: [leadership_only, leadership_inclusive_overlap]
+  inference: empirical_placebo_same_session_arrangement
+  placebo_primary: non_overlapping_13_session_blocks_fixed_offset
+  placebo_sensitivity: [all_origins_dependence_aware, regime_matched, excl_earnings_and_extraordinary_announcements, peer_firms]
+  interval_label: model_dependent_uncertainty_interval
+  equivalence_margin: median_abs_placebo_sum_leadership_arrangement
+  validation_gate: {b_band90_coverage: [0.80, 0.97], a_pit_ks_p_min: 0.05}
+  nvidia_families: [financial, leadership, operational, resource_deployment, political_regulatory]
+  nvidia_combined_score: false
+  secondary_study: ceo_departure_panel
+  panel_hypotheses: [H1a, H1b]
+  panel_outcome: "CAR[-1,+1]"
+  panel_moderator: leadership_concentration
+  panel_terms: ["performance:LC", "misconduct:LC"]
+  panel_term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
+  panel_baseline: voluntary
+  panel_direction: negative
+  panel_adjustment: holm
+  panel_family_alpha: 0.05
+  panel_fixed_effects: event_month
+  panel_sample_period: ["2005-01-01", "2025-12-31"]
+  panel_moderator_lag_sessions: 30
+  panel_coverage_gate: {overall: 0.80, misconduct: 0.70}
+  panel_coverage_gate_failure: halt_and_decide_outcome_blind
+  panel_freeze_gate: step_4b
   session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
   event_time: earliest_public_source
   date_only_window_start: -1
-  nvidia_families: [financial, leadership, operational, resource_deployment]
-  nvidia_combined_score: false
-  nvidia_pre_e0_counterfactual: required
 
 unit: trading_session
 exchange_tz: America/New_York
 
-primary_hypothesis: H1
-primary_estimand: >
+primary_hypothesis: N1   # see nvidia_attribution
+
+panel_hypotheses: [H1a, H1b]   # secondary statistical study
+panel_estimand: >
   In CAR[-1,+1] ~ C(type) * LC + C(type) * idio_vol + controls + event-month FE (voluntary =
   baseline): d_P = performance x LC and d_M = misconduct x LC, the extra CAR (log points) relative
   to a voluntary departure per one SD of pre-existing leadership concentration (LC). Prediction: < 0.
@@ -42,7 +66,7 @@ primary_estimand: >
   H1a adverse-news amplification = misconduct x LC; H1b attenuated replacement benefit =
   performance x LC (a performance dismissal can be good news; a negative term there means the
   benefit of replacing the CEO is smaller, not that bad news is amplified).
-primary_tests:          # machine-readable; tests/test_prereg.py checks it
+panel_tests:            # machine-readable; tests/test_prereg.py checks it
   model: "CAR[-1,+1] ~ C(type, Treatment('voluntary')) * LC + C(type) * idio_vol + controls + C(event_month)"
   baseline: voluntary
   terms: ["performance:LC", "misconduct:LC"]
@@ -52,17 +76,17 @@ primary_tests:          # machine-readable; tests/test_prereg.py checks it
   se: cluster_event_month
 
 vulnerability:
-  leadership:           # PRIMARY: leadership concentration (LC); called 'vulnerability' only if validated (PLAN.md D27)
+  leadership:           # panel moderator: leadership concentration (LC); called 'vulnerability' only if validated (PLAN.md D27)
     measured_from: latest DEF 14A / 10-K accepted before session T-30 (structural measure)
     components:
       founder_ceo: CEO is a founder or co-founder (proxy biography; hand-verified sample)            # founder dependence
       no_designated_successor: no executive other than the CEO holds a President or COO title    # succession readiness
       ceo_chair_duality: CEO is also chair of the board                                           # governance concentration
     score: LC = z-score of the equal-weight mean of the three binary components (weights fixed now; components reported separately)
-    missing: event leaves the primary sample if any component is missing
+    missing: event leaves the panel's main sample if any component is missing
     coverage_gate: >
       decided at Step 2, before any CAR is computed: LC must be available for >= 80% of price-matched
-      primary events and >= 70% of matched misconduct events. If the gate fails, H1 halts; there is no
+      main-sample events and >= 70% of matched misconduct events. If the gate fails, H1 halts; there is no
       automatic fallback. Options are put to the user, still outcome-blind, and the choice is logged.
     shock_size_rule: >
       founder_ceo also measures how central the departing CEO is (size of the shock, not only the
@@ -112,7 +136,7 @@ outcomes:              # resilience measures (PLAN.md D17)
   R2_sample: full            # PLAN.md D22; competing_event recorded, never a control unless scheduled
   R2_sensitivity: [uncontaminated_subsample, censor_at_first_competing_event]
   R3: sessions until CAR[-1,k] >= 0, sustained 3 sessions, censored at +120   # H4
-primary_outcome_window: [-1, 1]
+panel_outcome_window: [-1, 1]
 secondary_windows:
   all_events: [[-1, 5], [-1, 10]]
   time_known_only: [[0, 1], [0, 5]]   # windows starting at 0 need a known time of day
@@ -163,17 +187,22 @@ sample:
     - confounding earnings release within [-1,+1]
     - missing estimation window
     - M&A-driven departures (code 7)
-    - any LC component missing (primary only)
+    - any LC component missing (panel main sample only)
 
-nvidia:                 # descriptive; not part of the confirmatory test (PLAN.md D9, D26)
-  families_required: [financial, leadership, operational, resource_deployment]
+nvidia:                 # N2 profile and panel consistency check (PLAN.md D9, D26, D28)
+  families_required: [financial, leadership, operational, resource_deployment, political_regulatory]
+  family_assessment: >
+    each family separately, from documents dated before E0; each indicator graded increased /
+    stable / decreased / not_assessable against NVIDIA's earlier filings and, where comparable,
+    peers. No thresholds on beta or volatility (market descriptors, not vulnerability).
   combined_score: none until a defensible weighting method exists
-  resource_deployment_sources: [NVIDIA 10-Q 2026-08-26 (land/power/shell guarantees; $56B commitments),
+  resource_deployment_sources: [NVIDIA 10-Q 2026-08-26 (typed records in configs/nvda_exposures.yaml),
     hyperscaler earnings releases and 10-Qs (capex, cash flow), dated news on deployment delays]
-  verdict: >
+  panel_consistency_check: >
     whether NVIDIA's CAR per disclosure lies inside the 95% prediction interval of the frozen panel
     model for a misconduct departure at NVIDIA's LC (and LC_ex_founder) at T-30; a consistency check
-  pre_e0_counterfactual:  # REQUIRED (PLAN.md D27). Specified 2026-11-13, after NVIDIA's path was seen;
+  pre_e0_counterfactual:  # v1.8 text kept verbatim; A unchanged; B_conditional = B1 in nvidia_attribution.
+                          # REQUIRED (PLAN.md D27). Specified 2026-11-13, after NVIDIA's path was seen;
                           # fixed by rule here before computation; any change is a logged deviation.
     cutoff: close of 2026-10-28 (last complete session before E0)
     information_set: prices, filings and vintages available at the cutoff; nothing later
@@ -189,3 +218,100 @@ nvidia:                 # descriptive; not part of the confirmatory test (PLAN.m
       residual-bootstrap band.
     freeze: input snapshot hash and code commit recorded in reports/<step>/validation.json
     labels: exploratory (outcome seen before specification)
+
+nvidia_attribution:     # PRIMARY N1 (PLAN.md section 2, D28). Exploratory, frozen rules.
+  question: >
+    To what extent was NVIDIA's October-November 2026 stock decline explained by pre-existing
+    structural vulnerabilities and subsequent external shocks, rather than the reported leadership
+    controversy?
+  objective: >
+    Estimate how much of the decline is consistent with independently observable non-leadership
+    factors, and whether a material additional leadership-associated return remains.
+  contributors: [pre_existing_exposures, political_regulatory, market_and_sector_repricing, leadership_news]
+  N1: >
+    After accounting for counterfactuals B1-B4, a material negative return remains, concentrated on
+    leadership-news sessions. H0: no material leadership-associated residual.
+  cutoff: close of 2026-10-28
+  window: {start: 2026-10-29, end: 2026-11-16, sessions: 13}   # ends before the 2026-11-17 earnings
+  prerequisites:
+    - verify the NYT E0 timestamp; if before the 2026-10-28 close, record contamination of A and B
+    - post-E0 news inventory (2026-10-29 .. 2026-11-16) frozen before session categories are used
+  outcomes: [cum_log_return, cum_log_return_at_E0_E1_E2, max_drawdown_from_cutoff, residual_vs_each_counterfactual, percentile_under_A]
+  benchmarks: {SPY: market, G3: ten unnamed semiconductors, G4: cloud customers}   # no NVDA/G1/G2 member
+  session_categories:
+    L: leadership news only
+    P: political/regulatory only
+    X: business/exposure news only (customer results, capex, financing, deployment)
+    LP: leadership + political (unresolved; never assigned to leadership)
+    LX: leadership + business (unresolved; never assigned to leadership)
+    PX: political + business
+    N: no identified NVIDIA-specific news
+  no_double_counting: each session belongs to one category; category sums add to the total residual
+  estimands:
+    E1_consistent_part: cumulative predicted return R_hat_v and R_hat_v / R per version (not a causal share)
+    E2_additional_return: Delta_v = R - R_hat_v = sum over categories
+    E3_leadership_scenarios:
+      leadership_only: Delta_v[L]
+      leadership_inclusive_overlap: Delta_v[L] + Delta_v[LP] + Delta_v[LX]
+      label: scenarios, not mathematically identified causal bounds
+    E4_economic_size: E3 in pp and USD market value (shares x cutoff price), beside delta and the median absolute earnings-window move; no cutoff
+    E5_unconditional: percentile of R and of the path at E0, E1, E2 under A
+  counterfactuals:
+    A: v1.8 pre_e0_counterfactual.A_unconditional (block bootstrap; EWMA Student-t)
+    B_fit: 252 sessions ending at the cutoff; applied to realized factors; residual-bootstrap band
+    B1: [SPY, G3]
+    B2: [SPY, dVIX, dDGS10, dBAA10Y]      # ALFRED market_unrevised policy
+    B3: [SPY]
+    B4: [SPY, G3, G4]
+    political_regulatory: no independent price factor; handled by categories P / LP
+    limitations: >
+      G3/G4 may react to NVIDIA's leadership news (contagion), so B1/B4 can overstate the
+      non-leadership part; sessions may contain unseen news; B is a conditional prediction, not
+      causal identification. Agreement among versions = low model dependence, not causal confirmation.
+  placebo:
+    construction: >
+      for origin t0, fit version v on the 252 sessions before t0, apply it to the next 13 sessions,
+      and sum residuals at exactly the positions each category occupies in the real window
+      (preserves serial dependence, volatility clustering and the overlap arrangement)
+    primary: {blocks: non_overlapping, length: 13, offset: 2010-01-04, stride: 13, last_block_end_by: 2026-10-28, include: all blocks with complete data}
+    report_eligible_count: true
+    sensitivity:
+      all_origins: overlapping origins; percentile with a block-bootstrap interval (dependence-aware)
+      regime_matched: origins in the same tercile of VIX and NVDA 63-session realized volatility as the cutoff
+      excl_earnings_and_extraordinary: drop blocks containing NVDA 8-K Items 2.02, 1.01, 2.01, 5.02, stock splits or announced acquisitions
+      peer_firms: same procedure on G1 and G3 firms
+    p_value: one-sided (negative), rank of the observed sum among placebo sums
+    interval: 90% model-dependent uncertainty interval [Delta - q95, Delta - q05]; not a causal confidence interval
+    tau: 95th percentile of |placebo total Delta| per version (forecast-error benchmark only)
+    delta_equivalence_margin: >
+      median absolute placebo sum for the leadership-session arrangement, reported numerically; it
+      measures ordinary unexplained price variation, not an independently established economic
+      materiality threshold
+  validation:
+    B_band90_coverage_on_placebo_blocks: [0.80, 0.97]
+    A_pit_uniformity_ks_p_min: 0.05
+    historical_shocks: >
+      also reported on rule-selected blocks: sessions 2010-01-01 .. 2026-08-25 with |G3 AR| or
+      |SPY return| > 3 sigma (sigma from the prior 252 sessions), both directions, plus BIS
+      advanced-computing export-control announcements (Federal Register list built by rule);
+      excluding blocks with NVDA earnings or leadership news and shocks within 13 sessions of the
+      previous one; list frozen before any error is computed
+    failed_version: reported, excluded from verdicts
+  contamination_check: >
+    G3 and G4 placebo-based abnormal returns on L, LP, LX sessions; if significantly negative,
+    B1/B4 leadership estimates are labelled understated and B2/B3 carry the leadership reading
+  report_per_version: [R_hat, Delta_by_category, placebo_p, interval_90, tau, validation_performance]
+  decision_table:
+    not_assessable: fewer than 2 versions pass validation
+    material_leadership_associated: leadership_only < 0 with placebo p <= 0.05 in every validated version, in the primary and regime-matched placebo
+    leadership_associated_overlap_unresolved: only the leadership_inclusive_overlap scenario is significant
+    negligible: 90% intervals of both scenarios inside (-delta, +delta) in every validated version (TOST 5%)
+    inconclusive: neither significant nor equivalent; a non-significant result alone never supports negligible
+    model_dependent: validated versions disagree in sign or significance; no overall label
+    consistent_part_line: within the historical forecast-error range if |Delta_v| <= tau_v in every validated version
+  wording: [exploratory, revised after the outcome was seen, conditional on the models, not a causal share]
+  N3_fundamentals: >
+    fundamental deterioration only if, at the 2026-11-17 report or later: Q3 revenue below USD 105.8B;
+    Q4 guidance below the trajectory implied by the pre-E0 guide; or a disclosed customer
+    cancellation/deferral or reduced top-customer demand. Otherwise valuation decline.
+  N4_spillover: G1 - G3 at E2, contaminated peers excluded (configs/nvda_chronology.yaml peer_contamination_e2)

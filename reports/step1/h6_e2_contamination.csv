@@ -1,0 +1,9 @@
+basket,members,window,basket_CAR_pct,G3_CAR_pct,diff_CAR_pct,diff_z
+G1 all four (Step 0c),"AMD,AVGO,MRVL,INTC",session 0 (Nov 12),2.45,-0.35,2.8,1.38
+G1 all four (Step 0c),"AMD,AVGO,MRVL,INTC","[-1,0] (Nov 11-12)",5.38,1.13,4.25,1.48
+"excl. contaminated (AVGO, MRVL)","AVGO,MRVL",session 0 (Nov 12),2.24,-0.35,2.6,1.04
+"excl. contaminated (AVGO, MRVL)","AVGO,MRVL","[-1,0] (Nov 11-12)",5.15,1.13,4.02,1.14
+clean only (MRVL),MRVL,session 0 (Nov 12),-1.79,-0.35,-1.44,-0.39
+clean only (MRVL),MRVL,"[-1,0] (Nov 11-12)",2.77,1.13,1.65,0.31
+"excl. INTC only (AMD, AVGO, MRVL)","AMD,AVGO,MRVL",session 0 (Nov 12),3.71,-0.35,4.06,1.88
+"excl. INTC only (AMD, AVGO, MRVL)","AMD,AVGO,MRVL","[-1,0] (Nov 11-12)",6.59,1.13,5.46,1.78

@@ -10,3 +10,7 @@ runs/
 .env
 .codegraph/
 .mcp.json
+
+# local secrets (never commit)
+env.secrets
+*.secrets

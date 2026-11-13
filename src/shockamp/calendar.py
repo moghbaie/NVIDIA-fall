@@ -49,8 +49,30 @@ class EventSession:
     time_known: bool  # False -> only a date is known; use a window covering [-1, +1]
 
 
+def nyse_schedule(start: str | pd.Timestamp, end: str | pd.Timestamp) -> pd.DataFrame:
+    """Official NYSE sessions with their scheduled close in UTC (early closes included).
+
+    Source: `exchange_calendars` XNYS. Index = tz-naive session dates; column `close_utc`.
+    """
+    import warnings
+
+    import exchange_calendars as xc  # local import: heavy dependency
+
+    with warnings.catch_warnings():  # third-party pandas-4 deprecation inside exchange_calendars
+        warnings.simplefilter("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", message=".*Series.values returning an ndarray.*")
+        cal = xc.get_calendar("XNYS", start=pd.Timestamp(start), end=pd.Timestamp(end))
+        sched = cal.schedule.loc[pd.Timestamp(start) : pd.Timestamp(end)]
+    out = pd.DataFrame({"close_utc": sched["close"].dt.tz_convert("UTC")})
+    out.index = as_sessions(pd.DatetimeIndex(out.index))
+    return out
+
+
 def map_event(
-    public_at: pd.Timestamp | str, sessions: pd.DatetimeIndex, time_known: bool = True
+    public_at: pd.Timestamp | str,
+    sessions: pd.DatetimeIndex,
+    time_known: bool = True,
+    closes_utc: pd.Series | None = None,
 ) -> EventSession:
     """Map the first-public timestamp of an event to (event session, origin T).
 
@@ -58,6 +80,8 @@ def map_event(
     - tz-aware timestamp on a session date before 16:00 -> that session is the event session
       (pre-market or intraday news moves that session's close).
     - at/after 16:00, or on a non-session day -> next session.
+    - with `closes_utc` (from `nyse_schedule`), the session's actual close is used, so 14:00 ET
+      on a 13:00 early-close day maps to the next session.
     - date-only (time_known=False): event session = first session on/after that date. Callers
       must then use a window that starts at -1 to absorb the timing ambiguity.
     Origin T is always the session immediately before the event session.
@@ -69,7 +93,10 @@ def map_event(
             raise ValueError("time_known=True requires a timezone-aware timestamp")
         local = ts.tz_convert(EXCHANGE_TZ)
         day = local.tz_localize(None).normalize()
-        after_close = local.hour >= CLOSE_HOUR
+        if closes_utc is not None and day in closes_utc.index:
+            after_close = ts.tz_convert("UTC") >= closes_utc.loc[day]  # early closes honoured
+        else:
+            after_close = local.hour >= CLOSE_HOUR
         candidates = sessions[sessions > day] if after_close else sessions[sessions >= day]
     else:
         day = (ts.tz_convert(EXCHANGE_TZ).tz_localize(None) if ts.tz else ts).normalize()

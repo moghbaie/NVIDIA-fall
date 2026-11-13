@@ -51,3 +51,30 @@
   EWMA-t, B factor model on realized SPY and G3) required; specified after NVIDIA's path was seen,
   so labelled exploratory. H1a (misconduct x LC, adverse-news amplification) separated from H1b
   (performance x LC, attenuated replacement benefit); labels fixed by term.
+- 2026-11-13 (Step 1a/b): Nov 4-5 chip selloff attributed (secondary sources, SEC timestamps) to
+  AMD/Qualcomm results, memory shortage, AI-capex doubts and post-midterm worries; no link to the
+  Oct 29 NVIDIA report found, so stress at E1 is treated as pre-existing (provisional). E0 sessions
+  coincide with Alphabet/Microsoft (Oct 29) and Amazon/Intel (Oct 30) results; NVDA AR ~0 on both.
+  Bug fixed: YAML parsed ticker ON as boolean; quoted and tested. env.secrets added to .gitignore.
+- 2026-11-13 (Step 1c-1f): pre-E0 news inventory (31 items) labelled and frozen (sha256 a1ab73d3...,
+  18:45 UTC) before reactions; labels for items dated 2026-10-20 onward are not blind (fig6 seen).
+  Only the two post-earnings sessions fall outside +-1.96 sigma. Overlap bug (same-day SEC releases)
+  fixed after freezing; labels untouched. Step 1(f): AMD and INTC contaminated by own news on
+  2026-11-12, AVGO unclear, MRVL clean; G1 - G3 recomputed (exploratory). Removal reports public by
+  06:40 ET on 2026-11-12; event session unchanged.
+- 2026-11-13 (user decision, AFTER NVIDIA's Oct-Nov returns were seen): plans v1.9 (PLAN.md D28).
+  Primary question becomes NVIDIA attribution (N1): how much of the 2026-10-29 .. 2026-11-16 decline
+  is consistent with independently observable non-leadership factors, and whether a material
+  additional leadership-associated return remains. Exploratory with frozen rules; no causal
+  percentages. Counterfactuals A and B1-B4 required with historical validation and contamination
+  checks; mutually exclusive session categories, mixed leadership/other sessions unresolved;
+  leadership-only and leadership-inclusive overlap scenarios; empirical placebo inference with the
+  same session arrangement (non-overlapping 13-session blocks from 2010-01-04 primary; all-origin,
+  regime-matched, earnings/extraordinary-excluded and peer-firm sensitivities); model-dependent
+  uncertainty intervals; delta = median absolute placebo sum (ordinary unexplained variation, not an
+  economic threshold); equivalence required for "negligible". N2 assesses five families separately
+  (political/regulatory added), no beta/volatility thresholds. Panel H1a/H1b kept as secondary
+  statistical study, unchanged. Numbering N1-N4 / H1a, H1b, H4-H6 with a crosswalk. Prereg keys
+  primary_* renamed panel_*. Completed Step 0-1 work and results unchanged.
+- 2026-11-13 (user instruction): report data, figures and results after each step or model before
+  starting the next; do not build ahead.

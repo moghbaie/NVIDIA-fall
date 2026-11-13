@@ -1,33 +1,64 @@
 # NVIDIA State-Dependent Shock Amplification: Colab Implementation Plan
 
-**Version:** 1.8 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; v1.8 leadership concentration; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.8
+**Version:** 1.9 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; v1.8 leadership concentration; v1.9 NVIDIA attribution primary; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.9
 
-> **Execution priority (v1.8):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis. Its moderator is **leadership concentration** (LC: founder CEO, no designated successor, CEO-chair duality, from filings before T−30), called "vulnerability" only once validated; event-month fixed effects; a failed coverage gate halts H1 (no automatic fallback). H1a (misconduct × LC) is the only adverse-news amplification test; H1b (performance × LC) is reported as attenuated replacement benefit. A counterfactual frozen at the pre-E0 cutoff is required. Market stress and financial vulnerability are secondary; volatility is a control. NVIDIA is described on four vulnerability families, never combined. Where older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
+> **Execution priority (v1.9):** `PLAN.md` sets scope and order and wins where documents differ. Retitled *Before the Headline: Pre-existing Exposure, Sector Shocks and Leadership News in NVIDIA's 2026 Decline*. **Primary (N1, exploratory with frozen rules):** how much of NVIDIA's 2026-10-29 .. 2026-11-16 decline is consistent with independently observable non-leadership factors (counterfactual A, frozen at the 2026-10-28 close; conditional counterfactuals B1–B4), and whether a material additional leadership-associated return remains. Sessions are assigned to mutually exclusive news categories; mixed leadership/other sessions stay unresolved. Inference uses an empirical placebo distribution with the same session arrangement; intervals are model-dependent uncertainty intervals; "negligible" requires equivalence within δ (ordinary unexplained variation). No causal percentages. v1.9 was written after NVIDIA's November returns were seen (PLAN.md D28). **Secondary statistical study:** the CEO-departure panel, H1a (misconduct × leadership concentration) and H1b (performance × LC), unchanged from v1.8. NVIDIA exposures are described in five separate families (financial, leadership, operational, resource/deployment, political/regulatory), never combined. Sections below that call the panel H1 "primary" or define the NVIDIA counterfactual differently are superseded by PLAN.md §2 and the crosswalk below. The spec card must match `configs/preregistration.yaml`.
 
 ```yaml spec-card
-version: "1.8"
-primary_hypothesis: H1
-outcome: "CAR[-1,+1]"
-primary_moderator: leadership_concentration
-primary_terms: ["performance:LC", "misconduct:LC"]
-term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
-baseline: voluntary
-direction: negative
-adjustment: holm
-family_alpha: 0.05
-fixed_effects: event_month
-sample_period: ["2005-01-01", "2025-12-31"]
-moderator_lag_sessions: 30
-coverage_gate: {overall: 0.80, misconduct: 0.70}
-coverage_gate_failure: halt_and_decide_outcome_blind
-freeze_gate: step_4b
+version: "1.9"
+title: "Before the Headline: Pre-existing Exposure, Sector Shocks and Leadership News in NVIDIA's 2026 Decline"
+primary_hypothesis: N1
+primary_status: exploratory_frozen_rules_specified_after_outcome_seen
+causal_share_claims: false
+nvidia_cutoff: "2026-10-28 close"
+nvidia_window: ["2026-10-29", "2026-11-16"]
+nvidia_window_sessions: 13
+counterfactuals_required: [A, B1, B2, B3, B4]
+b_factors: {B1: [SPY, G3], B2: [SPY, dVIX, dDGS10, dBAA10Y], B3: [SPY], B4: [SPY, G3, G4]}
+session_categories: [L, P, X, LP, LX, PX, N]
+mixed_sessions: unresolved_never_assigned_to_leadership
+leadership_scenarios: [leadership_only, leadership_inclusive_overlap]
+inference: empirical_placebo_same_session_arrangement
+placebo_primary: non_overlapping_13_session_blocks_fixed_offset
+placebo_sensitivity: [all_origins_dependence_aware, regime_matched, excl_earnings_and_extraordinary_announcements, peer_firms]
+interval_label: model_dependent_uncertainty_interval
+equivalence_margin: median_abs_placebo_sum_leadership_arrangement
+validation_gate: {b_band90_coverage: [0.80, 0.97], a_pit_ks_p_min: 0.05}
+nvidia_families: [financial, leadership, operational, resource_deployment, political_regulatory]
+nvidia_combined_score: false
+secondary_study: ceo_departure_panel
+panel_hypotheses: [H1a, H1b]
+panel_outcome: "CAR[-1,+1]"
+panel_moderator: leadership_concentration
+panel_terms: ["performance:LC", "misconduct:LC"]
+panel_term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
+panel_baseline: voluntary
+panel_direction: negative
+panel_adjustment: holm
+panel_family_alpha: 0.05
+panel_fixed_effects: event_month
+panel_sample_period: ["2005-01-01", "2025-12-31"]
+panel_moderator_lag_sessions: 30
+panel_coverage_gate: {overall: 0.80, misconduct: 0.70}
+panel_coverage_gate_failure: halt_and_decide_outcome_blind
+panel_freeze_gate: step_4b
 session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
 event_time: earliest_public_source
 date_only_window_start: -1
-nvidia_families: [financial, leadership, operational, resource_deployment]
-nvidia_combined_score: false
-nvidia_pre_e0_counterfactual: required
 ```
+
+**v1.9 hypothesis crosswalk** (supersedes the numbering in older sections; code and reports use v1.9 IDs):
+
+| v1.9 | Research plan (v1.0–v1.8) | Implementation plan (v1.0–v1.8) |
+|---|---|---|
+| **N1** primary: leadership-associated residual after non-leadership counterfactuals | H3 incremental leadership effect | H3 pre-news vulnerability / no-news counterfactual |
+| N2 five-family exposure profile (descriptive) | H2 industry stress precedes news | H3 (pre-disclosure stress part) |
+| N3 valuation vs fundamental decline | H4 fragility vs repricing (NVIDIA) | H5 mean reversion vs repricing (NVIDIA) |
+| N4 competitor spillover at E2 | H6 (NVIDIA sequence) | H6 (NVIDIA sequence) |
+| H1a / H1b secondary panel study | H1 amplification | H1 shock amplification |
+| H4 panel recovery | H4 (recovery part) | H4 recovery duration |
+| H5 optional non-linearity | H5 | H2 interacting stresses |
+| H6-panel optional | H6 (panel) | H6 (panel) |
 
 ## 0. Mission and non-negotiable research rules
 
@@ -345,6 +376,8 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 
 ## 12. Stage 07: H3, vulnerability and no-news counterfactuals
 
+> **v1.9:** this stage is the primary analysis N1, specified in PLAN.md §2 (A; B1–B4; session categories; placebo inference; decision table) and run as steps N-a .. N-f, one model at a time with results reported before the next.
+
 **Notebook:** `09_H3_counterfactual.ipynb` | **Priority:** first substantive hypothesis.
 
 **Experiment A, ex-ante:** freeze data, features, and model at the earliest verified Jensen-related disclosure. Fit elastic-net/ridge factor regression and simple time-series baselines using prior market/industry/resource/macro data. Predict return distribution over 1, 3, 5, 10, 20 trading sessions from information *already known*. Never feed realized future market factors into this forecast and call it ex-ante.
@@ -371,6 +404,8 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 
 ## 13. Stage 08: H1, stress-dependent amplification (primary causal question)
 
+> **v1.9:** secondary statistical study H1a/H1b (leadership concentration moderator, PLAN.md §3); not the primary question.
+
 **Notebook:** `10_H1_H2_interactions.ipynb`.
 
 **Primary estimand (v1.3+):** d_P and d_M, the change in CAR[-1,+1] for a performance or misconduct dismissal relative to a voluntary departure per one SD of pre-event stress; two Holm-adjusted tests (`configs/preregistration.yaml: primary_tests`). The v1.1 estimand (one-unit standardized shock) is a secondary ordinal specification. Fit firm/time fixed-effect panel regression with severity, stress, severity×stress, event-family controls, firm attributes, pre-event valuation, and relevant calendar effects. Severity must vary independently of return. Cluster uncertainty by firm and/or event date as supported by sample size; use wild cluster/bootstrap sensitivity when clusters are few.
@@ -388,6 +423,8 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 **Gate:** sufficient effective events and variation, model diagnostics and sensitivity table published. If sample underpowered, label results exploratory and do not assert confirmation.
 
 ## 14. Stage 09: H2, stress interactions and nonlinear challengers
+
+> **v1.9:** optional (H5 in v1.9 numbering).
 
 **Notebook:** continue `10_H1_H2_interactions.ipynb` with separate outputs.
 
@@ -426,6 +463,8 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 **Gate:** enough post-event observations; for recent NVIDIA event report censored status, not fabricated long-run recovery.
 
 ## 16. Stage 11: H5, valuation equilibrium, mean reversion, and regime shifts
+
+> **v1.9:** the NVIDIA part is N3 (valuation vs fundamentals, criteria in PLAN.md §2.8); the rest is deferred.
 
 **Notebook:** continue `11_H4_H5_long_horizon.ipynb`.
 
@@ -498,6 +537,8 @@ Statistical fixtures (SYNTHETIC):
 **CI:** GitHub Actions optional for unit/synthetic tests (no secrets or heavy downloads). Colab smoke test on a clean runtime before final delivery. `pytest -q tests/unit tests/statistical`; `pytest -q tests/integration` when configured source credentials/access exist; `python -m src.pipeline --through 12 --offline-snapshot SNAPSHOT_ID` for full reproduction.
 
 ## 19. Evaluation matrix and preregistered decision policy
+
+> **v1.9:** the N1 decision table in PLAN.md §2.7 is the primary decision policy; the rows below apply to secondary and optional analyses under their v1.0 IDs (crosswalk at the top).
 
 | Hypothesis | Primary outcome | Primary method | Minimum evidence to consider support | Reasons to withhold conclusion |
 |---|---|---|---|---|
@@ -724,3 +765,15 @@ The project is complete when a fresh Colab runtime can execute the full pipeline
 | Gate | coverage-gate failure halts H1; no automatic fallback | Stage 06 gate |
 | Counterfactual | pre-E0 counterfactual A and B required; inputs frozen at the 2026-10-28 close; snapshot hash in `validation.json`; leakage test perturbs everything after the cutoff | Stage 07 |
 | Claims | H1a / H1b separate verdicts; labels fixed by term | Stage 08, report |
+
+### v1.9 (2026-11-13): NVIDIA attribution primary (written after NVIDIA's November returns were seen)
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| Question | N1 primary: leadership-associated residual after non-leadership counterfactuals; exploratory, frozen rules | Stage 07 (steps N-a .. N-f) |
+| Counterfactuals | A and B1–B4 required; validation on placebo blocks and rule-selected historical shocks; contamination checks on G3/G4 | Stage 07 |
+| Attribution | mutually exclusive session categories from a frozen post-E0 inventory; mixed sessions unresolved | Stage 04 + Stage 07 |
+| Inference | same-arrangement placebo; non-overlapping blocks primary (offset 2010-01-04); sensitivities; equivalence within δ for "negligible" | Stage 07, report |
+| Families | five NVIDIA families incl. political/regulatory, separately; no thresholds on beta/volatility | Stage 05 |
+| Panel | H1a/H1b secondary, unchanged | Stage 08 |
+| Workflow | each model reported with data and figures before the next | all stages |

@@ -1,0 +1,539 @@
+# Step 1(c): NVIDIA-relevant news first public 2026-08-26 .. 2026-10-28 (America/New_York).
+# Collected 2026-11-13 by a search agent instructed to exclude price moves; labelled by the analyst
+# before any per-item reaction was computed, then frozen (reports/step1/inventory_freeze.json).
+# channels[].direction = expected effect on that company's value through that channel, ex ante.
+# net_expected_nvda: + / - / 0 / mixed (channels oppose, net unclear) / ? (cannot sign ex ante,
+#   e.g. earnings without consensus).
+# label_blindness: "blind" = analyst had not seen NVDA returns for that date; "AR seen" = fig6
+#   (Step 1a, daily NVDA AR from 2026-10-20) was viewed before labelling -> labels not blind.
+# time_et: given only when a primary timestamp exists (SEC EDGAR acceptance); else null and the
+#   reaction window starts at -1.
+# Excluded (agent notes): SB Energy USD 105B guarantee press release 2026-08-17 (before window;
+#   disclosed again in the 10-Q, item N02); routine notices; unverified reports; analyst forecasts.
+items:
+  - id: N01
+    published: 2026-08-26
+    time_et: "16:21"
+    time_source: SEC 8-K Item 2.02 acceptance
+    source: NVIDIA press release / 8-K
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027
+    headline: NVIDIA Q2 FY2027 results
+    facts: Revenue USD 96.2B (Data Center 89.0B), GM 75.0%; Q3 guide USD 108.0B +-2%, GM 74.0%, no China data-center compute assumed; Vera Rubin ramping.
+    companies: [NVDA]
+    novelty: new
+    importance: 3
+    channels:
+      - {channel: demand, direction: "?", company: NVDA}
+      - {channel: regulation_export, direction: "0", company: NVDA}
+    net_expected_nvda: "?"
+    interpretation: Sign depends on results versus consensus, which is not in the inventory; unsigned.
+    label_blindness: blind
+  - id: N02
+    published: 2026-08-26
+    time_et: "16:36"
+    time_source: SEC 10-Q acceptance
+    source: NVIDIA 10-Q
+    source_type: primary
+    url: https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm
+    headline: 10-Q discloses supply commitments up to USD 279B, AI-cloud commitments, guarantees, debt
+    facts: Supply commitments USD 279B (from 119B); AI-cloud service commitments 36B; third-party DC leases 20B; land/power/shell guarantees 3.5B; SB Energy guarantee up to 105B (subsequent event); debt 33.4B. See configs/nvda_exposures.yaml.
+    companies: [NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: supply, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: Secures capacity (positive) while raising contingent exposure to the buildout (negative); same session as N01, not separable.
+    label_blindness: blind
+  - id: N03
+    published: 2026-08-26
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/aws-and-nvidia-to-deliver-2-million-additional-gpus-and-next-generation-infrastructure-for-agentic-and-physical-ai
+    headline: AWS and NVIDIA to deliver 2 million additional GPUs
+    facts: AWS plans 2 million more NVIDIA GPUs in 2027-2028 on top of >1M announced at GTC 2026; 100,000 GPUs for US government workloads.
+    companies: [NVDA, AMZN]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: capex, direction: "?", company: AMZN}
+    net_expected_nvda: "+"
+    interpretation: Multi-year volume commitment from a top customer; positive for NVIDIA demand.
+    label_blindness: blind
+  - id: N04
+    published: 2026-08-31
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-and-mediatek-deepen-long-standing-partnership-to-build-ai-edge-to-cloud-computing-platforms
+    headline: NVIDIA invests USD 3.5B in MediaTek convertible bonds; MediaTek adopts NVLink Fusion
+    facts: USD 3.5B convertible-bond investment; NVLink Fusion for MediaTek custom XPUs.
+    companies: [NVDA, 2454.TW]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: competition, direction: "+", company: NVDA}
+      - {channel: m_and_a, direction: "0", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Small relative to NVIDIA's size; extends its interconnect into custom chips.
+    label_blindness: blind
+  - id: N05
+    published: 2026-09-03
+    time_et: "08:03"
+    time_source: SEC 8-K Item 8.01 acceptance
+    source: NVIDIA blog / 8-K
+    source_type: primary
+    url: https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/
+    headline: NVIDIA to acquire Hugging Face (about USD 12.9B)
+    facts: About USD 11.9B purchase price plus up to 1.0B retention (8-K); platform to stay multi-accelerator; close expected 1H 2027.
+    companies: [NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: m_and_a, direction: "?", company: NVDA}
+      - {channel: regulation_export, direction: "-", company: NVDA}
+    net_expected_nvda: "?"
+    interpretation: Strategic value uncertain; adds antitrust exposure; small relative to market value.
+    label_blindness: blind
+  - id: N06
+    published: 2026-09-09
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-expands-ai-infrastructure-capacity-in-partnership-with-australias-data-center-ecosystem
+    headline: Up to 2 GW of NVIDIA AI-factory capacity in Australia by 2027
+    facts: Partners Firmus, Sharon AI, IREN, NEXTDC, AirTrunk, CDC; Sharon AI up to 68,000 GPUs.
+    companies: [NVDA, IREN]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: deployment, direction: "+", company: NVDA}
+      - {channel: demand, direction: "+", company: IREN}
+    net_expected_nvda: "+"
+    interpretation: Partner capacity plans; often partly announced already; small.
+    label_blindness: blind
+  - id: N07
+    published: 2026-09-09
+    time_et: null
+    source: New York Times (via Reuters syndication)
+    source_type: major outlet
+    url: https://www.thestar.com.my/tech/tech-news/2026/09/10/us-doj-probes-nvidia039s-licensing-deal-with-ai-startup-groq-nyt-reports
+    headline: DOJ probes NVIDIA's Groq licensing deal (NYT)
+    facts: Reported DOJ formal demand for information on whether the Groq deal (reported USD 17-20B) avoided antitrust review; fine possible, unwind seen unlikely.
+    companies: [NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: regulation_export, direction: "-", company: NVDA}
+    net_expected_nvda: "-"
+    interpretation: Adds regulatory risk; financial impact likely limited.
+    label_blindness: blind
+  - id: N08
+    published: 2026-09-17
+    time_et: null
+    source: Bloomberg (via Crypto Briefing)
+    source_type: aggregator
+    url: https://cryptobriefing.com/nvidia-2b-brookfield-ai-fund/
+    headline: NVIDIA commits USD 2B as anchor investor in Brookfield AI infrastructure fund
+    facts: USD 2B anchor in a fund targeting 10B equity for AI factories and power; sizes a previously disclosed investment.
+    companies: [NVDA, BAM]
+    novelty: follow-up
+    importance: 1
+    channels:
+      - {channel: deployment, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: Funds deployment capacity but is NVIDIA financing its own demand.
+    label_blindness: blind
+  - id: N09
+    published: 2026-09-28
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-announces-a-150-billion-share-repurchase-authorization-increase
+    headline: NVIDIA adds USD 150B to share repurchase authorization
+    facts: Remaining authorization USD 235B; expects to execute through FY2028.
+    companies: [NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: financing_credit, direction: "+", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Capital return signal; typically mildly positive.
+    label_blindness: blind
+  - id: N10
+    published: 2026-09-28
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/open-agent-safety-platform
+    headline: NVIDIA launches open agent safety platform
+    facts: Open software platform and reference design for AI-agent security.
+    companies: [NVDA]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: demand, direction: "0", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Product news without revenue information.
+    label_blindness: blind
+  - id: N11
+    published: 2026-09-29
+    time_et: null
+    source: Financial Times (via Finviz)
+    source_type: aggregator
+    url: https://finviz.com/news/396264/nvidia-holds-talks-with-insurers-over-ai-infrastructure-financing-risk-ft-reports
+    headline: NVIDIA in talks with insurers over AI-infrastructure financing risk (FT)
+    facts: Early talks on cover for lenders to neoclouds if borrowers default and pledged GPUs resell below the debt; no deal.
+    companies: [NVDA, CRWV, NBIS]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: financing_credit, direction: "-", company: NVDA}
+      - {channel: demand, direction: "+", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: Signals lender concern about GPU collateral and NVIDIA backstopping customers; could ease financing.
+    label_blindness: blind
+  - id: N12
+    published: 2026-09-29
+    time_et: null
+    source: Axios (via The Decoder)
+    source_type: aggregator
+    url: https://the-decoder.com/openai-revenue-keeps-surging-as-company-seeks-30-billion-in-fresh-capital/
+    headline: OpenAI seeks USD 30B new capital; revenue run-rate reported near USD 70B
+    facts: Reported talks for at least USD 30B at a 1.4T pre-money valuation; run-rate figures differ by source (50-70B).
+    companies: [NVDA, MSFT]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "+", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Funding for NVIDIA's largest indirect customer and the SB Energy tenant.
+    label_blindness: blind
+  - id: N13
+    published: 2026-10-02
+    time_et: null
+    source: Financial Times (via Reuters, The Standard HK)
+    source_type: major outlet
+    url: https://www.thestandard.com.hk/innovation/article/344429/Amazon-seeks-to-offload-US8-billion-of-Nvidia-chips-to-investors-FT-reports
+    headline: Amazon explores moving USD 8B of NVIDIA chips into an investor-funded vehicle (FT)
+    facts: Sale-and-leaseback of installed Grace Blackwell chips via a debt-funded SPV; early talks.
+    companies: [AMZN, NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: financing_credit, direction: "-", company: NVDA}
+      - {channel: demand, direction: "0", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: No new orders; signals that even a hyperscaler seeks off-balance-sheet funding for GPUs.
+    label_blindness: blind
+  - id: N14
+    published: 2026-10-06
+    time_et: null
+    source: Financial Times / Bloomberg (via The Next Web)
+    source_type: aggregator
+    url: https://thenextweb.com/news/spacex-40bn-debt-nvidia-chips-apollo
+    headline: SpaceX in talks to borrow about USD 40B to buy NVIDIA chips
+    facts: About USD 10B bank loans plus 30B investment-grade debt led by Apollo; talks early-stage.
+    companies: [NVDA, APO]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Large new demand, debt-financed; demand channel expected to dominate in the short run.
+    label_blindness: blind
+  - id: N15
+    published: 2026-10-08
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-commits-1-billion-to-advance-us-science-over-the-next-five-years
+    headline: NVIDIA commits USD 1B to US science over five years
+    facts: USD 1B over five years.
+    companies: [NVDA]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: governance_leadership, direction: "0", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Immaterial.
+    label_blindness: blind
+  - id: N16
+    published: 2026-10-12
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-and-cisco-introduce-new-pluggable-optics-form-factor-to-scale-ai-factories
+    headline: NVIDIA and Cisco introduce pluggable optics form factor; Vera Rubin opened to OCP
+    facts: OCP Global Summit announcements.
+    companies: [NVDA, CSCO]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: competition, direction: "0", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Technical announcement; no revenue information.
+    label_blindness: blind
+  - id: N17
+    published: 2026-10-13
+    time_et: null
+    source: Reuters (IDC data, via The Standard HK)
+    source_type: major outlet
+    url: https://www.thestandard.com.hk/innovation/article/345296/Nvidias-China-AI-chip-share-falls-as-Huawei-closes-gap-report-finds
+    headline: NVIDIA's China AI-chip share falls to 34% as Huawei reaches 28% (IDC)
+    facts: 1H 2026 NVIDIA units 678,000, down 44% year on year.
+    companies: [NVDA]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: competition, direction: "-", company: NVDA}
+      - {channel: regulation_export, direction: "-", company: NVDA}
+    net_expected_nvda: "-"
+    interpretation: Confirms a known trend; guidance already excludes China, so small.
+    label_blindness: blind
+  - id: N18
+    published: 2026-10-13
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-commits-250-million-to-advance-uk-agentic-safety-and-security-research-over-the-next-five-years
+    headline: NVIDIA commits USD 250M to UK agent-safety research
+    facts: USD 250M over five years.
+    companies: [NVDA]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: governance_leadership, direction: "0", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Immaterial.
+    label_blindness: blind
+  - id: N19
+    published: 2026-10-16
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs
+    headline: RTX Spark Windows PCs go on sale
+    facts: NVIDIA/MediaTek chips, up to 128GB unified memory.
+    companies: [NVDA, MSFT]
+    novelty: follow-up
+    importance: 1
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Pre-announced launch; small relative to data-center revenue.
+    label_blindness: blind
+  - id: N20
+    published: 2026-10-16
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/mercedes-benz-and-nvidia-expand-strategic-partnership-to-advance-safe-highly-automated-driving-in-the-next-decade
+    headline: Mercedes-Benz and NVIDIA expand automated-driving partnership (Volvo similar, Oct 15)
+    facts: Partnership expansions without disclosed values.
+    companies: [NVDA, MBG.DE]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: demand, direction: "0", company: NVDA}
+    net_expected_nvda: "0"
+    interpretation: Immaterial to data-center outlook.
+    label_blindness: blind
+  - id: N21
+    published: 2026-10-20
+    time_et: null
+    source: Business Insider (Japan edition; English original not retrieved)
+    source_type: major outlet
+    url: https://www.businessinsider.jp/article/2610-amazon-nvidia-gb300-dark-gpus-ai-hardware/
+    headline: Amazon is buying billions in NVIDIA AI systems it can't yet turn on (BI)
+    facts: Reported internal emails - AWS took about USD 5B of GB300 racks, then about 3B a month, before some sites had power; racks staged in warehouses. Amazon called it a best business practice (reported). Secondary copy time-stamped 14:37 EDT.
+    companies: [AMZN, NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: deployment, direction: "-", company: NVDA}
+      - {channel: capex, direction: "-", company: AMZN}
+    net_expected_nvda: mixed
+    interpretation: Purchases exceed powered capacity - near-term revenue intact, but future orders could slow until power catches up.
+    label_blindness: AR seen
+  - id: N22
+    published: 2026-10-21
+    time_et: "16:03"
+    time_source: SEC 8-K Item 2.02 acceptance
+    source: Meta earnings release
+    source_type: primary
+    url: https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx
+    headline: Meta Q3 2026 results; 2026 capex guide narrowed to USD 135-145B
+    facts: Q3 capex 34.9B; no 2027 number but continued aggressive investment; new non-voting Class C stock to help fund AI.
+    companies: [META, NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: capex, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: META}
+    net_expected_nvda: "+"
+    interpretation: Customer capex maintained or raised at the low end; new equity class signals funding need.
+    label_blindness: AR seen
+  - id: N23
+    published: 2026-10-21
+    time_et: null
+    source: NVIDIA press release (GTC Berlin)
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-introduces-dsx-pod-ai-factories-to-accelerate-europes-infrastructure-deployment
+    headline: NVIDIA introduces DSX POD prefabricated AI factories
+    facts: Deployment at a prepared site from about six months to as little as 14 days; deliveries early 2027.
+    companies: [NVDA, DELL, HPE, VRT]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: deployment, direction: "+", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Addresses deployment speed, not power availability.
+    label_blindness: AR seen
+  - id: N24
+    published: 2026-10-21
+    time_et: null
+    source: NVIDIA press release (GTC Berlin)
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-and-supply-chain-partners-expand-capacity-to-accelerate-ai-infrastructure-buildout
+    headline: NVIDIA prepays suppliers to expand substrate and test capacity
+    facts: Multibillion-dollar advances to IBIDEN, 1.1B to KYEC; target 2.5x substrate capacity in three years. Huang - "Capacity is the constraint."
+    companies: [NVDA, AMKR]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: supply, direction: "+", company: NVDA}
+      - {channel: demand, direction: "+", company: AMKR}
+    net_expected_nvda: "+"
+    interpretation: Supply expansion consistent with strong expected demand; adds to commitments.
+    label_blindness: AR seen
+  - id: N25
+    published: 2026-10-22
+    time_et: null
+    source: CNBC interview (via Digital Today)
+    source_type: aggregator
+    url: https://www.digitaltoday.co.kr/en/view/118613/jensen-huang-says-neocloud-demand-surging-but-lack-of-capital-hampers-growth
+    headline: Huang - neocloud demand off the charts, capital and power constrain growth
+    facts: Quoted - "the demand of the capital is much greater than the availability of the capital"; power, especially in Europe, a major constraint.
+    companies: [NVDA, NBIS, CRWV]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+      - {channel: deployment, direction: "-", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: CEO acknowledges capital and power limits on customer deployment.
+    label_blindness: AR seen
+  - id: N26
+    published: 2026-10-26
+    time_et: null
+    source: Meta release (via The Next Web)
+    source_type: aggregator
+    url: https://thenextweb.com/news/meta-35bn-stock-offering-ai
+    headline: Meta launches about USD 35B share sale to fund AI spending
+    facts: About 22.5B common via forwards plus 12.5B mandatory convertible preferred; NVIDIA, AMD, Broadcom non-binding interest up to 5B combined.
+    companies: [META, NVDA, AMD, AVGO]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: capex, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: META}
+    net_expected_nvda: mixed
+    interpretation: Funds customer capex, but suppliers investing in their customer is vendor financing.
+    label_blindness: AR seen
+  - id: N27
+    published: 2026-10-26
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-and-meta-to-expand-collaboration-on-muse-and-muse-family-of-models-amid-robust-growth
+    headline: NVIDIA to invest USD 3B in Meta's offering; Meta expands Vera Rubin deployment
+    facts: No unit counts or purchase values disclosed.
+    companies: [NVDA, META]
+    novelty: follow-up
+    importance: 2
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: Same session as N26; circular financing concern versus demand confirmation.
+    label_blindness: AR seen
+  - id: N28
+    published: 2026-10-27
+    time_et: null
+    source: NVIDIA press release
+    source_type: primary
+    url: https://nvidianews.nvidia.com/news/nvidia-and-oracle-expand-nvidia-vera-rubin-to-multi-gigawatt-scale-and-bring-nvidia-vera-cpu-to-oracle-cloud-infrastructure
+    headline: Oracle expands Vera Rubin to multi-gigawatt scale
+    facts: No GW figure given; Vera Rubin NVL72 and Vera CPU generally available on OCI.
+    companies: [NVDA, ORCL]
+    novelty: new
+    importance: 1
+    channels:
+      - {channel: demand, direction: "+", company: NVDA}
+      - {channel: deployment, direction: "+", company: NVDA}
+    net_expected_nvda: "+"
+    interpretation: Positive but unquantified.
+    label_blindness: AR seen
+  - id: N29
+    published: 2026-10-28
+    time_et: null
+    source: Reuters (via CPI/PYMNTS)
+    source_type: major outlet
+    url: https://pymnts.com/cpi-posts/nvidias-12-9-billion-hugging-face-deal-draws-justice-department-questions
+    headline: Hugging Face deal draws DOJ questions (Reuters)
+    facts: Reported DOJ staff questions on control of an AI distribution channel; no investigation announced.
+    companies: [NVDA]
+    novelty: follow-up
+    importance: 1
+    channels:
+      - {channel: regulation_export, direction: "-", company: NVDA}
+    net_expected_nvda: "-"
+    interpretation: Incremental antitrust risk on a small deal.
+    label_blindness: AR seen
+  - id: N30
+    published: 2026-10-28
+    time_et: "16:01"
+    time_source: SEC 8-K Item 2.02 acceptance
+    source: Alphabet 8-K earnings release
+    source_type: primary
+    url: https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm
+    headline: Alphabet Q3 2026 results; capex more than doubles
+    facts: PP&E purchases about 51.4B; free cash flow about -9.1B; no buybacks. Reaction session 2026-10-29 = E0 session.
+    companies: [GOOGL, NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: capex, direction: "+", company: NVDA}
+      - {channel: financing_credit, direction: "-", company: GOOGL}
+    net_expected_nvda: "+"
+    interpretation: Customer capex strong; negative FCF shows funding strain at the customer. Overlaps E0.
+    label_blindness: AR seen
+  - id: N31
+    published: 2026-10-28
+    time_et: "16:04"
+    time_source: SEC 8-K Item 2.02 acceptance
+    source: Microsoft earnings (via Redmond Magazine)
+    source_type: aggregator
+    url: https://redmondmag.com/articles/2026/10/30/microsoft-revenue-jumps-as-azure-and-ai-demand--fuel-growth.aspx
+    headline: Microsoft FY27 Q1 results; some third-party capacity deliveries delayed
+    facts: Azure +48%; cash PP&E 39.4B (about 45B incl. leases); management cited delayed third-party capacity deliveries. Reaction session 2026-10-29 = E0 session.
+    companies: [MSFT, NVDA]
+    novelty: new
+    importance: 2
+    channels:
+      - {channel: capex, direction: "+", company: NVDA}
+      - {channel: deployment, direction: "-", company: NVDA}
+    net_expected_nvda: mixed
+    interpretation: Strong demand but explicit deployment delay. Overlaps E0.
+    label_blindness: AR seen
