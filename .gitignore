@@ -8,3 +8,5 @@ data/
 runs/
 *.egg-info/
 .env
+.codegraph/
+.mcp.json
