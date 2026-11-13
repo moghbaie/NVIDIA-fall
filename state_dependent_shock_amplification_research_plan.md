@@ -1,7 +1,7 @@
 # State-Dependent Shock Amplification: NVIDIA Leadership News and Market Resilience
 
 **Research design and implementation plan**  
-**Version:** 1.1 (adds power, utilities and electricity-infrastructure stress; see Appendix A change log)  
+**Version:** 1.2 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; see Appendix A change log)  
 **As-of date:** 2026-11-13  
 **Primary case:** NVIDIA (NVDA)  
 **Scope:** Publicly available financial, corporate, macroeconomic, industry, and news data
@@ -97,7 +97,7 @@ Proposed causal structure:
 - **NVIDIA case:** A complete timeline of credible public disclosures in October-November 2026, with an event date defined by the **earliest verified market-accessible disclosure**, not automatically the resignation announcement.
 - **Historical comparison:** November 2025 or a matched low-stress period. Match on relevant state variables instead of assuming calendar-year comparison is sufficient.
 - **Return frequencies:** Daily for the full panel; intraday 5-minute or 15-minute only where legally accessible and with reliable timestamps.
-- **Event windows:** Intraday if available; otherwise [-1,+1], [0,+1], [0,+3], [0,+5], and [0,+10] trading days, with overlapping news windows flagged.
+- **Event windows:** Intraday if available; otherwise [-1,+1], [0,+1], [0,+3], [0,+5], and [0,+10] trading days, with overlapping news windows flagged. Windows starting at 0 are used only when the announcement time of day is known; date-only events use the same windows started at −1 (v1.2).
 - **Observation units:** Stock-day, firm-event, article-event, and firm-quarter.
 
 ## 5. Public datasets to download
@@ -437,7 +437,10 @@ capex cycle), and leave-one-year-out estimates.
 
 **Decision rule (preregistered).** A power indicator "improves" a hypothesis test only if (a) the
 out-of-sample loss difference favours Mk, with a block-bootstrap 95% CI that excludes 0, (b) the sign
-is the same in at least 75% of folds, and (c) the gain survives the negative controls in 8.8.
+is the same in at least 75% of folds, (c) the gain survives the negative controls in 8.8, and (d) the
+gain holds using point-in-time-valid inputs only (market prices, ALFRED vintages, dated reports);
+a gain that needs `current_vintage_only` series (e.g. EIA data, which have no vintages) is reported
+as "revised-data, exploratory" (v1.2).
 Otherwise the result is reported as "no incremental value" or "inconclusive", with the CI.
 
 ### 8.8 Negative controls and robustness for power indicators (added v1.1)
@@ -817,3 +820,18 @@ Implement Stage 0 and Stage 1 first. Produce a machine-readable source manifest,
 
 The newly required datasets, tests and visualizations are listed in the implementation plan,
 Section 26.
+
+### v1.2 (2026-11-13): alignment with the project `CLAUDE.md`
+
+The project `CLAUDE.md` was rewritten for this study. Its leakage rules (data available at T only;
+join on availability time) required these changes. No hypothesis or stage was removed.
+
+| Topic | Change |
+|---|---|
+| Event time | earliest verified public source (Gentry date, 8-K "date of earliest event", press-release exhibit, acceptance timestamp); `time_known` only when that source has a time of day |
+| Event windows | windows starting at 0 only for `time_known` events; date-only events use windows starting at −1 |
+| Session calendar | NYSE exchange calendar with 13:00 early closes, not the price index |
+| Severity | announcement-day codability audit of the database codes; robustness on the agreeing subset |
+| Point-in-time validity | series without vintages (all EIA; FRED without ALFRED) flagged `current_vintage_only`; the confirmatory incremental-value test uses point-in-time-valid inputs only; FRED API key required |
+
+Feasibility evidence: `PLAN.md` §5 (v1.2 rows) and D11–D15.

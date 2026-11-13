@@ -9,3 +9,7 @@
   component; overrides PLAN.md D5 for power.
 - 2026-11-13: S&P 500 Utilities Index history is unavailable from free sources; XLU is the proxy.
 - 2026-11-13 (user request): Final results to be published on GitHub Pages after user approval.
+- 2026-11-13 (user request): `CLAUDE.md` rewritten for this project; plans aligned as v1.2
+  (PLAN.md D11–D15): earliest-public event time; 0-start windows only for time-known events;
+  severity codability audit; `current_vintage_only` series excluded from the confirmatory
+  incremental-value test (FRED API key now required); NYSE calendar with early closes.

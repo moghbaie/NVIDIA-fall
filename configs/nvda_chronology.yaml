@@ -30,7 +30,7 @@ events:
     sources:
       - https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition/
       - https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm
-    verified: yes   # intraday release time unverified; CNBC reported board decision the prior night
+    verified: yes   # 8-K accepted 08:52 ET (pre-market); CNBC reported the board decision the prior evening, so earliest public time may be 2026-11-11 after close. Either way the event session is 2026-11-12.
 confounders:
   - date: 2026-11-05
     description: Broad semiconductor selloff (ex-NVDA basket -14.6%, SPY -4.5%, VIX 28.2). Cause not yet identified.

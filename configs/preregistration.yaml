@@ -4,28 +4,36 @@ status: draft            # -> frozen once the user signs off at the end of Step 
 as_of: 2026-11-13
 unit: trading_session
 exchange_tz: America/New_York
-session_complete_after: "16:00 local close"
+session_complete_after: "scheduled close (16:00; 13:00 on early-close days) from the NYSE exchange calendar"
 
 primary_hypothesis: H1
 primary_estimand: >
   Change in CAR[-1,+1] (log points) per one-level increase in leadership-shock severity, per one
   standard deviation increase in pre-event market stress (MSI), i.e. beta(sev x MSI). Prediction: < 0.
 primary_outcome_window: [-1, 1]
-secondary_windows: [[0, 1], [0, 5], [-1, 10]]
+secondary_windows:
+  all_events: [[-1, 5], [-1, 10]]
+  time_known_only: [[0, 1], [0, 5]]   # windows starting at 0 need a known time of day
 event_time_rule: >
   Event session = first session whose close reflects the first public announcement (after-close or
   non-session-day announcements map to the next session). Origin T = prior session.
+  First public time = earliest verified source among the Gentry announce date, the 8-K "date of
+  earliest event reported", its press-release exhibit date, and the 8-K acceptance timestamp.
+  time_known = true only when the earliest source carries a time of day.
 normal_return_model:
   primary: market model on SPY + equal-weight sector basket excluding the event firm
   estimation_window: [-252, -31]
   min_obs: 120
   selection: chosen by rolling-origin backtest on pre-2015 events only (Step 4), never on outcomes
 severity:
-  source: Gentry et al. CEO dismissal database, departure_code (outcome-blind, coded from media)
+  source: Gentry et al. CEO dismissal database, departure_code (coded from media, not from returns)
+  codability_audit: stratified sample of codes 3/4/5 checked against announcement-day 8-K / press
+    release only; agreement reported; H1 re-run on agreeing subset as robustness
   primary_ordinal: {5: 0, 6: 0, 3: 1, 4: 2}     # voluntary < performance dismissal < misconduct
   excluded_from_primary: [1, 2, 7, 8, 9]          # death/illness analysed as separate contrast
 moderators:
   primary: MSI   # market stress, standardized on expanding window, as of origin T close
+  point_in_time: inputs are market prices or ALFRED vintages; current_vintage_only series excluded
   secondary: FFI # firm fragility, as of T
   excluded: LUI  # leadership news intensity is treatment, never moderator
 inference:

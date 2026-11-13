@@ -1,6 +1,6 @@
 # NVIDIA State-Dependent Shock Amplification: Colab Implementation Plan
 
-**Version:** 1.1 (power, utilities and electricity-infrastructure stress added; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.1
+**Version:** 1.2 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.2
 
 ## 0. Mission and non-negotiable research rules
 
@@ -45,7 +45,7 @@ At the start of each session:
 
 **Persistent root:** `/content/drive/MyDrive/nvidia_shock_study/` (configurable). **Scratch:** `/content/nvidia_shock_work/`. **Repository:** clone from a user-configured Git repository, or copy a source archive into scratch. Do not assume Claude Code itself is installed inside Colab: Claude Code edits the repository in its supported environment; Colab executes the resulting notebooks and scripts. If using Claude Code with Colab via GitHub, commit/push code and pull in Colab.
 
-**First notebook:** mount Drive; verify free space and CPU/RAM; install from pinned `requirements-colab.txt`; print Python/library versions; configure `PROJECT_ROOT`, `CACHE_ROOT`, optional `FRED_API_KEY`, `EIA_API_KEY` (free registration, required for EIA API v2) and `SEC_USER_AGENT` through Colab Secrets or environment variables. If `EIA_API_KEY` is absent, EIA-dependent stages report `WARN: source unavailable` and PUSI-P runs on the remaining verified sources. Nothing is synthesized to fill the gap. Never hardcode secrets or put them in Drive notebooks. Avoid storing raw licensed news text if terms prohibit it. Store article IDs, URLs, permitted excerpts, labels, and provenance.
+**First notebook:** mount Drive; verify free space and CPU/RAM; install from pinned `requirements-colab.txt`; print Python/library versions; configure `PROJECT_ROOT`, `CACHE_ROOT`, `FRED_API_KEY` (required from v1.2 for ALFRED vintages), `EIA_API_KEY` (free registration, required for EIA API v2) and `SEC_USER_AGENT` through Colab Secrets or environment variables. If `EIA_API_KEY` is absent, EIA-dependent stages report `WARN: source unavailable` and PUSI-P runs on the remaining verified sources. Nothing is synthesized to fill the gap. Never hardcode secrets or put them in Drive notebooks. Avoid storing raw licensed news text if terms prohibit it. Store article IDs, URLs, permitted excerpts, labels, and provenance.
 
 **Execution strategy:** raw immutable downloads in Drive, intermediate Parquet and DuckDB in scratch, checkpoint back to Drive after each successful stage. Parquet partitioned by source/year/ticker. Use `pyarrow`, `duckdb`, `pandas`, `numpy`, `scipy`, `statsmodels`, `scikit-learn`, `matplotlib`, `plotly`, `pytest`, `pandera` or `pydantic`, `requests`, `tenacity`, `yfinance` for exploratory prices, `fredapi` or FRED REST, EIA API v2 via `requests` (paged, at most 5,000 rows per call, cached per route and parameter hash), `pdfplumber` for manual-review extraction of tables from grid-operator/NERC PDFs (extracted values always human-verified), `beautifulsoup4`, `transformers` optional, `linearmodels` optional, `ruptures` optional, `lifelines` optional, `pymc` optional. Pin compatible versions after a Colab smoke test, not arbitrarily here.
 
@@ -141,7 +141,7 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 - Frequency conversion uses an as-of join on the release date. No linear interpolation, no backfill and no centered smoothing are allowed. The last released value carries forward up to a per-series `max_age` (configured), then becomes missing.
 - Seasonal monthly series are transformed (year-over-year or seasonal difference) inside the training window only.
 - Outliers are flagged (robust z > 6 on the transformed series) for manual review and never deleted automatically.
-- Revisions: use ALFRED vintages for FRED series where available; otherwise flag the series as `current_vintage_only`.
+- Revisions: use ALFRED vintages for FRED series where available; otherwise flag the series as `current_vintage_only`. Values that were revised after T were not available at T: `current_vintage_only` series are excluded from the confirmatory incremental-value comparison and their results are labelled "revised-data, exploratory" (v1.2).
 - Regional series must state their aggregation (sum or demand-weighted).
 - Physical values extracted from PDFs need a reviewer and a page/table reference.
 - Projections (IEA/LBNL) are flagged `is_projection` and are never used as observed time-series regressors.
@@ -306,7 +306,7 @@ Every ingestion module returns a validation object with `PASS`, `WARN`, or `FAIL
 
 **Build event registry:** one row per information shock, with earliest verified source and disclosure timestamp. Assign trading-session event date based on exchange calendar and whether announcement was premarket, during market, or after close. Group multi-day related disclosures; flag overlapping earnings, product releases, macro shocks, and confounded events. Keep an inclusion/exclusion audit. Sample other firms' leadership shocks using predefined search criteria, not their observed returns.
 
-**Baseline models:** market-adjusted returns, ex-NVDA industry-adjusted returns, OLS market model, regularized multi-factor model. Estimate normal returns on pre-event estimation window (default [-252,-31] trading sessions, with >=120 valid observations), embargo before event, and compute abnormal return AR and cumulative abnormal return CAR at preregistered windows [-1,+1], [0,+1], [0,+5], [0,+20]. Use timestamp-specific intraday windows only when verified intraday data exist; daily windows otherwise.
+**Baseline models:** market-adjusted returns, ex-NVDA industry-adjusted returns, OLS market model, regularized multi-factor model. Estimate normal returns on pre-event estimation window (default [-252,-31] trading sessions, with >=120 valid observations), embargo before event, and compute abnormal return AR and cumulative abnormal return CAR at preregistered windows [-1,+1], [0,+1], [0,+5], [0,+20]. Windows starting at 0 apply only to events with a known time of day; date-only events use the same windows started at −1 (v1.2). Use timestamp-specific intraday windows only when verified intraday data exist; daily windows otherwise.
 
 **Before charts:** event coverage by year/firm/type, event overlaps, estimation window availability, benchmark residual distributions. **After charts:** event-aligned cumulative abnormal returns, model residual diagnostics, actual-versus-expected returns, placebo-date CAR distributions.
 
@@ -625,3 +625,13 @@ The project is complete when a fresh Colab runtime can execute the full pipeline
 - walk-forward loss differences;
 - coefficient stability;
 - negative-control forest plot.
+
+### v1.2 (2026-11-13): alignment with the project `CLAUDE.md`
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| Event time | earliest verified public source; `time_known` flag | Stage 06 event panel; `calendar.map_event` inputs; new test: 8-K filed days after the press release keeps the press-release session |
+| Event windows | 0-start windows only for `time_known` events | Stage 08; `configs/preregistration.yaml` |
+| Session calendar | NYSE exchange calendar with early closes (new dependency, pinned) | Stage 01; new test: 14:00 ET news on an early-close day maps to the next session |
+| Severity | announcement-day codability audit | Stage 06 gate; new table `severity_audit` |
+| Point-in-time validity | `current_vintage_only` excluded from confirmatory M0–M3; FRED API key required (Colab Secret `FRED_API_KEY`) | §4, Stage 03b, Stages 07 and 09 (research plan 8.7) |
