@@ -1,0 +1,1093 @@
+{
+  "step": "1",
+  "generated_utc": "2026-11-13T19:16:03.322815+00:00",
+  "gate": "PASS",
+  "n_rows": 106,
+  "status_counts": {
+    "PASS": 91,
+    "WARN": 15
+  },
+  "class_counts": {
+    "data": 42,
+    "business_exposure": 29,
+    "pre_existing_exposure": 11,
+    "peer_own_news": 8,
+    "immaterial": 7,
+    "leadership": 4,
+    "market_sector": 3,
+    "political_regulatory": 2
+  },
+  "inventory_freeze": {
+    "inventory": "news_inventory.yaml",
+    "sha256": "a1ab73d3f405c03905ddad9abef1e30f9591780a854166cdf258c3b8d9634ddd",
+    "n_items": 31,
+    "frozen_at_utc": "2026-11-13T18:45:27.527602+00:00"
+  },
+  "open_items": [
+    "E0: NYT first-public time not verified (required before N1, PLAN.md 2.1)",
+    "E1b: board statement content not reviewed",
+    "post-E0 news inventory (2026-10-29..2026-11-16) not built; needs the 2026-11-16 close"
+  ],
+  "rows": [
+    {
+      "id": "E0",
+      "kind": "NVIDIA disclosure",
+      "date": "2026-10-29",
+      "availability": "2026-10-29 (date only; window from -1)",
+      "source": "https://www.cnbc.com/2026/10/29/nvidia-jensen-huang-chinese-intelligence-asset.html",
+      "classification": "leadership",
+      "status": "WARN",
+      "note": "first-public time not verified (NYT original)"
+    },
+    {
+      "id": "E1",
+      "kind": "NVIDIA disclosure",
+      "date": "2026-11-08",
+      "availability": "2026-11-08 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors",
+      "classification": "leadership",
+      "status": "PASS",
+      "note": "verified"
+    },
+    {
+      "id": "E1b",
+      "kind": "NVIDIA disclosure",
+      "date": "2026-11-10",
+      "availability": "2026-11-10 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/",
+      "classification": "leadership",
+      "status": "WARN",
+      "note": "content not reviewed"
+    },
+    {
+      "id": "E2",
+      "kind": "NVIDIA disclosure",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition/",
+      "classification": "leadership",
+      "status": "PASS",
+      "note": "verified"
+    },
+    {
+      "id": "SEC-META-2026-10-21",
+      "kind": "8-K 2.02",
+      "date": "2026-10-21",
+      "availability": "2026-10-21 16:03 ET (EDGAR acceptance) -> session 2026-10-22",
+      "source": "SEC EDGAR",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "Q3 results"
+    },
+    {
+      "id": "SEC-GOOGL-2026-10-28",
+      "kind": "8-K 2.02",
+      "date": "2026-10-28",
+      "availability": "2026-10-28 16:01 ET (EDGAR acceptance) -> session 2026-10-29",
+      "source": "SEC EDGAR",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "Q3 results; same session as E0"
+    },
+    {
+      "id": "SEC-MSFT-2026-10-28",
+      "kind": "8-K 2.02",
+      "date": "2026-10-28",
+      "availability": "2026-10-28 16:04 ET (EDGAR acceptance) -> session 2026-10-29",
+      "source": "SEC EDGAR",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "FQ1 results; same session as E0"
+    },
+    {
+      "id": "SEC-AMZN-2026-10-29",
+      "kind": "8-K 2.02",
+      "date": "2026-10-29",
+      "availability": "2026-10-29 16:05 ET (EDGAR acceptance) -> session 2026-10-30",
+      "source": "SEC EDGAR",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "Q3 results; inside the E0 [-1,+1] window"
+    },
+    {
+      "id": "SEC-INTC-2026-10-29",
+      "kind": "8-K 2.02",
+      "date": "2026-10-29",
+      "availability": "2026-10-29 16:08 ET (EDGAR acceptance) -> session 2026-10-30",
+      "source": "SEC EDGAR",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "Q3 results; explains INTC AR -29% on Oct 30"
+    },
+    {
+      "id": "SEC-MRVL-2026-11-02",
+      "kind": "8-K 2.02",
+      "date": "2026-11-02",
+      "availability": "2026-11-02 08:06 ET (EDGAR acceptance) -> session 2026-11-02",
+      "source": "SEC EDGAR",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "results, pre-market"
+    },
+    {
+      "id": "SEC-AMD-2026-11-03",
+      "kind": "8-K 2.02",
+      "date": "2026-11-03",
+      "availability": "2026-11-03 16:16 ET (EDGAR acceptance) -> session 2026-11-04",
+      "source": "SEC EDGAR",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "Q3 results"
+    },
+    {
+      "id": "SEC-QCOM-2026-11-04",
+      "kind": "8-K 2.02",
+      "date": "2026-11-04",
+      "availability": "2026-11-04 16:03 ET (EDGAR acceptance) -> session 2026-11-05",
+      "source": "SEC EDGAR",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "FQ4 results; weak guidance (reported)"
+    },
+    {
+      "id": "SEC-MSFT-2026-11-05",
+      "kind": "8-K 5.02",
+      "date": "2026-11-05",
+      "availability": "2026-11-05 06:01 ET (EDGAR acceptance) -> session 2026-11-05",
+      "source": "SEC EDGAR",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "director (Emma Walmsley) will not stand for re-election; no disagreement stated; immaterial"
+    },
+    {
+      "id": "SEC-MRVL-2026-11-12",
+      "kind": "8-K 5.02",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 09:11 ET (EDGAR acceptance) -> session 2026-11-12",
+      "source": "SEC EDGAR",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "three independent directors added (board 7 -> 10); routine, not an officer change"
+    },
+    {
+      "id": "CONF-2026-11-03",
+      "kind": "confounder",
+      "date": "2026-11-03",
+      "availability": "2026-11-03 (date only)",
+      "source": "secondary press (attributed)",
+      "classification": "market_sector",
+      "status": "WARN",
+      "note": "causes attributed from secondary sources, not established"
+    },
+    {
+      "id": "CONF-2026-11-04",
+      "kind": "confounder",
+      "date": "2026-11-04",
+      "availability": "2026-11-04 (date only)",
+      "source": "secondary press (attributed)",
+      "classification": "market_sector",
+      "status": "WARN",
+      "note": "causes attributed from secondary sources, not established"
+    },
+    {
+      "id": "CONF-2026-11-05",
+      "kind": "confounder",
+      "date": "2026-11-05",
+      "availability": "2026-11-05 (date only)",
+      "source": "secondary press (attributed)",
+      "classification": "market_sector",
+      "status": "WARN",
+      "note": "causes attributed from secondary sources, not established"
+    },
+    {
+      "id": "CONF-2026-11-17",
+      "kind": "confounder",
+      "date": "2026-11-17",
+      "availability": "2026-11-17 (date only)",
+      "source": "secondary press (attributed)",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "causes attributed from secondary sources, not established"
+    },
+    {
+      "id": "PEER-AMD-E2",
+      "kind": "peer news at E2",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 (before open where reported)",
+      "source": "https://www.tipranks.com/news/why-ai-chip-stocks-amd-and-broadcom-are-rising-in-premarket-today-november-12",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "CONTAMINATED"
+    },
+    {
+      "id": "PEER-AVGO-E2",
+      "kind": "peer news at E2",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 (before open where reported)",
+      "source": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announce-fourth-quarter-and-fiscal-year-2026",
+      "classification": "peer_own_news",
+      "status": "WARN",
+      "note": "UNCLEAR"
+    },
+    {
+      "id": "PEER-MRVL-E2",
+      "kind": "peer news at E2",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 (before open where reported)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1835632/000183563226000026/mrvl-20261111.htm",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "CLEAN"
+    },
+    {
+      "id": "PEER-INTC-E2",
+      "kind": "peer news at E2",
+      "date": "2026-11-12",
+      "availability": "2026-11-12 (before open where reported)",
+      "source": "https://www.marketbeat.com/instant-alerts/price-intel-nasdaq-intc-stock-falls-21-on-analyst-downgrade-2026-11-12/",
+      "classification": "peer_own_news",
+      "status": "PASS",
+      "note": "CONTAMINATED"
+    },
+    {
+      "id": "N01",
+      "kind": "pre-E0 news",
+      "date": "2026-08-26",
+      "availability": "2026-08-26 16:21 ET (SEC 8-K Item 2.02 acceptance)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N02",
+      "kind": "pre-E0 news",
+      "date": "2026-08-26",
+      "availability": "2026-08-26 16:36 ET (SEC 10-Q acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N03",
+      "kind": "pre-E0 news",
+      "date": "2026-08-26",
+      "availability": "2026-08-26 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/aws-and-nvidia-to-deliver-2-million-additional-gpus-and-next-generation-infrastructure-for-agentic-and-physical-ai",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N04",
+      "kind": "pre-E0 news",
+      "date": "2026-08-31",
+      "availability": "2026-08-31 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-mediatek-deepen-long-standing-partnership-to-build-ai-edge-to-cloud-computing-platforms",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N05",
+      "kind": "pre-E0 news",
+      "date": "2026-09-03",
+      "availability": "2026-09-03 08:03 ET (SEC 8-K Item 8.01 acceptance)",
+      "source": "https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N06",
+      "kind": "pre-E0 news",
+      "date": "2026-09-09",
+      "availability": "2026-09-09 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-expands-ai-infrastructure-capacity-in-partnership-with-australias-data-center-ecosystem",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N07",
+      "kind": "pre-E0 news",
+      "date": "2026-09-09",
+      "availability": "2026-09-09 (date only; window from -1)",
+      "source": "https://www.thestar.com.my/tech/tech-news/2026/09/10/us-doj-probes-nvidia039s-licensing-deal-with-ai-startup-groq-nyt-reports",
+      "classification": "political_regulatory",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N08",
+      "kind": "pre-E0 news",
+      "date": "2026-09-17",
+      "availability": "2026-09-17 (date only; window from -1)",
+      "source": "https://cryptobriefing.com/nvidia-2b-brookfield-ai-fund/",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label blind"
+    },
+    {
+      "id": "N09",
+      "kind": "pre-E0 news",
+      "date": "2026-09-28",
+      "availability": "2026-09-28 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-announces-a-150-billion-share-repurchase-authorization-increase",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N10",
+      "kind": "pre-E0 news",
+      "date": "2026-09-28",
+      "availability": "2026-09-28 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/open-agent-safety-platform",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N11",
+      "kind": "pre-E0 news",
+      "date": "2026-09-29",
+      "availability": "2026-09-29 (date only; window from -1)",
+      "source": "https://finviz.com/news/396264/nvidia-holds-talks-with-insurers-over-ai-infrastructure-financing-risk-ft-reports",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label blind"
+    },
+    {
+      "id": "N12",
+      "kind": "pre-E0 news",
+      "date": "2026-09-29",
+      "availability": "2026-09-29 (date only; window from -1)",
+      "source": "https://the-decoder.com/openai-revenue-keeps-surging-as-company-seeks-30-billion-in-fresh-capital/",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label blind"
+    },
+    {
+      "id": "N13",
+      "kind": "pre-E0 news",
+      "date": "2026-10-02",
+      "availability": "2026-10-02 (date only; window from -1)",
+      "source": "https://www.thestandard.com.hk/innovation/article/344429/Amazon-seeks-to-offload-US8-billion-of-Nvidia-chips-to-investors-FT-reports",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N14",
+      "kind": "pre-E0 news",
+      "date": "2026-10-06",
+      "availability": "2026-10-06 (date only; window from -1)",
+      "source": "https://thenextweb.com/news/spacex-40bn-debt-nvidia-chips-apollo",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label blind"
+    },
+    {
+      "id": "N15",
+      "kind": "pre-E0 news",
+      "date": "2026-10-08",
+      "availability": "2026-10-08 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-commits-1-billion-to-advance-us-science-over-the-next-five-years",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N16",
+      "kind": "pre-E0 news",
+      "date": "2026-10-12",
+      "availability": "2026-10-12 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-cisco-introduce-new-pluggable-optics-form-factor-to-scale-ai-factories",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N17",
+      "kind": "pre-E0 news",
+      "date": "2026-10-13",
+      "availability": "2026-10-13 (date only; window from -1)",
+      "source": "https://www.thestandard.com.hk/innovation/article/345296/Nvidias-China-AI-chip-share-falls-as-Huawei-closes-gap-report-finds",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N18",
+      "kind": "pre-E0 news",
+      "date": "2026-10-13",
+      "availability": "2026-10-13 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-commits-250-million-to-advance-uk-agentic-safety-and-security-research-over-the-next-five-years",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N19",
+      "kind": "pre-E0 news",
+      "date": "2026-10-16",
+      "availability": "2026-10-16 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N20",
+      "kind": "pre-E0 news",
+      "date": "2026-10-16",
+      "availability": "2026-10-16 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/mercedes-benz-and-nvidia-expand-strategic-partnership-to-advance-safe-highly-automated-driving-in-the-next-decade",
+      "classification": "immaterial",
+      "status": "PASS",
+      "note": "label blind"
+    },
+    {
+      "id": "N21",
+      "kind": "pre-E0 news",
+      "date": "2026-10-20",
+      "availability": "2026-10-20 (date only; window from -1)",
+      "source": "https://www.businessinsider.jp/article/2610-amazon-nvidia-gb300-dark-gpus-ai-hardware/",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label AR seen"
+    },
+    {
+      "id": "N22",
+      "kind": "pre-E0 news",
+      "date": "2026-10-21",
+      "availability": "2026-10-21 16:03 ET (SEC 8-K Item 2.02 acceptance)",
+      "source": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N23",
+      "kind": "pre-E0 news",
+      "date": "2026-10-21",
+      "availability": "2026-10-21 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-introduces-dsx-pod-ai-factories-to-accelerate-europes-infrastructure-deployment",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N24",
+      "kind": "pre-E0 news",
+      "date": "2026-10-21",
+      "availability": "2026-10-21 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-supply-chain-partners-expand-capacity-to-accelerate-ai-infrastructure-buildout",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N25",
+      "kind": "pre-E0 news",
+      "date": "2026-10-22",
+      "availability": "2026-10-22 (date only; window from -1)",
+      "source": "https://www.digitaltoday.co.kr/en/view/118613/jensen-huang-says-neocloud-demand-surging-but-lack-of-capital-hampers-growth",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label AR seen"
+    },
+    {
+      "id": "N26",
+      "kind": "pre-E0 news",
+      "date": "2026-10-26",
+      "availability": "2026-10-26 (date only; window from -1)",
+      "source": "https://thenextweb.com/news/meta-35bn-stock-offering-ai",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label AR seen"
+    },
+    {
+      "id": "N27",
+      "kind": "pre-E0 news",
+      "date": "2026-10-26",
+      "availability": "2026-10-26 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-meta-to-expand-collaboration-on-muse-and-muse-family-of-models-amid-robust-growth",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N28",
+      "kind": "pre-E0 news",
+      "date": "2026-10-27",
+      "availability": "2026-10-27 (date only; window from -1)",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-oracle-expand-nvidia-vera-rubin-to-multi-gigawatt-scale-and-bring-nvidia-vera-cpu-to-oracle-cloud-infrastructure",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N29",
+      "kind": "pre-E0 news",
+      "date": "2026-10-28",
+      "availability": "2026-10-28 (date only; window from -1)",
+      "source": "https://pymnts.com/cpi-posts/nvidias-12-9-billion-hugging-face-deal-draws-justice-department-questions",
+      "classification": "political_regulatory",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N30",
+      "kind": "pre-E0 news",
+      "date": "2026-10-28",
+      "availability": "2026-10-28 16:01 ET (SEC 8-K Item 2.02 acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm",
+      "classification": "business_exposure",
+      "status": "PASS",
+      "note": "label AR seen"
+    },
+    {
+      "id": "N31",
+      "kind": "pre-E0 news",
+      "date": "2026-10-28",
+      "availability": "2026-10-28 16:04 ET (SEC 8-K Item 2.02 acceptance)",
+      "source": "https://redmondmag.com/articles/2026/10/30/microsoft-revenue-jumps-as-azure-and-ai-demand--fuel-growth.aspx",
+      "classification": "business_exposure",
+      "status": "WARN",
+      "note": "secondary copy; original not retrieved; label AR seen"
+    },
+    {
+      "id": "X01",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "purchase_commitment; contractual_commitment"
+    },
+    {
+      "id": "X02",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "service_commitment_to_customers; contractual_commitment"
+    },
+    {
+      "id": "X03",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "lease_commitment_not_commenced; contractual_commitment"
+    },
+    {
+      "id": "X04",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "contingent_guarantee; maximum_gross_exposure"
+    },
+    {
+      "id": "X05",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "contingent_guarantee; maximum_gross_exposure"
+    },
+    {
+      "id": "X06",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "service_commitment_own_use; contractual_commitment"
+    },
+    {
+      "id": "X07",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "lease_commitment_not_commenced; contractual_commitment"
+    },
+    {
+      "id": "X08",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "investment_commitment; contractual_commitment"
+    },
+    {
+      "id": "X09",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "recognized_liability; carrying_amount"
+    },
+    {
+      "id": "X10",
+      "kind": "10-Q exposure",
+      "date": "2026-08-26",
+      "availability": "2026-08-26T20:36:00Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "operational_risk_disclosure; not_quantified"
+    },
+    {
+      "id": "X11",
+      "kind": "10-K exposure",
+      "date": "2026-02-25",
+      "availability": "2026-02-25T21:42:19Z (EDGAR acceptance)",
+      "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+      "classification": "pre_existing_exposure",
+      "status": "PASS",
+      "note": "customer_concentration; not_quantified"
+    },
+    {
+      "id": "NYSE calendar",
+      "kind": "data series",
+      "date": "",
+      "availability": "deterministic",
+      "source": "exchange_calendars XNYS",
+      "classification": "data",
+      "status": "PASS",
+      "note": "5753 complete sessions 2004-01-02..2026-11-12; 46 early closes in range"
+    },
+    {
+      "id": "price ADI",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price AMAT",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price AMBA",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2012-10-10..2026-11-12, rows 3543, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price AMD",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price AMKR",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price AMZN",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price ANET",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2014-06-06..2026-11-12, rows 3129, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "id": "price ASML",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price AVGO",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2009-08-06..2026-11-12, rows 4345, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price CSCO",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price FN",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2010-06-25..2026-11-12, rows 4122, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price GOOGL",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-08-19..2026-11-12, rows 5595, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "id": "price HPE",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2015-10-19..2026-11-12, rows 2784, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "id": "price INTC",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price KLAC",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price LITE",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2015-07-23..2026-11-12, rows 2845, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price LRCX",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price MCHP",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price META",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2012-05-18..2026-11-12, rows 3643, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price MRVL",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 2"
+    },
+    {
+      "id": "price MSFT",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price MU",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price NVDA",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 4"
+    },
+    {
+      "id": "price NXPI",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2010-08-06..2026-11-12, rows 4093, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price ON",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price ORCL",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price QCOM",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 1"
+    },
+    {
+      "id": "price QQQ",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price SPY",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price TSM",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 4"
+    },
+    {
+      "id": "price TXN",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "price ^VIX",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "WARN",
+      "note": "2004-01-02..2026-11-12, rows 5755, missing sessions 0, non-session rows 2, splits 0"
+    },
+    {
+      "id": "price ^VXN",
+      "kind": "data series",
+      "date": "",
+      "availability": "close of each session (16:00 ET; 13:00 on early closes)",
+      "source": "Yahoo via yfinance (prototype source)",
+      "classification": "data",
+      "status": "PASS",
+      "note": "2004-01-02..2026-11-12, rows 5753, missing sessions 0, non-session rows 0, splits 0"
+    },
+    {
+      "id": "ALFRED STLFSI4",
+      "kind": "data series",
+      "date": "",
+      "availability": "session after realtime_start (one-session lag; vintage dates carry no intraday time)",
+      "source": "FRED/ALFRED API",
+      "classification": "data",
+      "status": "PASS",
+      "note": "first vintage 2022-11-10; vintage-era share revised after first release 99.0%; holiday placeholders dropped 0; first usable session since 2005: 2022-11-11; look-ahead violations 0"
+    },
+    {
+      "id": "ALFRED BAA10Y",
+      "kind": "data series",
+      "date": "",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "source": "FRED/ALFRED API",
+      "classification": "data",
+      "status": "PASS",
+      "note": "first vintage 2014-01-27; vintage-era share revised after first release 0.4%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "id": "ALFRED DGS2",
+      "kind": "data series",
+      "date": "",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "source": "FRED/ALFRED API",
+      "classification": "data",
+      "status": "PASS",
+      "note": "first vintage 2005-06-28; vintage-era share revised after first release 0.0%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "id": "ALFRED DGS10",
+      "kind": "data series",
+      "date": "",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "source": "FRED/ALFRED API",
+      "classification": "data",
+      "status": "PASS",
+      "note": "first vintage 2005-06-28; vintage-era share revised after first release 0.1%; holiday placeholders dropped 0; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "id": "ALFRED VIXCLS",
+      "kind": "data series",
+      "date": "",
+      "availability": "session after the observation date (one-session lag; vintage dates carry no intraday time)",
+      "source": "FRED/ALFRED API",
+      "classification": "data",
+      "status": "PASS",
+      "note": "first vintage 2010-11-22; vintage-era share revised after first release 0.0%; holiday placeholders dropped 32; first usable session since 2005: 2005-01-03; look-ahead violations 0"
+    },
+    {
+      "id": "cache reproducibility",
+      "kind": "data series",
+      "date": "",
+      "availability": "n/a",
+      "source": "data/raw cache",
+      "classification": "data",
+      "status": "PASS",
+      "note": "33/33 price hashes identical on a second pass from the cache"
+    },
+    {
+      "id": "reproduce Step 0 NVDA daily ARs",
+      "kind": "data series",
+      "date": "",
+      "availability": "n/a",
+      "source": "cached snapshot vs reports/step0",
+      "classification": "data",
+      "status": "PASS",
+      "note": "max |diff| 0.000 pp over 21 sessions (Step 0 used yfinance auto-adjusted closes pulled earlier the same day)"
+    },
+    {
+      "id": "reproduce Step 0c NVDA CARs",
+      "kind": "data series",
+      "date": "",
+      "availability": "n/a",
+      "source": "cached snapshot vs reports/step0c",
+      "classification": "data",
+      "status": "PASS",
+      "note": "max |diff| 0.000 pp, 9 benchmark x event cells"
+    }
+  ]
+}
