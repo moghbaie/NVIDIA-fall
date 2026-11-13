@@ -1,93 +1,102 @@
-# DRAFT preregistration v1.7. Binds the cross-firm PANEL analysis, whose outcomes are unseen.
+# DRAFT preregistration v1.8. Binds the cross-firm PANEL analysis, whose outcomes are unseen.
 # The NVIDIA case outcome was inspected on 2026-11-13 (exploratory); see PLAN.md D9.
 # spec_card is the single source of truth; PLAN.md and both reference plans carry an identical
 # card, checked by tests/test_plan_consistency.py.
 status: draft            # -> frozen after the Step 4b outcome-blind power re-run and user sign-off
 as_of: 2026-11-13
-version: "1.7"
+version: "1.8"
 
 spec_card:
-  version: "1.7"
+  version: "1.8"
   primary_hypothesis: H1
   outcome: "CAR[-1,+1]"
-  primary_moderator: leadership_vulnerability
-  primary_terms: ["performance:LV", "misconduct:LV"]
+  primary_moderator: leadership_concentration
+  primary_terms: ["performance:LC", "misconduct:LC"]
+  term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
   baseline: voluntary
   direction: negative
   adjustment: holm
   family_alpha: 0.05
   fixed_effects: event_month
   sample_period: ["2005-01-01", "2025-12-31"]
-  vulnerability_lag_sessions: 30
+  moderator_lag_sessions: 30
   coverage_gate: {overall: 0.80, misconduct: 0.70}
-  fallback_primary_moderator: financial_vulnerability
+  coverage_gate_failure: halt_and_decide_outcome_blind
   freeze_gate: step_4b
   session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
   event_time: earliest_public_source
   date_only_window_start: -1
   nvidia_families: [financial, leadership, operational, resource_deployment]
   nvidia_combined_score: false
+  nvidia_pre_e0_counterfactual: required
 
 unit: trading_session
 exchange_tz: America/New_York
 
 primary_hypothesis: H1
 primary_estimand: >
-  In CAR[-1,+1] ~ C(type) * LV + C(type) * idio_vol + controls + event-month FE (voluntary =
-  baseline): d_P = performance x LV and d_M = misconduct x LV, the extra CAR (log points) relative
-  to a voluntary departure per one SD of pre-existing leadership vulnerability. Prediction: < 0.
-  Two primary tests, Holm-adjusted at family alpha 0.05; H1 supported if either meets the decision
-  rule (PLAN.md D16, D26).
+  In CAR[-1,+1] ~ C(type) * LC + C(type) * idio_vol + controls + event-month FE (voluntary =
+  baseline): d_P = performance x LC and d_M = misconduct x LC, the extra CAR (log points) relative
+  to a voluntary departure per one SD of pre-existing leadership concentration (LC). Prediction: < 0.
+  Two primary tests, Holm-adjusted at family alpha 0.05, with separate claims (PLAN.md D27):
+  H1a adverse-news amplification = misconduct x LC; H1b attenuated replacement benefit =
+  performance x LC (a performance dismissal can be good news; a negative term there means the
+  benefit of replacing the CEO is smaller, not that bad news is amplified).
 primary_tests:          # machine-readable; tests/test_prereg.py checks it
-  model: "CAR[-1,+1] ~ C(type, Treatment('voluntary')) * LV + C(type) * idio_vol + controls + C(event_month)"
+  model: "CAR[-1,+1] ~ C(type, Treatment('voluntary')) * LC + C(type) * idio_vol + controls + C(event_month)"
   baseline: voluntary
-  terms: ["performance:LV", "misconduct:LV"]
+  terms: ["performance:LC", "misconduct:LC"]
   direction: negative
   adjustment: holm
   family_alpha: 0.05
   se: cluster_event_month
 
 vulnerability:
-  leadership:           # PRIMARY family (user decision 2026-11-13, PLAN.md D26)
+  leadership:           # PRIMARY: leadership concentration (LC); called 'vulnerability' only if validated (PLAN.md D27)
     measured_from: latest DEF 14A / 10-K accepted before session T-30 (structural measure)
     components:
       founder_ceo: CEO is a founder or co-founder (proxy biography; hand-verified sample)            # founder dependence
       no_designated_successor: no executive other than the CEO holds a President or COO title    # succession readiness
       ceo_chair_duality: CEO is also chair of the board                                           # governance concentration
-    score: LV = z-score of the equal-weight mean of the three binary components (weights fixed now; components reported separately)
+    score: LC = z-score of the equal-weight mean of the three binary components (weights fixed now; components reported separately)
     missing: event leaves the primary sample if any component is missing
     coverage_gate: >
-      decided at Step 2, before any CAR is computed: LV must be available for >= 80% of price-matched
-      primary events and >= 70% of matched misconduct events. If the gate fails, the primary moderator
-      becomes the financial family (2009+), with the same terms, tests and decision rule.
+      decided at Step 2, before any CAR is computed: LC must be available for >= 80% of price-matched
+      primary events and >= 70% of matched misconduct events. If the gate fails, H1 halts; there is no
+      automatic fallback. Options are put to the user, still outcome-blind, and the choice is logged.
     shock_size_rule: >
       founder_ceo also measures how central the departing CEO is (size of the shock, not only the
-      firm's prior state). Report d_k for LV_ex_founder (succession + duality only) next to the
-      primary result. "Pre-existing vulnerability amplifies" is claimed only if LV_ex_founder has the
-      same sign; otherwise the claim is "departures of more central CEOs move prices more".
+      firm's prior state). Report d_k for LC_ex_founder (succession + duality only) next to the
+      primary result.
+    naming_rule: >
+      LC is reported as "leadership concentration". It may be called "leadership vulnerability" only
+      if validated: (a) LC_ex_founder has the same sign and a 95% CI excluding 0, and (b) for
+      misconduct, the LC slope is below the slope on matched non-event dates. Otherwise the claim is
+      "departures from firms with more concentrated leadership move prices more".
   financial:            # SECONDARY family, 2009+ (SEC XBRL)
     measured_from: latest 10-K / 10-Q accepted before session T-30; market value at T-30
     components: [ev_to_sales_vs_sic2_year_median, net_debt_to_assets, cash_to_assets, market_to_book]
     score: z-score of the equal-weight mean of the within-year ranks
   excluded_from_vulnerability: [idiosyncratic_volatility]   # control: idio_vol x type ([-90,-31] residual sd)
   lags_sensitivity_sessions: [60, 90]
-  common_support: report LV / financial distributions by type; robustness on the overlap region
+  common_support: report LC / financial distributions by type; robustness on the overlap region
 
 reporting_required:     # PLAN.md D21; reported next to the verdict, not extra hypothesis tests
-  total_slopes: [voluntary, performance, misconduct]      # LV slope per type with 95% CI
+  total_slopes: [voluntary, performance, misconduct]      # LC slope per type with 95% CI
   non_event_baseline:
     pseudo_dates_per_event: 5
-    match_on: [firm, calendar_year, lv_tercile]
+    match_on: [firm, calendar_year, lc_tercile]
     exclude_within_sessions: {leadership_event: 60, earnings: 1}
   wording: >
     "relative to voluntary departures" when only d_k passes; "absolute amplification" only if
     (type slope - non-event slope) < 0 also has a 95% CI excluding 0.
-  performance_interpretation: >
-    removing a poorly performing CEO can be good news; d_P < 0 means the reaction is more negative
-    or less positive for more vulnerable firms. "Amplification of adverse news" for a type requires
-    its mean CAR < 0 and its total slope below the non-event slope.
+  claims_by_term: >
+    H1a (misconduct x LC) is the only adverse-news amplification test. H1b (performance x LC) is
+    always reported as "attenuated replacement benefit" (or "amplified", only if performance mean CAR
+    is negative); it never counts as evidence of adverse-news amplification. Labels are fixed by the
+    term, not by the sign of the outcome.
   misconduct_null: report as "not detectable at the preregistered MDE", not as "no effect"
-required_robustness: [lv_ex_founder, lags_60_90, quarter_fe_plus_msi, common_support_subset,
+required_robustness: [lc_ex_founder, lags_60_90, quarter_fe_plus_msi, common_support_subset,
   codability_agreeing_subset, control_x_type, wild_cluster_bootstrap, leave_one_year_out]
 vulnerability_validity: >
   vulnerability must be pre-existing: measured from filings accepted before T-30 (structural) or
@@ -96,7 +105,7 @@ secondary_estimands:   # labelled exploratory, Holm within each family
   - financial family x type (2009+)
   - each leadership and financial component x type
   - MSI x type (market stress; estimable with event-month FE)
-  - pooled dismissal contrast; equality of d_M and d_P; ordinal score x LV
+  - pooled dismissal contrast; equality of d_M and d_P; ordinal score x LC
 outcomes:              # resilience measures (PLAN.md D17)
   R1: CAR[-1,+1]                                            # primary
   R2: min over k in [+2,+20] of CAR[-1,k] - CAR[-1,+1]       # additional damage; vs placebo distribution
@@ -128,7 +137,7 @@ severity:
   primary_categories: {voluntary: [5, 6], performance: [3], misconduct: [4]}
   secondary_ordinal: {5: 0, 6: 0, 3: 1, 4: 2}
   excluded_from_primary: [1, 2, 7, 8, 9]          # death/illness analysed as separate contrast
-controls:              # all measured as of T (founder is inside LV, not a separate control)
+controls:              # all measured as of T (founder is inside LC, not a separate control)
   - idio_vol_x_type        # volatility is a control, never vulnerability
   - ceo_tenure_years       # from succession chain; left-censored flag
   - planned_departure      # announced effective date / interim appointment in the announcement
@@ -141,9 +150,12 @@ inference:
   alpha: 0.05
   multiplicity: two primary tests Holm-adjusted; secondary estimands Holm within family and labelled exploratory
 decision_rule:
-  supported: d_P or d_M < 0 with Holm-adjusted p < 0.05, same sign in >= 3 of 4 pre-listed robustness specs (lv_ex_founder, lags_60_90, quarter_fe_plus_msi, common_support_subset)
-  not_supported: for both d_P and d_M, the 95% CI excludes that test's MDE in the predicted direction
-  inconclusive: otherwise (CI contains both 0 and the MDE)
+  per_term: >
+    each of H1a (d_M) and H1b (d_P) gets its own verdict. supported: < 0 with Holm-adjusted p < 0.05
+    and the same sign in >= 3 of 4 pre-listed robustness specs (lc_ex_founder, lags_60_90,
+    quarter_fe_plus_msi, common_support_subset). not_supported: 95% CI excludes that term's MDE in
+    the predicted direction. inconclusive: otherwise.
+  adverse_news_amplification: decided by H1a only
 sample:
   period: announcements 2005-01-01 .. 2025-12-31   # 8-K Item 5.02 regime starts 2004-08-23; proxies on EDGAR
   universe: S&P 1500 firms in the database with US-listed prices
@@ -151,7 +163,7 @@ sample:
     - confounding earnings release within [-1,+1]
     - missing estimation window
     - M&A-driven departures (code 7)
-    - any LV component missing (primary only)
+    - any LC component missing (primary only)
 
 nvidia:                 # descriptive; not part of the confirmatory test (PLAN.md D9, D26)
   families_required: [financial, leadership, operational, resource_deployment]
@@ -160,4 +172,20 @@ nvidia:                 # descriptive; not part of the confirmatory test (PLAN.m
     hyperscaler earnings releases and 10-Qs (capex, cash flow), dated news on deployment delays]
   verdict: >
     whether NVIDIA's CAR per disclosure lies inside the 95% prediction interval of the frozen panel
-    model for a misconduct departure at NVIDIA's LV (and LV_ex_founder) at T-30; a consistency check
+    model for a misconduct departure at NVIDIA's LC (and LC_ex_founder) at T-30; a consistency check
+  pre_e0_counterfactual:  # REQUIRED (PLAN.md D27). Specified 2026-11-13, after NVIDIA's path was seen;
+                          # fixed by rule here before computation; any change is a logged deviation.
+    cutoff: close of 2026-10-28 (last complete session before E0)
+    information_set: prices, filings and vintages available at the cutoff; nothing later
+    horizon: sessions 2026-10-29 .. 2026-11-16 (stops before the 2026-11-17 earnings)
+    A_unconditional: >
+      predictive distribution of NVDA cumulative log return over the horizon from (i) a 5-session
+      block bootstrap of the 252 sessions ending at the cutoff and (ii) a Student-t with EWMA
+      (lambda 0.94) volatility, df fitted on the same 252 sessions; report the realized path's
+      percentile at each session and at E1/E2.
+    B_conditional: >
+      factor model NVDA ~ SPY + G3 fitted on the 252 sessions ending at the cutoff, applied to the
+      realized SPY and G3 returns over the horizon (the no-news path); report the gap with a
+      residual-bootstrap band.
+    freeze: input snapshot hash and code commit recorded in reports/<step>/validation.json
+    labels: exploratory (outcome seen before specification)

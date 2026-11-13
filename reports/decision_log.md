@@ -44,3 +44,10 @@
   resource/deployment, never combined. Price-based NVIDIA measures at E0 were inspected before this
   decision (VIX 43rd pct; 12-month return and idiosyncratic volatility ~31st pct of own history).
   Push only after spec-card consistency tests pass (user condition).
+- 2026-11-13 (user revisions): plans v1.8 (PLAN.md D27). Primary moderator renamed "leadership
+  concentration" (LC) until validated as vulnerability (naming rule in the preregistration).
+  Automatic financial fallback removed: a failed coverage gate halts H1 for an outcome-blind joint
+  decision. Frozen pre-E0 counterfactual (cutoff 2026-10-28 close; A unconditional bootstrap /
+  EWMA-t, B factor model on realized SPY and G3) required; specified after NVIDIA's path was seen,
+  so labelled exploratory. H1a (misconduct x LC, adverse-news amplification) separated from H1b
+  (performance x LC, attenuated replacement benefit); labels fixed by term.

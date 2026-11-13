@@ -1,34 +1,36 @@
 # State-Dependent Shock Amplification: NVIDIA Leadership News and Market Resilience
 
 **Research design and implementation plan**  
-**Version:** 1.7 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; see Appendix A change log)  
+**Version:** 1.8 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; v1.8 leadership concentration; see Appendix A change log)  
 **As-of date:** 2026-11-13  
 **Primary case:** NVIDIA (NVDA)  
 **Scope:** Publicly available financial, corporate, macroeconomic, industry, and news data
 
-> **Execution priority (v1.7):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis, with **leadership vulnerability** (founder CEO, no designated successor, CEO-chair duality, measured before T−30) as the primary moderator, a coverage gate with a financial-vulnerability fallback, and event-month fixed effects. Market stress (MSI) and financial vulnerability are secondary; volatility is a control. For NVIDIA, four vulnerability families (financial, leadership, operational, resource/deployment) are described separately, never combined. Where this document's older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
+> **Execution priority (v1.8):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis. Its moderator is **leadership concentration** (LC: founder CEO, no designated successor, CEO-chair duality, from filings before T−30), called "vulnerability" only once validated; event-month fixed effects; a failed coverage gate halts H1 (no automatic fallback). H1a (misconduct × LC) is the only adverse-news amplification test; H1b (performance × LC) is reported as attenuated replacement benefit. A counterfactual frozen at the pre-E0 cutoff is required. Market stress and financial vulnerability are secondary; volatility is a control. NVIDIA is described on four vulnerability families, never combined. Where older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
 
 ```yaml spec-card
-version: "1.7"
+version: "1.8"
 primary_hypothesis: H1
 outcome: "CAR[-1,+1]"
-primary_moderator: leadership_vulnerability
-primary_terms: ["performance:LV", "misconduct:LV"]
+primary_moderator: leadership_concentration
+primary_terms: ["performance:LC", "misconduct:LC"]
+term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
 baseline: voluntary
 direction: negative
 adjustment: holm
 family_alpha: 0.05
 fixed_effects: event_month
 sample_period: ["2005-01-01", "2025-12-31"]
-vulnerability_lag_sessions: 30
+moderator_lag_sessions: 30
 coverage_gate: {overall: 0.80, misconduct: 0.70}
-fallback_primary_moderator: financial_vulnerability
+coverage_gate_failure: halt_and_decide_outcome_blind
 freeze_gate: step_4b
 session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
 event_time: earliest_public_source
 date_only_window_start: -1
 nvidia_families: [financial, leadership, operational, resource_deployment]
 nvidia_combined_score: false
+nvidia_pre_e0_counterfactual: required
 ```
 
 ## 1. Research problem
@@ -972,3 +974,12 @@ No hypothesis or specification was removed.
 | H1 moderator | leadership vulnerability (founder, succession readiness, CEO-chair duality) at T−30, event-month FE; coverage gate with financial fallback; LV-without-founder rule because founder status also measures shock size; MSI and financial vulnerability secondary; volatility a control |
 | NVIDIA | four vulnerability families described separately, including resource/deployment exposure documented in the 2026-08-26 10-Q (land/power/shell guarantees, $56B commitments); no combined score |
 | Consistency | spec card under the header, identical to `configs/preregistration.yaml`, checked by `tests/test_plan_consistency.py` |
+
+### v1.8 (2026-11-13): user revisions
+
+| Topic | Change |
+|---|---|
+| Naming | primary moderator is "leadership concentration" (LC) until validated as vulnerability |
+| Gate | no automatic financial fallback; a failed coverage gate halts H1 for an outcome-blind decision |
+| Counterfactual | frozen pre-E0 counterfactual (A unconditional, B conditional on realized market and sector) required; specification in the preregistration |
+| Claims | H1a adverse-news amplification (misconduct × LC) separated from H1b attenuated replacement benefit (performance × LC) |

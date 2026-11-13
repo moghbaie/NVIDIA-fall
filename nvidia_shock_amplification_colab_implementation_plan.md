@@ -1,30 +1,32 @@
 # NVIDIA State-Dependent Shock Amplification: Colab Implementation Plan
 
-**Version:** 1.7 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.7
+**Version:** 1.8 (v1.1 power/utilities; v1.2 point-in-time alignment with `CLAUDE.md`; v1.3 external review; v1.4 second review; v1.5 H6; v1.6 scope tiers; v1.7 vulnerability families; v1.8 leadership concentration; change log in Section 26) | **Date:** 2026-11-13 | **Execution target:** Google Colab | **Coding agent:** Claude Code | **Companion:** `state_dependent_shock_amplification_research_plan.md` v1.8
 
-> **Execution priority (v1.7):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis, with **leadership vulnerability** (founder CEO, no designated successor, CEO-chair duality, measured before T−30) as the primary moderator, a coverage gate with a financial-vulnerability fallback, and event-month fixed effects. Market stress (MSI) and financial vulnerability are secondary; volatility is a control. For NVIDIA, four vulnerability families (financial, leadership, operational, resource/deployment) are described separately, never combined. Where this document's older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
+> **Execution priority (v1.8):** `PLAN.md` sets scope and order and wins where documents differ. H1 is the only confirmatory hypothesis. Its moderator is **leadership concentration** (LC: founder CEO, no designated successor, CEO-chair duality, from filings before T−30), called "vulnerability" only once validated; event-month fixed effects; a failed coverage gate halts H1 (no automatic fallback). H1a (misconduct × LC) is the only adverse-news amplification test; H1b (performance × LC) is reported as attenuated replacement benefit. A counterfactual frozen at the pre-E0 cutoff is required. Market stress and financial vulnerability are secondary; volatility is a control. NVIDIA is described on four vulnerability families, never combined. Where older sections use MSI as the H1 moderator, read them as the secondary specification. The spec card below must match `configs/preregistration.yaml`.
 
 ```yaml spec-card
-version: "1.7"
+version: "1.8"
 primary_hypothesis: H1
 outcome: "CAR[-1,+1]"
-primary_moderator: leadership_vulnerability
-primary_terms: ["performance:LV", "misconduct:LV"]
+primary_moderator: leadership_concentration
+primary_terms: ["performance:LC", "misconduct:LC"]
+term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
 baseline: voluntary
 direction: negative
 adjustment: holm
 family_alpha: 0.05
 fixed_effects: event_month
 sample_period: ["2005-01-01", "2025-12-31"]
-vulnerability_lag_sessions: 30
+moderator_lag_sessions: 30
 coverage_gate: {overall: 0.80, misconduct: 0.70}
-fallback_primary_moderator: financial_vulnerability
+coverage_gate_failure: halt_and_decide_outcome_blind
 freeze_gate: step_4b
 session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
 event_time: earliest_public_source
 date_only_window_start: -1
 nvidia_families: [financial, leadership, operational, resource_deployment]
 nvidia_combined_score: false
+nvidia_pre_e0_counterfactual: required
 ```
 
 ## 0. Mission and non-negotiable research rules
@@ -713,3 +715,12 @@ The project is complete when a fresh Colab runtime can execute the full pipeline
 | NVIDIA profile | four families incl. resource/deployment (10-Q exposures, hyperscaler capex releases, dated deployment reports) | Stages 03, 07 |
 | Step 1 additions | Nov 4–5 selloff cause; hyperscaler Q3 release times and capex changes; rule-built dated news list Aug 26 → Oct 28 | Stages 01, 04 |
 | Consistency | spec card identical to the preregistration; `tests/test_plan_consistency.py`, `tests/test_prereg.py` | CI |
+
+### v1.8 (2026-11-13): user revisions
+
+| Topic | Change | Where it lands |
+|---|---|---|
+| Naming | LC = leadership concentration; naming rule in the preregistration | Stage 08 reporting |
+| Gate | coverage-gate failure halts H1; no automatic fallback | Stage 06 gate |
+| Counterfactual | pre-E0 counterfactual A and B required; inputs frozen at the 2026-10-28 close; snapshot hash in `validation.json`; leakage test perturbs everything after the cutoff | Stage 07 |
+| Claims | H1a / H1b separate verdicts; labels fixed by term | Stage 08, report |

@@ -1,32 +1,34 @@
 # Execution plan — Does pre-existing vulnerability amplify a negative shock? (NVIDIA, Nov 2026)
 
-As-of 2026-11-13, **v1.7**. Design references: `state_dependent_shock_amplification_research_plan.md`
-and `nvidia_shock_amplification_colab_implementation_plan.md` (both v1.7). **This file sets priority
+As-of 2026-11-13, **v1.8**. Design references: `state_dependent_shock_amplification_research_plan.md`
+and `nvidia_shock_amplification_colab_implementation_plan.md` (both v1.8). **This file sets priority
 and order; where they differ, this file wins.** The spec card below must be identical in all three
 documents and in `configs/preregistration.yaml` (`tests/test_plan_consistency.py`). Every step ends
 with figures, a `reports/<step>/validation.json`, a gate, and a joint decision on the next step.
 
 ```yaml spec-card
-version: "1.7"
+version: "1.8"
 primary_hypothesis: H1
 outcome: "CAR[-1,+1]"
-primary_moderator: leadership_vulnerability
-primary_terms: ["performance:LV", "misconduct:LV"]
+primary_moderator: leadership_concentration
+primary_terms: ["performance:LC", "misconduct:LC"]
+term_labels: {"misconduct:LC": H1a_adverse_news_amplification, "performance:LC": H1b_attenuated_replacement_benefit}
 baseline: voluntary
 direction: negative
 adjustment: holm
 family_alpha: 0.05
 fixed_effects: event_month
 sample_period: ["2005-01-01", "2025-12-31"]
-vulnerability_lag_sessions: 30
+moderator_lag_sessions: 30
 coverage_gate: {overall: 0.80, misconduct: 0.70}
-fallback_primary_moderator: financial_vulnerability
+coverage_gate_failure: halt_and_decide_outcome_blind
 freeze_gate: step_4b
 session_close: "NYSE scheduled close, America/New_York (16:00; 13:00 early close)"
 event_time: earliest_public_source
 date_only_window_start: -1
 nvidia_families: [financial, leadership, operational, resource_deployment]
 nvidia_combined_score: false
+nvidia_pre_e0_counterfactual: required
 ```
 
 ---
@@ -40,45 +42,50 @@ negative shock, using NVIDIA's Oct–Nov 2026 leadership crisis as the case. Fiv
 |---|---|---|---|
 | Q1 | Does pre-existing vulnerability amplify the shock? | Cross-firm panel of CEO departures (H1) — one case cannot show it | **Core, confirmatory** |
 | Q2 | What created NVIDIA's vulnerability? | Four-family profile at E0, from dated filings and prices; no combined score | **Core, descriptive** |
-| Q3 | Would the decline have happened without the leadership news? | Decomposition of NVDA's move + no-news path | **Core, quantified counterfactual** |
+| Q3 | Would the decline have happened without the leadership news? | **Required:** counterfactual frozen at the pre-E0 cutoff (Oct 28 close): A unconditional predictive distribution and B no-news path given realized market and sector; plus the decomposition of NVDA's move | **Core, quantified counterfactual** |
 | Q4 | Is it temporary? | Panel: recovery by vulnerability (H4). NVIDIA: revisit ≥ 60 sessions after E2 (≈ Feb 2027) | Secondary / NVIDIA deferred |
 | Q5 | Do competitors benefit? | H6 for NVIDIA (groups from its 10-K) | Secondary, descriptive |
 
 **H1 (the only confirmatory hypothesis).** Across S&P 1500 CEO departures announced 2005–2025, the
-abnormal return CAR[−1,+1] around a forced departure is more negative, or less positive, for firms
-with higher pre-existing **leadership vulnerability** (LV, measured from filings accepted before
-T−30), compared with voluntary departures.
+abnormal return CAR[−1,+1] around a forced departure differs with pre-existing **leadership
+concentration** (LC, measured from filings accepted before T−30), compared with voluntary departures.
+LC is called "leadership vulnerability" only once validated (rule below). Two claims are kept apart:
 
-- **Model:** `CAR ~ type × LV + type × idio_vol + controls + event-month FE`; type ∈ {voluntary
+- **H1a — adverse-news amplification:** misconduct × LC < 0. The only test of amplification.
+- **H1b — attenuated replacement benefit:** performance × LC < 0. Replacing an underperforming CEO
+  can be good news; a negative term means firms with concentrated leadership gain less from it. It
+  never counts as evidence of adverse-news amplification.
+
+- **Model:** `CAR ~ type × LC + type × idio_vol + controls + event-month FE`; type ∈ {voluntary
   (baseline), performance dismissal, misconduct dismissal}; SEs clustered by event month.
-- **LV components (equal-weight, fixed now; each also reported alone):** founder CEO (founder
+- **LC components (equal-weight, fixed now; each also reported alone):** founder CEO (founder
   dependence); no executive besides the CEO holding a President/COO title (succession readiness); CEO
   also board chair (governance concentration).
-- **Primary tests:** performance × LV < 0 and misconduct × LV < 0, Holm-adjusted, family α = 0.05.
-- **Coverage gate (Step 2, before any CAR is computed):** LV available for ≥ 80% of price-matched
-  events and ≥ 70% of misconduct events; otherwise the primary family becomes **financial
-  vulnerability** (2009+), with the same tests. Declared now.
+- **Primary tests:** H1a and H1b, Holm-adjusted together (family α = 0.05), each with its own verdict.
+- **Coverage gate (Step 2, before any CAR is computed):** LC available for ≥ 80% of price-matched
+  events and ≥ 70% of misconduct events. **No automatic fallback:** if the gate fails, H1 halts
+  and the options are decided with you, still before any CAR is computed, and logged.
 - **Interpretation rules:**
-  - A founder leaving is a bigger shock, not only a sign of a weaker firm. "Pre-existing vulnerability
-    amplifies" is claimed only if LV without the founder component (succession + duality) has the
-    same sign; otherwise the claim is "departures of more central CEOs move prices more".
-  - A negative performance × LV term means "more negative or less positive"; "amplification of
-    adverse news" needs a negative mean CAR and a slope below matched non-event dates.
+  - **Naming rule:** LC becomes "leadership vulnerability" only if (a) LC without the founder item
+    (succession + duality) has the same sign with a 95% CI excluding 0, and (b) for misconduct, the
+    LC slope is below the slope on matched non-event dates. A founder leaving is a bigger shock, not
+    only a sign of a weaker firm; otherwise the claim is "departures from firms with more concentrated
+    leadership move prices more".
   - A misconduct null is "not detectable at the preregistered MDE", not "no effect".
 - **Secondary families:** financial vulnerability (2009+: valuation vs industry, leverage, cash,
   market-to-book); market stress (MSI). Volatility is a control, never vulnerability.
 - **NVIDIA verdict:** does NVIDIA's CAR per disclosure lie inside the 95% prediction interval of the
-  frozen model for a misconduct departure at NVIDIA's LV? A consistency check; NVIDIA is at the edge
+  frozen model for a misconduct departure at NVIDIA's LC? A consistency check; NVIDIA is at the edge
   of the panel's support.
 
 ## 2. Scope tiers
 
 | Tier | Contents |
 |---|---|
-| **Core** | H1; NVIDIA CAR per disclosure; Q2 four-family profile; Q3 decomposition and no-news path; cause of the Nov 4–5 selloff; NVIDIA verdict |
+| **Core** | H1 (H1a, H1b); NVIDIA CAR per disclosure; Q2 four-family profile; **Q3 frozen pre-E0 counterfactual (A and B)** and decomposition; cause of the Nov 4–5 selloff; NVIDIA verdict |
 | **Secondary** | Financial family and MSI in the panel; H4 recovery by vulnerability; R2 additional damage; H6 NVIDIA |
 | **Deferred** | Whether NVIDIA's decline is temporary (criteria fixed now: R3 and H5-style valuation check, run ≥ 60 sessions after E2) |
-| **Optional** | Full Power and Utilities Stress Index; H2 non-linearity; H5 panel; H6 historical panel; H6b (contracts, orders, share); ex-ante forecast (counterfactual A) |
+| **Optional** | Full Power and Utilities Stress Index; H2 non-linearity; H5 panel; H6 historical panel; H6b (contracts, orders, share) |
 
 Optional designs stay fully specified in the reference plans.
 
@@ -88,11 +95,11 @@ Optional designs stay fully specified in the reference plans.
 |---|---|---|
 | 0 ✓ | Repo, configs, source audit, chronology, power (0), severity coding (0b), H6 first look (0c). | Done |
 | **1** | (a) **Cause of the Nov 4–5 chip selloff**: dated news; did it cite the Oct 29 report? (b) **Hyperscaler Q3 releases** (Alphabet, Amazon, Microsoft, Meta): exact dates/times, capex guidance changes — an E0 confounder and the main transmission channel. (c) **Dated news list, Aug 26 → Oct 28**, every NVIDIA-relevant item classified good / bad / ambiguous **before** its abnormal return is computed (includes the Oct 20 Amazon rack report). (d) NVIDIA 10-Q exposures recorded as dated observations. (e) Market data layer: NYSE calendar with early closes; prices (NVDA, H6 groups, panel firms); VIX/VXN; FRED via ALFRED; reproduce Step 0 numbers. (f) Own news of AMD/AVGO (Nov 12), INTC/MRVL (Oct 29–Nov 2). | Selloff and confounders documented; no unresolved data failures |
-| 2 | Event panel (database ⨝ ticker/CIK; earliest-public event time; type; codability audit); **LV extraction from DEF 14A / 10-K** (founder, titles, chair) at T−30, 60, 90; coverage gate decision; controls; competing-event flags. | Coverage gate decided outcome-blind |
-| 3 | Panel vulnerability (LV, financial), MSI, idio_vol; distributions by type (common support). NVIDIA four-family profile at E0, E1, E2, each vs its history and the S&P 500. | Leakage tests pass |
-| 4 | Normal-return model chosen on pre-2015 placebo events; panel CARs; matched non-event dates; NVIDIA CARs (SPY + G3); Q3 decomposition (market / G3 sector / hyperscaler-capex days / leadership-news days / other NVIDIA days); H6 NVIDIA groups. | Placebo test size ≈ nominal |
-| 4b | Outcome-blind power re-run with real LV, covariates, missingness, month FE and clustering. **Freeze the preregistration.** | Frozen with MDEs |
-| 5 | H1 estimation and the four pre-listed robustness specs (LV without founder, 60/90 lags, quarter FE + MSI, common support) plus the rest of `required_robustness`. | Decision rule applied |
+| 2 | Event panel (database ⨝ ticker/CIK; earliest-public event time; type; codability audit); **LC extraction from DEF 14A / 10-K** (founder, titles, chair) at T−30, 60, 90; coverage gate decision; controls; competing-event flags. | Coverage gate decided outcome-blind |
+| 3 | Panel vulnerability (LC, financial), MSI, idio_vol; distributions by type (common support). NVIDIA four-family profile at E0, E1, E2, each vs its history and the S&P 500. | Leakage tests pass |
+| 4 | Normal-return model chosen on pre-2015 placebo events; panel CARs; matched non-event dates; NVIDIA CARs (SPY + G3); **pre-E0 counterfactual A and B exactly as specified in `configs/preregistration.yaml: nvidia.pre_e0_counterfactual`** (input snapshot hash + commit recorded); Q3 decomposition (market / G3 sector / hyperscaler-capex days / leadership-news days / other NVIDIA days); H6 NVIDIA groups. | Placebo test size ≈ nominal |
+| 4b | Outcome-blind power re-run with real LC, covariates, missingness, month FE and clustering. **Freeze the preregistration.** | Frozen with MDEs |
+| 5 | H1 estimation and the four pre-listed robustness specs (LC without founder, 60/90 lags, quarter FE + MSI, common support) plus the rest of `required_robustness`. | Decision rule applied |
 | 6 | NVIDIA verdict; Q2 profile; Q3 result; secondary tier. | — |
 | 7 | Report; static site from frozen outputs; **publish only after your approval**. | Claims traced; attribution review |
 
@@ -114,9 +121,9 @@ Optional designs stay fully specified in the reference plans.
 
 | Topic | Finding | Consequence |
 |---|---|---|
-| Panel size | 2005–2025, types 3/4/5/6: 4,003 departures; misconduct 165. 2009+ (financial data): 3,093; misconduct 110. | LV primary keeps 2005+; financial fallback costs pre-2009 events. |
+| Panel size | 2005–2025, types 3/4/5/6: 4,003 departures; misconduct 165. 2009+ (financial data): 3,093; misconduct 110. | LC primary keeps 2005+; the financial family (secondary) covers 2009+ only. |
 | Month fixed effects | 244 months; 9 events alone in their month; 1,448 of 1,455 forced and 164 of 165 misconduct events share a month with a voluntary one. | Event-month FE identified. |
-| Power (synthetic outcomes, real counts) | Per SD of moderator: performance ≈ 0.6–1.1 pp, misconduct ≈ 1.3–2.6 pp (more after Holm and fewer events). | Re-run with real LV in 4b. |
+| Power (synthetic outcomes, real counts) | Per SD of moderator: performance ≈ 0.6–1.1 pp, misconduct ≈ 1.3–2.6 pp (more after Holm and fewer events). | Re-run with real LC in 4b. |
 | NVIDIA reaction | E1 CAR −11.6% (SPY) / −11.9% (SPY + G3); E0 −2.7%; E2 −3.4%; Nov 5 was sector-wide. | E1 is the disclosure to explain. |
 | NVIDIA price-based state at E0 | VIX 43rd pct; NVDA 12-month return 31st pct and idiosyncratic volatility 31st pct of its own history; drawdown −10%; beta 1.93. | Not fragile on price measures; vulnerability, if any, is structural (Q2). |
 | NVIDIA structural exposure | 10-Q (2026-08-26): "any shortage" of land, power, shell or capital "could impact our future revenue"; land/power/shell guarantees for AI-cloud partners' leases; $56B commitments ($36B AI cloud agreements, $20B data-center leases not commenced for third parties). 10-K: three direct customers = 25%, 18%, 13% of receivables. | Documented pre-existing exposure to the AI buildout — not evidence that it caused the decline. |
@@ -127,8 +134,8 @@ Optional designs stay fully specified in the reference plans.
 ## 6. Known limits
 
 - NVIDIA is likely outside the panel's support; the verdict is a consistency check.
-- Founder status mixes firm state and shock size; handled by the LV-without-founder rule, not removed.
-- LV coverage from proxy statements is unknown until Step 2; the fallback is declared.
+- Founder status mixes firm state and shock size; handled by the LC-without-founder rule, not removed.
+- LC coverage from proxy statements is unknown until Step 2; a failed gate halts H1 for a joint, outcome-blind decision.
 - Database dates are non-randomly missing; its codes may use post-announcement coverage.
 - Yahoo prices miss delisted firms; the 70% match rate is an assumption until Step 2.
 - GPUs delivered vs installed are almost never disclosed; resource/deployment exposure is measured
@@ -153,7 +160,8 @@ Optional designs stay fully specified in the reference plans.
 | D23 | Outcome-blind power re-run (4b) before freezing. |
 | D24 | H6 groups from NVIDIA's 10-K; benchmark disjointness. |
 | D25 | v1.6 scope tiers; H1 the only confirmatory hypothesis. |
-| D26 | (v1.7, user decision) Primary moderator = leadership vulnerability (founder, succession readiness, CEO-chair duality) at T−30, event-month FE, coverage gate with financial fallback, LV-without-founder rule; volatility a control; NVIDIA profile on four families incl. resource/deployment, never combined; Q2/Q3 core; spec cards checked across documents. |
+| D27 | (v1.8, user revisions) LC renamed "leadership concentration" until validated (naming rule); no automatic fallback — a failed coverage gate halts H1 for an outcome-blind joint decision; frozen pre-E0 counterfactual (A unconditional, B conditional) required and specified in the preregistration; H1a adverse-news amplification (misconduct) separated from H1b attenuated replacement benefit (performance), labels fixed by term. |
+| D26 | (v1.7, user decision) Primary moderator = leadership vulnerability (founder, succession readiness, CEO-chair duality) at T−30, event-month FE, coverage gate with financial fallback, LC-without-founder rule; volatility a control; NVIDIA profile on four families incl. resource/deployment, never combined; Q2/Q3 core; spec cards checked across documents. |
 
 ## Appendix B. Change log
 - v1.2 `CLAUDE.md` alignment · v1.3 external review · v1.4 second review · v1.5 H6 · v1.6 tiers.
@@ -161,3 +169,5 @@ Optional designs stay fully specified in the reference plans.
   vulnerability (user decision) with coverage gate and financial fallback; NVIDIA four-family profile
   (incl. resource/deployment from the 2026-08-26 10-Q); Q3 decomposition core; Step 1 adds
   hyperscaler capex releases and a rule-built news list; spec card + consistency test.
+- **v1.8 (2026-11-13)** — D27: leadership concentration (naming rule), no automatic fallback, frozen
+  pre-E0 counterfactual required, H1a/H1b separated.
