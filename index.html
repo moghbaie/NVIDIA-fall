@@ -90,7 +90,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
   <header class="col">
     <span class="eyebrow">Panel study · US CEO departures 2005–2025 · working draft</span>
     <h1>Does concentrated leadership amplify the market's reaction to CEO departures?</h1>
-    <p class="lede">We tested this on 739 CEO departures at US listed firms. We found no detectable effect. For performance-related dismissals the evidence rules out all but small effects. For misconduct-related departures there are too few cases to say anything either way.</p>
+    <p class="lede">I tested this on 739 CEO departures at US listed firms. I found no detectable effect. For performance-related dismissals the evidence rules out all but small effects. For misconduct-related departures there are too few cases to say anything either way.</p>
     <div class="status">
       <span class="pill warn">Exploratory · not peer reviewed</span>
       <span class="pill">Rules fixed before outcomes were seen</span>
@@ -106,9 +106,9 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
   <section class="col" id="why">
     <span class="step">1 · WHY ASK THIS</span>
     <h2>The question</h2>
-    <p>This study is part of a project on NVIDIA's share decline in October–November 2026, during which leadership news was one of several things moving the stock. A natural idea is that markets react more strongly to leadership news when a company depends heavily on one person. Before relying on that idea, we checked whether it holds across many past CEO departures.</p>
-    <p>We call the dependence on one person <b>leadership concentration (LC)</b>. Our main measure counts two signals in the company's filings: the CEO is a <b>founder</b>, and the CEO is also <b>chair of the board</b>. LC is 0, ½ or 1, then standardised.</p>
-    <p>We tested two preregistered hypotheses, each against voluntary departures (retirements and planned exits) as the baseline:</p>
+    <p>This study is part of a project on NVIDIA's share decline in October–November 2026, during which leadership news was one of several things moving the stock. A natural idea is that markets react more strongly to leadership news when a company depends heavily on one person. Before relying on that idea, I checked whether it holds across many past CEO departures.</p>
+    <p>I call the dependence on one person <b>leadership concentration (LC)</b>. My main measure counts two signals in the company's filings: the CEO is a <b>founder</b>, and the CEO is also <b>chair of the board</b>. LC is 0, ½ or 1, then standardised.</p>
+    <p>I tested two preregistered hypotheses, each against voluntary departures (retirements and planned exits) as the baseline:</p>
     <ul>
       <li><b>H1a:</b> when a CEO leaves over <b>misconduct</b>, the share price falls more at high-LC firms.</li>
       <li><b>H1b:</b> when a CEO is dismissed for <b>poor performance</b>, replacing them helps high-LC firms less.</li>
@@ -123,9 +123,9 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     </div>
     <div class="tablewrap">
       <table class="sources">
-        <thead><tr><th>Data</th><th>Source and download route</th><th>What we used it for</th><th>Coverage</th></tr></thead>
+        <thead><tr><th>Data</th><th>Source and download route</th><th>What I used it for</th><th>Coverage</th></tr></thead>
         <tbody>
-          <tr><td>CEO departures</td><td>Gentry et al. CEO Dismissal Database, archival version of 26 Nov 2025, downloaded as an Excel file from Zenodo: <code>zenodo.org/records/23328926</code> (CC BY 4.0)</td><td>The list of departures and their type: voluntary, performance or misconduct</td><td>S&amp;P 1500 firms; we used 2005–2025</td></tr>
+          <tr><td>CEO departures</td><td>Gentry et al. CEO Dismissal Database, archival version of 26 Nov 2025, downloaded as an Excel file from Zenodo: <code>zenodo.org/records/23328926</code> (CC BY 4.0)</td><td>The list of departures and their type: voluntary, performance or misconduct</td><td>S&amp;P 1500 firms; I used 2005–2025</td></tr>
           <tr><td>Filing index and announcement 8-Ks</td><td>SEC EDGAR submissions API (<code>data.sec.gov/submissions</code>) and EDGAR archive (<code>sec.gov/Archives</code>), fetched with a rate limit of about 8 requests per second</td><td>Exact announcement dates (8-K Item 5.02) and earnings releases (Item 2.02)</td><td>2004–2026</td></tr>
           <tr><td>Proxy statements and 10-Ks</td><td>EDGAR archive: the latest DEF 14A, or 10-K if there is none, accepted before the cut-off</td><td>Founder status, CEO-chair duality and executive titles</td><td>One document per event</td></tr>
           <tr><td>Company–ticker map</td><td>SEC <code>sec.gov/files/company_tickers.json</code></td><td>Linking firms to stock tickers; remapping 8 subsidiary filers to their listed parents</td><td>Current listings</td></tr>
@@ -142,7 +142,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
   <section id="sample">
     <div class="col" style="display:grid;gap:16px">
       <span class="step">3 · SAMPLE</span>
-      <h2>From the database to the 739 events we analyse</h2>
+      <h2>From the database to the 739 events I analyse</h2>
       <p>Each step below removes events for a stated reason. The rules were fixed before any returns were computed.</p>
     </div>
     <div class="funnel col">
@@ -157,7 +157,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
       <span class="chip" style="--c: var(--mis)">misconduct 23</span>
     </div>
     <ul class="col">
-      <li><b>No price data (577 lost).</b> Most of these firms no longer trade under a current ticker. Recovering them would need licensed data (CRSP), which we did not have. The sample therefore leans toward firms that survived.</li>
+      <li><b>No price data (577 lost).</b> Most of these firms no longer trade under a current ticker. Recovering them would need licensed data (CRSP), which I did not have. The sample therefore leans toward firms that survived.</li>
       <li><b>Earnings on the same days (239 lost).</b> When a departure is announced together with results, the price reaction mixes both pieces of news.</li>
       <li><b>No usable filing (108 lost).</b> No proxy or 10-K before the cut-off, or the CEO's title could not be found in it.</li>
     </ul>
@@ -167,8 +167,8 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     <div class="col" style="display:grid;gap:16px">
       <span class="step">4 · MEASURE 1</span>
       <h2>Measuring leadership concentration</h2>
-      <p>For each departure we read the company's last proxy statement (or 10-K) filed at least 30 trading days before the announcement, so the measure cannot reflect the departure news itself. A rule-based text extractor finds the CEO's title (is the CEO also chair?) and biography (did the CEO found the company?).</p>
-      <p>We checked the extractor against hand-coded samples: founder status was right 92% of the time and duality 96%. The coders were AI models, not people, so this is not human validation. A third signal, whether a designated successor exists, could not be extracted reliably (81% accuracy against a 90% bar). It was coded by AI agents and enters only an exploratory three-part version of the measure.</p>
+      <p>For each departure I read the company's last proxy statement (or 10-K) filed at least 30 trading days before the announcement, so the measure cannot reflect the departure news itself. A rule-based text extractor finds the CEO's title (is the CEO also chair?) and biography (did the CEO found the company?).</p>
+      <p>I checked the extractor against hand-coded samples: founder status was right 92% of the time and duality 96%. The coders were AI models, not people, so this is not human validation. A third signal, whether a designated successor exists, could not be extracted reliably (81% accuracy against a 90% bar). It was coded by AI agents and enters only an exploratory three-part version of the measure.</p>
     </div>
     <figure>
       <div class="plate"><img src="fig23_lc_by_type.png" alt="Bar charts of leadership concentration components and scores by departure type" loading="lazy"></div>
@@ -180,7 +180,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     <span class="step">5 · MEASURE 2</span>
     <h2>Measuring the market reaction</h2>
     <p>The outcome is the <b>abnormal return</b> over three trading days around the announcement (day −1 to day +1), written CAR[−1,+1]. It is the stock's return minus what the stock would normally have done, given the market (SPY) and its industry that day.</p>
-    <p>"Normal" behaviour is estimated for each stock from roughly one year of prices ending six weeks before the event. We picked this model from four candidates by testing them on 5,000 random dates with no event before 2015. The chosen model flagged 4.7% of those dates as unusual at the 5% level, close to what it should.</p>
+    <p>"Normal" behaviour is estimated for each stock from roughly one year of prices ending six weeks before the event. I picked this model from four candidates by testing them on 5,000 random dates with no event before 2015. The chosen model flagged 4.7% of those dates as unusual at the 5% level, close to what it should.</p>
     <p>Average three-day reactions: voluntary <b>−0.6%</b>, performance <b>−1.8%</b>, misconduct <b>−6.2%</b>.</p>
   </section>
 
@@ -188,9 +188,9 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     <div class="col" style="display:grid;gap:16px">
       <span class="step">6 · THE TEST</span>
       <h2>How the hypotheses were tested</h2>
-      <p>We regressed each departure's abnormal return on its type, its leadership concentration and their interaction. Controls: the stock's normal volatility, firm size, the prior two-month return, CEO tenure, whether the exit was planned, whether a successor was named, industry and calendar month. H1a and H1b are the two interaction terms.</p>
-      <p><b>Safeguard.</b> All returns were computed and then sealed with checksums. Nobody looked at them until the full test, its power and its decision rules were frozen.</p>
-      <p><b>One change, made before seeing outcomes.</b> We simulated outcomes with no true effect. The preregistered standard errors flagged a false H1a effect about 20% of the time instead of 5%, because only a handful of misconduct cases drive that term. We switched to a more robust jackknife version (CR3), which was close to 5% in the same simulation.</p>
+      <p>I regressed each departure's abnormal return on its type, its leadership concentration and their interaction. Controls: the stock's normal volatility, firm size, the prior two-month return, CEO tenure, whether the exit was planned, whether a successor was named, industry and calendar month. H1a and H1b are the two interaction terms.</p>
+      <p><b>Safeguard.</b> All returns were computed and then sealed with checksums. I did not look at them until the full test, its power and its decision rules were frozen.</p>
+      <p><b>One change, made before seeing outcomes.</b> I simulated outcomes with no true effect. The preregistered standard errors flagged a false H1a effect about 20% of the time instead of 5%, because only a handful of misconduct cases drive that term. I switched to a more robust jackknife version (CR3), which was close to 5% in the same simulation.</p>
     </div>
     <figure>
       <div class="plate"><img src="fig28_power_full_design.png" alt="Power curves for H1a and H1b" loading="lazy"></div>
@@ -201,7 +201,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
   <section id="results">
     <div class="col" style="display:grid;gap:16px">
       <span class="step">7 · RESULTS</span>
-      <h2>What we found</h2>
+      <h2>What I found</h2>
     </div>
     <div class="verdicts">
       <div class="card">
@@ -232,7 +232,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     <div class="col" style="display:grid;gap:16px">
       <span class="step">8 · CHECKS</span>
       <h2>Do the results hold up?</h2>
-      <p>We repeated the test with every variation listed in advance: different ways of coding the successor field, dropping uncertain cases, other measurement dates, and each signal on its own. We also tested whether financial weakness or market-wide stress plays the role leadership concentration was supposed to.</p>
+      <p>I repeated the test with every variation listed in advance: different ways of coding the successor field, dropping uncertain cases, other measurement dates, and each signal on its own. I also tested whether financial weakness or market-wide stress plays the role leadership concentration was supposed to.</p>
     </div>
     <figure>
       <div class="plate"><img src="fig31_a4_rows.png" alt="Estimates across sensitivity and exploratory variations" loading="lazy"></div>
@@ -240,7 +240,7 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 0.88re
     </figure>
     <figure>
       <div class="plate"><img src="fig32_secondary.png" alt="Estimates for financial vulnerability, market stress and other secondary tests" loading="lazy"></div>
-      <figcaption>Secondary tests. One of 21 crosses the significance line: financially weaker firms reacted <i>less</i> negatively to performance dismissals (+2.0 points). That is the opposite of amplification, and it disappears under the pre-specified sensitivity checks. We treat it as noise until shown otherwise.</figcaption>
+      <figcaption>Secondary tests. One of 21 crosses the significance line: financially weaker firms reacted <i>less</i> negatively to performance dismissals (+2.0 points). That is the opposite of amplification, and it disappears under the pre-specified sensitivity checks. I treat it as noise until shown otherwise.</figcaption>
     </figure>
   </section>
 
